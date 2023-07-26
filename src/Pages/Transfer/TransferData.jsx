@@ -1,0 +1,280 @@
+import taxi1 from "./images/taxi1.jpeg";
+import taxi2 from "./images/taxi2.jpeg";
+import taxi3 from "./images/taxi3.jpeg";
+import taxi4 from "./images/taxi4.jpeg";
+import taxi5 from "./images/taxi5.jpeg";
+const TransferData = [
+  {
+    id: "1",
+    name: "Al Hamriya Port  Abu Dhabi International Airport (AUH)",
+    operatingDays: "All Days",
+    duration: "4",
+    timing: "24/7",
+    instentConfirm: true,
+    cancelation: "24",
+    img: taxi1,
+    price: "300",
+    ourPrice: "280",
+    description:
+      "After collecting your luggage on the belt and pass the airport exit gate ( paging area), you will be met by airport representative who will be waiting with a paging board with the Lead Passengers name. Meet & greet by our representative & transfer to hotel or residence as per your booking selection.",
+    inclution: [
+      "Meet and Greet by English speaking representative at airport paging area",
+      "Exclusive ride for you In case of private basis (Depends up on your selection)",
+      "Sharing basis Maximum (02 to 03) stops ",
+      "1 Item of hand baggage allowed per person",
+      "Not include porter charges",
+      "1 Piece of baggage allowed per person (Max dimensions 158 cm) length + width + height = 158 cm",
+    ],
+    usefullInfo:
+      "We highly recommend our customers to download our mobile application to contact our customer care staffs or driver detail assign for arrival / departure.",
+    tktList: [
+      {
+        ticketTypeId: 10,
+        b2bAdultPrice: 250,
+        b2bChildPrice: 0,
+        ttTicketType: "Basic Car/Van",
+        transport: [
+          {
+            sharedOrPrivate: 0,
+            transportId: 0,
+            transportName: "Private Basic",
+            cost: 0,
+            ticketTypeId: 10,
+            b2bAdultPrice: 250,
+            b2bChildPrice: 0,
+            transportCat: "",
+          },
+        ],
+      },
+      {
+        ticketTypeId: 11,
+        b2bAdultPrice: 250,
+        b2bChildPrice: 0,
+        ttTicketType: "Mini Van",
+        transport: [
+          {
+            sharedOrPrivate: 0,
+            transportId: 0,
+            transportName: "Private Basic",
+            cost: 0,
+            ticketTypeId: 10,
+            b2bAdultPrice: 300,
+            b2bChildPrice: 0,
+            transportCat: "",
+          },
+        ],
+      },
+      {
+        ticketTypeId: 12,
+        b2bAdultPrice: 250,
+        b2bChildPrice: 0,
+        ttTicketType: "BMW/Audi Car",
+        transport: [
+          {
+            sharedOrPrivate: 0,
+            transportId: 0,
+            transportName: "Private Basic",
+            cost: 0,
+            ticketTypeId: 10,
+            b2bAdultPrice: 350,
+            b2bChildPrice: 0,
+            transportCat: "",
+          },
+        ],
+      },
+      {
+        ticketTypeId: 13,
+        b2bAdultPrice: 250,
+        b2bChildPrice: 0,
+        ttTicketType: "Lexus Car",
+        transport: [
+          {
+            sharedOrPrivate: 0,
+            transportId: 0,
+            transportName: "Private Basic",
+            cost: 0,
+            ticketTypeId: 10,
+            b2bAdultPrice: 400,
+            b2bChildPrice: 0,
+            transportCat: "",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "2",
+    name: "Mina Rashid Port  Abu Dhabi City",
+    operatingDays: "All Days",
+    duration: "4",
+    timing: "24/7",
+    instentConfirm: true,
+    cancelation: "24",
+    img: taxi2,
+    price: "250",
+    ourPrice: "230",
+    description:
+      "After collecting your luggage on the belt and pass the airport exit gate ( paging area), you will be met by airport representative who will be waiting with a paging board with the Lead Passengers name. Meet & greet by our representative & transfer to hotel or residence as per your booking selection.",
+    inclution: [
+      "Meet and Greet by English speaking representative at airport paging area",
+      "Exclusive ride for you In case of private basis (Depends up on your selection)",
+      "Sharing basis Maximum (02 to 03) stops ",
+      "1 Item of hand baggage allowed per person",
+      "Not include porter charges",
+      "1 Piece of baggage allowed per person (Max dimensions 158 cm) length + width + height = 158 cm",
+    ],
+    usefullInfo:
+      "We highly recommend our customers to download our mobile application to contact our customer care staffs or driver detail assign for arrival / departure.",
+    tktList: [],
+  },
+  {
+    id: "3",
+    name: "Mina Rashid Port  Abu Dhabi City",
+    operatingDays: "All Days",
+    duration: "4",
+    timing: "24/7",
+    instentConfirm: true,
+    cancelation: "24",
+    img: taxi3,
+    price: "340",
+    ourPrice: "310",
+    description:
+      "After collecting your luggage on the belt and pass the airport exit gate ( paging area), you will be met by airport representative who will be waiting with a paging board with the Lead Passengers name. Meet & greet by our representative & transfer to hotel or residence as per your booking selection.",
+    inclution: [
+      "Meet and Greet by English speaking representative at airport paging area",
+      "Exclusive ride for you In case of private basis (Depends up on your selection)",
+      "Sharing basis Maximum (02 to 03) stops ",
+      "1 Item of hand baggage allowed per person",
+      "Not include porter charges",
+      "1 Piece of baggage allowed per person (Max dimensions 158 cm) length + width + height = 158 cm",
+    ],
+    usefullInfo:
+      "We highly recommend our customers to download our mobile application to contact our customer care staffs or driver detail assign for arrival / departure.",
+    tktList: [],
+  },
+  {
+    id: "4",
+    name: "Mina Rashid Port  Abu Dhabi City",
+    operatingDays: "All Days",
+    duration: "4",
+    timing: "24/7",
+    instentConfirm: true,
+    cancelation: "24",
+    img: taxi4,
+    price: "310",
+    ourPrice: "280",
+    description:
+      "After collecting your luggage on the belt and pass the airport exit gate ( paging area), you will be met by airport representative who will be waiting with a paging board with the Lead Passengers name. Meet & greet by our representative & transfer to hotel or residence as per your booking selection.",
+    inclution: [
+      "Meet and Greet by English speaking representative at airport paging area",
+      "Exclusive ride for you In case of private basis (Depends up on your selection)",
+      "Sharing basis Maximum (02 to 03) stops ",
+      "1 Item of hand baggage allowed per person",
+      "Not include porter charges",
+      "1 Piece of baggage allowed per person (Max dimensions 158 cm) length + width + height = 158 cm",
+    ],
+    usefullInfo:
+      "We highly recommend our customers to download our mobile application to contact our customer care staffs or driver detail assign for arrival / departure.",
+    tktList: [
+      {
+        ticketTypeId: 10,
+        b2bAdultPrice: 250,
+        b2bChildPrice: 0,
+        ttTicketType: "Basic Car/Van",
+        transport: [
+          {
+            sharedOrPrivate: 0,
+            transportId: 0,
+            transportName: "Private Basic",
+            cost: 0,
+            ticketTypeId: 10,
+            b2bAdultPrice: 250,
+            b2bChildPrice: 0,
+            transportCat: "",
+          },
+        ],
+      },
+      {
+        ticketTypeId: 11,
+        b2bAdultPrice: 250,
+        b2bChildPrice: 0,
+        ttTicketType: "Mini Van",
+        transport: [
+          {
+            sharedOrPrivate: 0,
+            transportId: 0,
+            transportName: "Private Basic",
+            cost: 0,
+            ticketTypeId: 10,
+            b2bAdultPrice: 300,
+            b2bChildPrice: 0,
+            transportCat: "",
+          },
+        ],
+      },
+      {
+        ticketTypeId: 12,
+        b2bAdultPrice: 250,
+        b2bChildPrice: 0,
+        ttTicketType: "BMW/Audi Car",
+        transport: [
+          {
+            sharedOrPrivate: 0,
+            transportId: 0,
+            transportName: "Private Basic",
+            cost: 0,
+            ticketTypeId: 10,
+            b2bAdultPrice: 350,
+            b2bChildPrice: 0,
+            transportCat: "",
+          },
+        ],
+      },
+      {
+        ticketTypeId: 13,
+        b2bAdultPrice: 250,
+        b2bChildPrice: 0,
+        ttTicketType: "Lexus Car",
+        transport: [
+          {
+            sharedOrPrivate: 0,
+            transportId: 0,
+            transportName: "Private Basic",
+            cost: 0,
+            ticketTypeId: 10,
+            b2bAdultPrice: 400,
+            b2bChildPrice: 0,
+            transportCat: "",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "5",
+    name: "Mina Rashid Port  Abu Dhabi City",
+    operatingDays: "All Days",
+    duration: "4",
+    timing: "24/7",
+    instentConfirm: true,
+    cancelation: "24",
+    img: taxi5,
+    price: "400",
+    ourPrice: "380",
+    description:
+      "After collecting your luggage on the belt and pass the airport exit gate ( paging area), you will be met by airport representative who will be waiting with a paging board with the Lead Passengers name. Meet & greet by our representative & transfer to hotel or residence as per your booking selection.",
+    inclution: [
+      "Meet and Greet by English speaking representative at airport paging area",
+      "Exclusive ride for you In case of private basis (Depends up on your selection)",
+      "Sharing basis Maximum (02 to 03) stops ",
+      "1 Item of hand baggage allowed per person",
+      "Not include porter charges",
+      "1 Piece of baggage allowed per person (Max dimensions 158 cm) length + width + height = 158 cm",
+    ],
+    usefullInfo:
+      "We highly recommend our customers to download our mobile application to contact our customer care staffs or driver detail assign for arrival / departure.",
+    tktList: [],
+  },
+];
+
+export default TransferData;
