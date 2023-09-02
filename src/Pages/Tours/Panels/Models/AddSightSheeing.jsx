@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { reduxForm, Field } from "redux-form";
 import {
   DateField,
@@ -6,8 +6,37 @@ import {
   TextField,
 } from "../../../../Components/ReduxField";
 import { Button } from "../../../../Components";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchActivityList } from "../../../../Reducers/activitySlice";
+import { addSightSeeingManual } from "../../../../Reducers/mainQuerySlice";
+
 const AddSightSheeing = (props) => {
-  const { qutationId, onCloseModal } = props;
+  const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
+  const dispatch = useDispatch();
+  const activityList = useSelector((state) => state.allactivity.data);
+  const isLoading = useSelector((state) => state.allactivity.isLoading);
+
+  const initialDate = useSelector((state) => state.allModelState.date);
+
+  const initialSightSheeinglManual = useSelector(
+    (state) => state.updateMQuery.sightSeeingeditManual
+  );
+
+  const initialSightUpdateManual = useSelector(
+    (state) => state.mainQuery.sightSeeingManual
+  );
+  useEffect(() => {
+    dispatch(
+      fetchActivityList({
+        attractionId: 1,
+        agencyId: 0,
+        agencyUserId: 0,
+        currencyCode: "AED",
+        platformId: 1,
+      })
+    );
+  }, [dispatch]);
+
   const destinations = [
     { value: "dubai", label: "Dubai" },
     { value: "adbudahabi", label: "Abu Dhabi" },
@@ -19,9 +48,113 @@ const AddSightSheeing = (props) => {
 
     { value: "tktonly", label: "Ticket Only" },
   ];
+
+  const getDatesBetweenRange = (startDate, endDate) => {
+    const dates = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  };
+  const dateRange1 = dateRange;
+  const from = dateRange1[0].fromDate;
+  const nthRow = dateRange1.length; // Replace with the desired row index
+  let to = "";
+  if (dateRange1[nthRow]) {
+    to = dateRange1[nthRow].toDate;
+  } else {
+    to = dateRange1[0].toDate;
+  }
+
+  const datesBetween = getDatesBetweenRange(from, to);
+
+  useEffect(() => {
+    console.log("initialSightSheeinglManual----->", initialSightSheeinglManual);
+    // if (initialSightSheeinglManual) {
+    //   props.initialize({
+    //     type: initialSightSheeinglManual.slectedBookType,
+    //     ssName: initialSightSheeinglManual.ssName,
+    //     // cOut: new Date(initialSightSheeinglManual.initialDate),
+    //   });
+    // } else {
+
+    // }
+    props.initialize({
+      visitDate: new Date(initialDate),
+    });
+  }, []);
+  const sumbitForm = (values) => {
+    const submitObjects = [];
+    const newsubmitObjects = [];
+    const tempsubmitObject = [];
+    if (initialSightSheeinglManual) {
+      for (let i = 0; i < initialSightUpdateManual.length; i++) {
+        if (initialSightSheeinglManual.id == i) {
+          for (let j = 0; j < initialSightUpdateManual[i].length; j++) {
+            console.log("condition true");
+            console.log(",,,ka0ixja9jxj", initialSightUpdateManual[i][j]);
+            tempsubmitObject.push({
+              sightSeeingId: "",
+              quotationId: qutationId,
+              dayItenary: "",
+              addedType: 1, // 1 - Manual, 2 - From list
+              activityId: "",
+              sightSeeingName: values.sightSeeingName,
+              currencyCode: values.currencyCode,
+              destination: values.destination,
+              supplier: values.supplier,
+              supplierName: "",
+              visitDate: values.visitDate,
+              type: values.type,
+              adultCost: values.adultCost,
+              childCost: values.childCost,
+              infantCost: values.infantCost,
+              timings: values.timings,
+            });
+          }
+          newsubmitObjects.push(tempsubmitObject);
+        } else {
+          newsubmitObjects.push(initialSightUpdateManual[i]);
+        }
+      }
+
+      console.log("final obect", newsubmitObjects);
+      dispatch(editSightSeeingManual(null));
+      dispatch(updateSightSeeingManual(newsubmitObjects));
+    } else {
+      console.log("values", values);
+
+      const tempObject = {
+        sightSeeingId: "",
+        quotationId: qutationId,
+        dayItenary: "",
+        addedType: 1, // 1 - Manual, 2 - From list
+        activityId: "",
+        sightSeeingName: values.sightSeeingName,
+        currencyCode: values.currencyCode,
+        destination: values.destination,
+        supplier: values.supplier,
+        supplierName: "",
+        visitDate: values.visitDate,
+        type: values.type,
+        adultCost: values.adultCost,
+        childCost: values.childCost,
+        infantCost: values.infantCost,
+        timings: values.timings,
+      };
+      submitObjects.push(tempObject);
+      dispatch(addSightSeeingManual(submitObjects));
+    }
+
+    onCloseModal();
+  };
   return (
     <div>
-      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+      <div className="fixed inset-0 z-50 flex overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
         <div className="relative w-8/12 mx-auto my-6">
           {/*content*/}
           <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
@@ -51,11 +184,16 @@ const AddSightSheeing = (props) => {
                   />
                 </div>
                 <div>
-                  <Field name="date" label="Date" component={DateField} />
+                  <Field
+                    name="visitDate"
+                    selected={new Date(initialDate)}
+                    label="Date"
+                    component={DateField}
+                  />
                 </div>{" "}
                 <div>
                   <Field
-                    name="sightSheeing"
+                    name="type"
                     label="Sightseeing Type"
                     options={transType}
                     //isSearchable={true}
@@ -75,22 +213,58 @@ const AddSightSheeing = (props) => {
                 </div>
               </div>
               <div className="mt-5">
-                <table className="w-full border border-collapse table-auto">
-                  <thead className="text-sm font-bold text-gray-800 bg-slate-300">
-                    <tr>
-                      <th className="w-6/12 p-2 border">Sightseeing</th>
-                      <th className="w-1/12 p-2 border">Type</th>
-                      <th className="w-1/12 p-2 border">CUR</th>
-                      <th className="w-1/12 p-2 border">ADULT</th>
-                      <th className="w-1/12 p-2 border">CHILD</th>
-                      <th className="w-1/12 p-2 border">INFANT</th>
-                      <th className="w-1/12 p-2 border"></th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-md">
-                    <tr></tr>
-                  </tbody>
-                </table>
+                {isLoading && <div>Loading</div>}
+                {activityList && (
+                  <table className="w-full text-left border border-collapse">
+                    <thead className="text-sm font-bold text-gray-800 bg-slate-300">
+                      <tr>
+                        <th className="w-6/12 p-2 border">Sightseeing</th>
+                        <th className="w-1/12 p-2 border">Type</th>
+                        <th className="w-1/12 p-2 border">CUR</th>
+                        <th className="w-1/12 p-2 border">ADULT</th>
+                        <th className="w-1/12 p-2 border">CHILD</th>
+                        <th className="w-1/12 p-2 border">INFANT</th>
+                        <th className="w-1/12 p-2 border"></th>
+                      </tr>
+                    </thead>
+                    <tbody className="items-center text-md">
+                      {activityList.map((item, index) => (
+                        <tr key={index}>
+                          <th>{item.attName}</th>
+                          <th>(SIC)</th>
+                          <th>AED</th>
+                          <th>
+                            {item.adultPrice}
+                            <Field
+                              name={`${index}adultCost`}
+                              component={TextField}
+                              type="number"
+                              initial={2}
+                            />
+                          </th>
+                          <th>
+                            {item.childPrice}
+                            <Field name="childCost" component={TextField} />
+                          </th>
+                          <th>
+                            {" "}
+                            0
+                            <Field name="infantCost" component={TextField} />
+                          </th>
+                          <th>
+                            <button
+                              className="px-1 py-1 mt-5 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-blue-500 rounded shadow outline-none active:bg-blue-600 hover:shadow-lg focus:outline-none"
+                              type="button"
+                              onClick={() => console.log(item)}
+                            >
+                              Select
+                            </button>
+                          </th>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
             {/*footer*/}
@@ -105,7 +279,11 @@ const AddSightSheeing = (props) => {
               <button
                 className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                 type="button"
-                onClick={onCloseModal}
+                onClick={handleSubmit((values) =>
+                  sumbitForm({
+                    ...values,
+                  })
+                )}
               >
                 Save
               </button>

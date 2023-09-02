@@ -5,21 +5,46 @@ import {
   DateField,
   SelectField,
 } from "../../../../Components/ReduxField";
+import axios from "axios";
+import { BaseUrl } from "../../../../Reducers/Api";
 const AddQutation = (props) => {
-  const { qutationId, onCloseModal } = props;
+  const {
+    queryDetail,
+    onCloseModal,
+    pristine,
+    submitting,
+    reset,
+    handleSubmit,
+  } = props;
   const servicetype = [
-    { value: "completepackate", label: "Complete Package" },
-    { value: "extraservice", label: "Extra Service" },
-    { value: "FlightOnly", label: "Flight Only" },
-    { value: "hotelservice", label: "Hotel Service" },
-    { value: "Land Part", label: "Land Part" },
-    { value: "Transfer Only", label: "Transfer only" },
+    { value: "1", label: "Complete Package" },
+    { value: "2", label: "Extra Service" },
+    { value: "3", label: "Flight Only" },
+    { value: "4", label: "Hotel Service" },
+    { value: "5", label: "Land Part" },
+    { value: "6", label: "Transfer only" },
   ];
   const destinations = [
     { value: "dubai", label: "Dubai" },
     { value: "adbudahabi", label: "Abu Dhabi" },
     { value: "Sigapore", label: "Singapore" },
   ];
+
+  const sumbitForm = async (values) => {
+    const submitObj = {
+      ...values,
+      queryQuotationId: queryDetail?.queryQuotationId,
+    };
+    await axios
+      .post(BaseUrl + "setTemplateQuotation", submitObj)
+      .then((res) => {
+        console.log(res.data);
+        onCloseModal();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div>
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
@@ -41,46 +66,24 @@ const AddQutation = (props) => {
             {/*body*/}
             <div className="relative flex-auto p-6">
               <Field
-                name="qutationtitle"
+                name="quoteTitle"
                 label="Qutation Title"
                 component={TextField}
               />
               <div className="flex space-x-5">
                 <div className="w-full">
-                  <Field name="adult" label="Adult" component={TextField} />{" "}
+                  <Field name="nofAdult" label="Adult" component={TextField} />{" "}
                 </div>
                 <div className="w-full">
-                  <Field name="child" label="Child" component={TextField} />{" "}
-                </div>
-                <div className="w-full">
-                  <Field name="infant" label="Infant" component={TextField} />{" "}
-                </div>
-              </div>
-              <div className="flex space-x-5 justify-stretch">
-                <div className="w-full">
-                  <Field
-                    className="w-full"
-                    name="sDate"
-                    label="Travel Start Date"
-                    component={DateField}
-                  />{" "}
+                  <Field name="nofChild" label="Child" component={TextField} />{" "}
                 </div>
                 <div className="w-full">
                   <Field
-                    name="eDate"
-                    label="Travel End Date"
-                    component={DateField}
-                  />{" "}
-                </div>
-                <div className="w-full">
-                  <Field
-                    name="totalNight"
-                    label="Total Night"
+                    name="nofInfant"
+                    label="Infant"
                     component={TextField}
                   />{" "}
                 </div>
-              </div>
-              <div className="flex space-x-5 justify-stretch">
                 <div className="w-full">
                   <Field
                     name="serviceType"
@@ -89,14 +92,84 @@ const AddQutation = (props) => {
                     isSearchable={true}
                     component={SelectField}
                     onChange={(value) => {
-                      // Handle the onChange event here
                       console.log("Selected value:", value);
-                      // You can perform any necessary actions or update the Redux Form's field value
                     }}
                   />
                 </div>
+              </div>
+
+              {/* <div className="flex flex-col space-x-5">
+                  <FieldArray
+                    name="destinationlist"
+                    component={DestinationListArr}
+                  />
+                </div> */}
+              <div className="flex space-x-5 justify-stretch">
                 <div className="w-full">
                   <Field
+                    name="sglRoom"
+                    label="SGL Room"
+                    component={TextField}
+                  />{" "}
+                </div>
+                <div className="w-full">
+                  <Field
+                    name="dblRoom"
+                    label="DBl Room"
+                    component={TextField}
+                  />{" "}
+                </div>
+                <div className="w-full">
+                  <Field
+                    name="trplRoom"
+                    label="TRPL Room"
+                    component={TextField}
+                  />{" "}
+                </div>
+                <div className="w-full">
+                  <Field
+                    name="quadRoom"
+                    label="Quad Room"
+                    component={TextField}
+                  />{" "}
+                </div>
+              </div>
+              <div className="flex space-x-5 justify-stretch">
+                <div className="w-full">
+                  <Field
+                    name="cwbRoom"
+                    label="CWB Room"
+                    component={TextField}
+                  />{" "}
+                </div>
+                <div className="w-full">
+                  <Field
+                    name="cnbRoomAbove05"
+                    label="CNB Room "
+                    spanTxt="(Below 5 yrs)"
+                    component={TextField}
+                  />{" "}
+                </div>
+                <div className="w-full">
+                  <Field
+                    name="cnbRoomBelow05"
+                    label="CNB Room"
+                    spanTxt="(Above 5 yrs)"
+                    component={TextField}
+                  />{" "}
+                </div>
+                <div className="w-full">
+                  <Field
+                    name="infRoom"
+                    label="CNB Room"
+                    component={TextField}
+                  />{" "}
+                </div>
+              </div>
+              <div className="flex space-x-5 justify-stretch">
+                <div className="w-full"></div>
+                <div className="w-full">
+                  {/* <Field
                     name="destination"
                     label="Destination"
                     options={destinations}
@@ -104,11 +177,11 @@ const AddQutation = (props) => {
                     isMultiple={true}
                     component={SelectField}
                     onChange={(value) => {
-                      // Handle the onChange event here
+                     
                       console.log("Selected value:", value);
-                      // You can perform any necessary actions or update the Redux Form's field value
+                      
                     }}
-                  />{" "}
+                  />{" "} */}
                 </div>
               </div>
             </div>
@@ -124,7 +197,12 @@ const AddQutation = (props) => {
               <button
                 className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                 type="button"
-                onClick={onCloseModal}
+                onClick={handleSubmit((values) =>
+                  sumbitForm({
+                    ...values,
+                  })
+                )}
+                // onClick={onCloseModal}
               >
                 Save
               </button>

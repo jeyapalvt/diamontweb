@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import AddQutation from "../Models/AddQutation";
 import ConfirmationModel from "../Models/ConfirmationModel";
 import AddGuest from "../Models/AddGuest";
-const Quatation = () => {
+const Quatation = ({ queryDetail }) => {
   const navigate = useNavigate();
   const TABLE_HEAD = [
     "",
@@ -59,7 +59,9 @@ const Quatation = () => {
       {showModal && (
         <EditQutation onCloseModal={handleCloseModal} qutationId={"1234"} />
       )}
-      {showAddQuery === true && <AddQutation onCloseModal={handleCloseAdd} />}
+      {showAddQuery === true && (
+        <AddQutation onCloseModal={handleCloseAdd} queryDetail={queryDetail} />
+      )}
       {showConfirmModel === true && (
         <ConfirmationModel onCloseModal={handleCloseConfirm} />
       )}
@@ -189,7 +191,9 @@ const Quatation = () => {
                           <span
                             className="p-2 text-white bg-blue-500 rounded-sm shadow-md cursor-pointer"
                             onClick={() =>
-                              navigate(`/qutationdetailview/${id}`)
+                              navigate(
+                                `/qutationdetailview/${queryDetail?.tourQueryId}`
+                              )
                             }
                           >
                             View

@@ -36,6 +36,7 @@ const SelectField = ({
   options,
   label,
   id,
+  starIcon,
   isSearchable,
   placeholder,
   isMultiple,
@@ -62,7 +63,9 @@ const SelectField = ({
           htmlFor={id}
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          {label}
+          <div className="flex">
+            {label} <div className="text-red-500">{starIcon} </div>
+          </div>
         </label>
       )}
 

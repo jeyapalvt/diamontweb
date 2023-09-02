@@ -7,9 +7,9 @@ const TextField = ({
   placeholder,
   label,
   onChange,
-  defaultValue,
+
   min,
-  value,
+  initial,
   name,
   disabled,
   spanTxt,
@@ -38,9 +38,11 @@ const TextField = ({
           id={id}
           name={name}
           min={min}
-          onChange={onChange}
-          value={value}
-          defaultValue={defaultValue}
+          value={initial || input.value}
+          defaultValue={(initial && initial) || input.value}
+          onChange={(e) => {
+            input.onChange(e); // This will invoke the parent component's onChange function
+          }}
           className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsFillReplyFill } from "react-icons/bs";
 import { reduxForm, Field } from "redux-form";
 import {
@@ -7,7 +7,14 @@ import {
   FNoteEditor,
 } from "../../../../Components/ReduxField";
 import Button from "../../../../Components/Button";
-const ClientCommunication = () => {
+const ClientCommunication = ({ queryDetail }) => {
+  const [comunocation, setcomunocation] = useState([]);
+  useEffect(() => {
+    if (queryDetail) {
+      console.log(queryDetail); //addCCMails
+    }
+    setcomunocation(queryDetail.addCCMails);
+  }, []);
   const clientContact = [
     {
       id: 1,
@@ -27,9 +34,10 @@ const ClientCommunication = () => {
     <div className="p-3">
       <div className="flex ">
         <div className="flex w-11/12 space-x-2 font-medium text-gray-500">
-          {clientContact.map((item) => (
+          {queryDetail?.addCCMails}
+          {/* {clientContact.map((item) => (
             <li key={item.id}>{item.mail}</li>
-          ))}
+          ))} */}
         </div>
         <div className="text-sm font-bold cursor-pointer 1/12">
           <div

@@ -10,6 +10,7 @@ import {
   ToursMaster,
   QueryDetails,
   QuatationDetailView,
+  CPackQuotationList,
 } from "./Tours";
 import MyBookings from "./MyBookings/MyBookings";
 import Hotel from "./Hotel/Hotel";
@@ -55,4 +56,5 @@ export {
   Transfer,
   Meals,
   TicketPdf,
+  CPackQuotationList,
 };

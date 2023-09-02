@@ -1,26 +1,136 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   SelectField,
   DateField,
 } from "../../../../Components/ReduxField";
 import { reduxForm, Field } from "redux-form";
+import {
+  addtransferManual,
+  updatetransferManual,
+} from "../../../../Reducers/mainQuerySlice";
+import { editTransferManual } from "../../../../Reducers/updateMainQuery";
+import { useSelector, useDispatch } from "react-redux";
 const AddManualTransfer = (props) => {
-  const { handleSubmit, qutationId, onCloseModal } = props;
+  const dispatch = useDispatch();
+  const { handleSubmit, qutationId, onCloseModal, datesBetween } = props;
+  const initialDate = useSelector((state) => state.allModelState.date);
+  const initialTransferlManual = useSelector(
+    (state) => state.updateMQuery.transferManual
+  );
+
+  const initialTransUpdateManual = useSelector(
+    (state) => state.mainQuery.transferManul
+  );
   const destinations = [
     { value: "dubai", label: "Dubai" },
     { value: "adbudahabi", label: "Abu Dhabi" },
     { value: "Sigapore", label: "Singapore" },
   ];
   const supplier = [
-    { value: "hotelbed", label: "Hotel Bed" },
-    { value: "hotelduke", label: "Hotel Duke" },
+    { value: "1", label: "Hotel Bed" },
+    { value: "2", label: "Hotel Duke" },
   ];
   const bookType = [
-    { value: "sic", label: "SIC" },
-    { value: "pvt", label: "PVT" },
-    { value: "tktonly", label: "Tickt Only" },
+    { value: "SIC", label: "SIC" },
+    { value: "PVT", label: "PVT" },
   ];
+  const currency = [
+    { value: "AED", label: "AED" },
+    { value: "INR", label: "INR" },
+    { value: "EUR", label: "EUR" },
+  ];
+  const [slectedBookType, setslectedBookType] = useState(bookType[0].value);
+  useEffect(() => {
+    if (initialTransferlManual) {
+      props.initialize({
+        quoteTransferId: initialTransferlManual.quoteTransferId,
+        quotationId: initialTransferlManual.quotationId,
+        dayItenary: initialTransferlManual.dayItenary,
+        addedType: initialTransferlManual.addedType, // 1 - Manual,  2 - From LIst
+        transferListId: initialTransferlManual.transferListId,
+        transferName: initialTransferlManual.transferName,
+        currencyCode: initialTransferlManual.currencyCode,
+        destination: initialTransferlManual.destination,
+        supplierId: initialTransferlManual.supplierId,
+        supplierName: "",
+        checkInDate: initialTransferlManual.checkInDate,
+        type: initialTransferlManual.type,
+        adultCost: initialTransferlManual.adultCost,
+        childCost: initialTransferlManual.childCost,
+        infantCost: initialTransferlManual.infantCost,
+      });
+    } else {
+      props.initialize({
+        type: slectedBookType,
+        checkInDate: new Date(initialDate),
+      });
+    }
+  }, []);
+
+  const sumbitForm = (values) => {
+    const submitObjects = [];
+    const newsubmitObjects = [];
+    const tempsubmitObject = [];
+    if (initialTransferlManual) {
+      for (let i = 0; i < initialTransUpdateManual.length; i++) {
+        if (initialTransferlManual.id == i) {
+          for (let j = 0; j < initialTransUpdateManual[i].length; j++) {
+            console.log("condition true");
+            console.log(",,,ka0ixja9jxj", initialTransUpdateManual[i][j]);
+            tempsubmitObject.push({
+              quoteTransferId: "",
+              quotationId: "",
+              dayItenary: "",
+              addedType: "1", // 1 - Manual,  2 - From LIst
+              transferListId: "",
+              transferName: values.transferName,
+              currencyCode: values.currencyCode,
+              destination: values.destination,
+              supplierId: values.supplierId,
+              supplierName: "",
+              checkInDate: values.checkInDate,
+              type: values.type,
+              adultCost: values.adultCost,
+              childCost: values.childCost,
+              infantCost: values.infantCost,
+            });
+          }
+          newsubmitObjects.push(tempsubmitObject);
+        } else {
+          newsubmitObjects.push(initialTransUpdateManual[i]);
+        }
+      }
+
+      console.log("final obect", newsubmitObjects);
+      dispatch(editTransferManual(null));
+      dispatch(updatetransferManual(newsubmitObjects));
+    } else {
+      // submitObjects.push(values);
+
+      const tempObject = {
+        quoteTransferId: "",
+        quotationId: "",
+        dayItenary: "",
+        addedType: "1", // 1 - Manual,  2 - From LIst
+        transferListId: "",
+        transferName: values.transferName,
+        currencyCode: values.currencyCode,
+        destination: values.destination,
+        supplierId: values.supplierId,
+        supplierName: "",
+        checkInDate: values.checkInDate,
+        type: values.type,
+        adultCost: values.adultCost,
+        childCost: values.childCost,
+        infantCost: values.infantCost,
+      };
+      submitObjects.push(tempObject);
+      dispatch(addtransferManual(submitObjects));
+    }
+
+    onCloseModal();
+  };
   return (
     <div>
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
@@ -42,12 +152,22 @@ const AddManualTransfer = (props) => {
             {/*body*/}
             <div className="relative flex-auto p-6">
               <div>
-                <div>
-                  <Field
-                    name="trName"
-                    label="Transfer Name"
-                    component={TextField}
-                  />
+                <div className="grid grid-cols-4 gap-4">
+                  <div className="col-span-3">
+                    <Field
+                      name="transferName"
+                      label="Transfer Name"
+                      component={TextField}
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      name="currencyCode"
+                      label="Currency"
+                      options={currency}
+                      component={SelectField}
+                    />
+                  </div>
                 </div>
                 <div class="grid grid-cols-4 gap-4">
                   <div>
@@ -67,7 +187,7 @@ const AddManualTransfer = (props) => {
                   </div>{" "}
                   <div>
                     <Field
-                      name="supplier"
+                      name="supplierId"
                       label="Supplier"
                       options={supplier}
                       //isSearchable={true}
@@ -76,7 +196,13 @@ const AddManualTransfer = (props) => {
                     />
                   </div>{" "}
                   <div>
-                    <Field name="cOut" label="Date" component={DateField} />
+                    <Field
+                      name="checkInDate"
+                      label="Date"
+                      selected={new Date(initialDate)}
+                      datesBetween={datesBetween}
+                      component={DateField}
+                    />
                   </div>{" "}
                   <div>
                     <Field
@@ -86,33 +212,72 @@ const AddManualTransfer = (props) => {
                       //isSearchable={true}
                       // isMultiple={true}
                       component={SelectField}
+                      onChange={(value) => {
+                        // Handle the onChange event here
+                        setslectedBookType(value);
+                        // You can perform any necessary actions or update the Redux Form's field value
+                      }}
                     />
                   </div>
                 </div>
-                <div class="grid grid-cols-4 gap-4">
-                  <div>
-                    <Field
-                      name="adultcost"
-                      label="Adult Cost"
-                      component={TextField}
-                    />
-                  </div>{" "}
-                  <div>
-                    <Field
-                      name="childcost"
-                      label="Child Cost"
-                      component={TextField}
-                    />
-                  </div>{" "}
-                  <div>
-                    <Field
-                      name="infantCost"
-                      label="Infant Cost"
-                      component={TextField}
-                    />
-                  </div>{" "}
-                  <div></div>
-                </div>
+                {slectedBookType === "SIC" && (
+                  <div class="grid grid-cols-4 gap-4">
+                    <div>
+                      <Field
+                        name="adultCost"
+                        label="Adult Cost"
+                        component={TextField}
+                      />
+                    </div>{" "}
+                    <div>
+                      <Field
+                        name="childCost"
+                        label="Child Cost"
+                        component={TextField}
+                      />
+                    </div>{" "}
+                    <div>
+                      <Field
+                        name="infantCost"
+                        label="Infant Cost"
+                        component={TextField}
+                      />
+                    </div>{" "}
+                    <div></div>
+                  </div>
+                )}
+                {slectedBookType === "PVT" && (
+                  <div class="grid grid-cols-4 gap-4">
+                    <div>
+                      <Field
+                        name="vechile"
+                        label="Vehicle"
+                        component={TextField}
+                      />
+                    </div>{" "}
+                    <div>
+                      <Field
+                        name="Capacity"
+                        label="Capacity"
+                        component={TextField}
+                      />
+                    </div>{" "}
+                    <div>
+                      <Field
+                        name="NoOfVehicle"
+                        label="No Of Vehicle"
+                        component={TextField}
+                      />
+                    </div>{" "}
+                    <div>
+                      <Field
+                        name="VehicleCost"
+                        label="Vehicle Cost"
+                        component={TextField}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             {/*footer*/}
@@ -127,7 +292,11 @@ const AddManualTransfer = (props) => {
               <button
                 className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                 type="button"
-                onClick={onCloseModal}
+                onClick={handleSubmit((values) =>
+                  sumbitForm({
+                    ...values,
+                  })
+                )}
               >
                 Save
               </button>

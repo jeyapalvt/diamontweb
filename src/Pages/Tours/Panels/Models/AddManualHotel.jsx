@@ -1,20 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { reduxForm, Field } from "redux-form";
 import {
   TextField,
   SelectField,
   DateField,
 } from "../../../../Components/ReduxField";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addHotelManual,
+  updateManualHotelRecord,
+} from "../../../../Reducers/mainQuerySlice";
+import { editHotelManual } from "../../../../Reducers/updateMainQuery";
+
 const AddManualHotel = (props) => {
-  const { handleSubmit, qutationId, onCloseModal } = props;
+  const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
+  const hoteleditManual = useSelector(
+    (state) => state.updateMQuery.hoteleditManual
+  );
+
+  const initialHotelManual = useSelector(
+    (state) => state.mainQuery.hotelManual
+  );
+
+  const dispatch = useDispatch();
   const destinations = [
     { value: "dubai", label: "Dubai" },
     { value: "adbudahabi", label: "Abu Dhabi" },
     { value: "Sigapore", label: "Singapore" },
   ];
   const supplier = [
-    { value: "hotelbed", label: "Hotel Bed" },
-    { value: "hotelduke", label: "Hotel Duke" },
+    { value: "1", label: "Hotel Bed" },
+    { value: "2", label: "Hotel Duke" },
   ];
   const catogery = [
     { value: "all", label: "All" },
@@ -27,6 +43,173 @@ const AddManualHotel = (props) => {
     { value: "7star", label: "7 star" },
   ];
 
+  const currency = [
+    { value: "AED", label: "AED" },
+    { value: "EUR", label: "EUR" },
+    { value: "INR", label: "INR" },
+  ];
+
+  const getDatesBetweenRange = (startDate, endDate) => {
+    const dates = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  };
+  const dateRange1 = dateRange;
+
+  const from = dateRange1[0].fromDate;
+  const nthRow = dateRange1.length - 1; // Replace with the desired row index
+  let to = "";
+  if (dateRange1[nthRow]) {
+    to = dateRange1[nthRow].toDate;
+  } else {
+    to = dateRange1[0].toDate;
+  }
+
+  const datesBetween = getDatesBetweenRange(from, to);
+  // const datesBetween = "";
+  // console.log("Dates between:", datesBetween);
+
+  useEffect(() => {
+    console.log("dateRange", dateRange);
+    if (hoteleditManual) {
+      props.initialize({
+        hotelName: hoteleditManual.hotelName,
+        destination: hoteleditManual.destination,
+        supplierId: hoteleditManual.supplierId,
+        checkInDate: new Date(hoteleditManual?.checkInDate),
+        checkOutDate: new Date(hoteleditManual?.checkInDate),
+        category: hoteleditManual.category,
+        roomType: hoteleditManual.roomType,
+        mealPlan: hoteleditManual.mealPlan,
+        dblCost: hoteleditManual.dblCost,
+        trplCost: hoteleditManual.trplCost,
+        quadCost: hoteleditManual.quadCost,
+        cwbCost: hoteleditManual.cwbCost,
+        cnbCostBelow05: hoteleditManual.cnbCostBelow05,
+        cnbCostAbove05: hoteleditManual.cnbCostAbove05,
+        infCost: hoteleditManual.infCost,
+        sglCost: hoteleditManual.sglCost,
+        currencyCode: hoteleditManual.currencyCode,
+      });
+    } else {
+      props.initialize({
+        checkInDate: datesBetween[0],
+        checkOutDate: datesBetween[datesBetween.length - 2],
+      });
+    }
+  }, []);
+
+  const sumbitForm = (values) => {
+    const submitObjects = [];
+    const newsubmitObjects = [];
+    const tempsubmitObject = [];
+    const checkInDate = new Date(values.checkInDate);
+    const checkOutDate = new Date(values.checkOutDate);
+    const currentDate = new Date(checkInDate);
+    if (hoteleditManual) {
+      for (let i = 0; i < initialHotelManual.length; i++) {
+        if (hoteleditManual.id == i) {
+          for (let j = 0; j < initialHotelManual[i].length; j++) {
+            if (
+              values.checkInDate.toISOString().slice(0, 10) ==
+              initialHotelManual[i][j].checkInDate
+            ) {
+              if (hoteleditManual.editOrDelete == 1) {
+                tempsubmitObject.push({
+                  hotelName: values.hotelName,
+                  destination: values.destination,
+                  supplierId: values.supplierId,
+                  checkInDate: new Date(values.checkInDate)
+                    .toISOString()
+                    .slice(0, 10),
+                  checkOutDate: values.checkOutDate,
+                  category: values.category,
+                  roomType: values.roomType,
+                  mealPlan: values.mealPlan,
+                  dblCost: values.dblCost,
+                  trplCost: values.trplCost,
+                  quadCost: values.quadCost,
+                  cwbCost: values.cwbCost,
+                  cnbCostBelow05: values.cnbCostBelow05,
+                  cnbCostAbove05: values.cnbCostAbove05,
+                  infCost: values.infCost,
+                  sglCost: values.sglCost,
+                  currencyCode: values.currencyCode,
+                });
+              }
+            } else {
+              tempsubmitObject.push(initialHotelManual[i][j]);
+            }
+          }
+
+          console.log("tempsubmitObject------>", tempsubmitObject);
+          newsubmitObjects.push(tempsubmitObject);
+        } else {
+          newsubmitObjects.push(initialHotelManual[i]);
+        }
+        // newsubmitObjects.push()
+      }
+
+      console.log(newsubmitObjects);
+      dispatch(updateManualHotelRecord(newsubmitObjects));
+      dispatch(editHotelManual(null));
+    } else {
+      while (currentDate <= checkOutDate) {
+        submitObjects.push({
+          hotelName: values.hotelName,
+          destination: values.destination,
+          supplierId: values.supplierId,
+          checkInDate: currentDate.toISOString().slice(0, 10),
+          checkOutDate: values.checkOutDate,
+          category: values.category,
+          roomType: values.roomType,
+          mealPlan: values.mealPlan,
+          dblCost: values.dblCost,
+          trplCost: values.trplCost,
+          quadCost: values.quadCost,
+          cwbCost: values.cwbCost,
+          cnbCostBelow05: values.cnbCostBelow05,
+          cnbCostAbove05: values.cnbCostAbove05,
+          infCost: values.infCost,
+          sglCost: values.sglCost,
+          currencyCode: values.currencyCode,
+          // Format date as "YYYY-MM-DD"
+          // Add other properties as needed
+        });
+
+        currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+      }
+      dispatch(addHotelManual(submitObjects));
+      console.log(submitObjects);
+    }
+
+    // const submitObject = {
+    //   hotelName: values.hotelName,
+    //   destination: values.destination,
+    //   supplierId: values.supplierId,
+    //   checkInDate: values.checkInDate,
+    //   checkOutDate: values.checkOutDate,
+    //   category: values.category,
+    //   roomType: values.roomType,
+    //   mealPlan: values.mealPlan,
+    //   dblCost: values.dblCost,
+    //   trplCost: values.trplCost,
+    //   quadCost: values.quadCost,
+    //   cwbCost: values.cwbCost,
+    //   cnbCostBelow05: values.value.cnbCostBelow05,
+    //   cnbCostAbove05: values.cnbCostAbove05,
+    //   infCost: values.infCost,
+    //   currencyCode: values.currencyCode,
+    // };
+
+    onCloseModal();
+  };
   return (
     <div>
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
@@ -73,7 +256,7 @@ const AddManualHotel = (props) => {
                   </div>{" "}
                   <div>
                     <Field
-                      name="supplier"
+                      name="supplierId"
                       label="Supplier"
                       options={supplier}
                       //isSearchable={true}
@@ -82,16 +265,40 @@ const AddManualHotel = (props) => {
                     />
                   </div>{" "}
                   <div>
-                    <Field name="cOut" label="Check In" component={DateField} />
+                    <Field
+                      name="checkInDate"
+                      label="Check In"
+                      // selected={hoteleditManual?.checkInDate ? hoteleditManual.checkInDate : datesBetween[0]}
+                      // selected={
+                      //   hoteleditManual?.checkInDate &&
+                      //   hoteleditManual.checkInDate
+                      // }
+                      // minDate={}
+                      // maxDate={}
+                      datesBetween={datesBetween}
+                      component={DateField}
+                    />
                   </div>{" "}
                   <div>
-                    <Field name="cIn" label="Check Out" component={DateField} />
+                    <Field
+                      name="checkOutDate"
+                      label="Check Out"
+                      // selected={
+                      //   hoteleditManual?.checkInDate &&
+                      //   hoteleditManual.checkInDate
+                      // }
+                      //selected={datesBetween[datesBetween.length - 1]}
+                      // minDate={}
+                      // maxDate={}
+                      datesBetween={datesBetween}
+                      component={DateField}
+                    />
                   </div>
                 </div>
                 <div class="grid grid-cols-4 gap-4">
                   <div>
                     <Field
-                      name="catogery"
+                      name="category"
                       label="Catogery"
                       options={catogery}
                       //isSearchable={true}
@@ -108,30 +315,41 @@ const AddManualHotel = (props) => {
                   </div>{" "}
                   <div>
                     <Field
-                      name="mealplan"
+                      name="mealPlan"
                       label="Meal Plan"
                       component={TextField}
                     />
                   </div>{" "}
                   <div>
-                    <Field name="sgl" label="SGL" component={TextField} />
+                    <Field name="sglCost" label="SGL" component={TextField} />
                   </div>
                 </div>
                 <div class="grid grid-cols-4 gap-4">
                   <div>
-                    <Field name="dbl" label="DBL" component={TextField} />
-                  </div>{" "}
-                  <div>
-                    <Field name="trpl" label="TRBL" component={TextField} />
-                  </div>{" "}
-                  <div>
-                    <Field name="cwb" label="CWB" component={TextField} />
+                    <Field
+                      name="dblCost"
+                      label="DBL Cost"
+                      component={TextField}
+                    />
                   </div>{" "}
                   <div>
                     <Field
-                      name="cnb"
-                      label="CNB"
-                      spanTxt="(Above 05 yrs)"
+                      name="trplCost"
+                      label="TRBL Cost"
+                      component={TextField}
+                    />
+                  </div>{" "}
+                  <div>
+                    <Field
+                      name="quadCost"
+                      label="QUAD Cost"
+                      component={TextField}
+                    />
+                  </div>{" "}
+                  <div>
+                    <Field
+                      name="cwbCost"
+                      label="CWB Cost"
                       component={TextField}
                     />
                   </div>
@@ -139,21 +357,38 @@ const AddManualHotel = (props) => {
                 <div class="grid grid-cols-4 gap-4">
                   <div>
                     <Field
-                      name="cnb1"
-                      label="CNB"
+                      name="cnbCostBelow05"
+                      label="CNB Cost"
+                      spanTxt="(Above 05 yrs)"
+                      component={TextField}
+                    />
+                  </div>{" "}
+                  <div>
+                    <Field
+                      name="cnbCostAbove05"
+                      label="CNB Cost"
                       spanTxt="(Below 05 yrs)"
                       component={TextField}
                     />
                   </div>{" "}
                   <div>
                     <Field
-                      name="inf"
-                      label="INF"
-                      spanTxt="(Below 03 yrs)"
+                      name="infCost"
+                      label="INF Cost"
                       component={TextField}
                     />
                   </div>{" "}
-                  <div></div> <div></div>
+                  <div>
+                    {" "}
+                    <Field
+                      name="currencyCode"
+                      label="Currency"
+                      options={currency}
+                      //isSearchable={true}
+                      // isMultiple={true}
+                      component={SelectField}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -169,7 +404,12 @@ const AddManualHotel = (props) => {
               <button
                 className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                 type="button"
-                onClick={onCloseModal}
+                // onClick={onCloseModal}
+                onClick={handleSubmit((values) =>
+                  sumbitForm({
+                    ...values,
+                  })
+                )}
               >
                 Save
               </button>

@@ -104,6 +104,21 @@ const NavBar = () => {
                 </li>
               </ul>
             </li>
+
+            <li className="relative p-2 text-black border border-[#da251d] rounded-lg cursor-pointer group border-spacing-3">
+              <div className="flex items-center space-x-1">Operations</div>
+
+              <ul className="absolute hidden  border border-[#da251d]  mt-2 duration-100 rounded-md w-52 group-hover:block bg-[#ffffff] -ml-2">
+                <li>
+                  <Link to="/customepack-quotation">
+                    <div className="p-1 hover:bg-[#da251d] hover:text-white">
+                      Quotation
+                    </div>
+                  </Link>
+                </li>
+              </ul>
+            </li>
+
             <li className="relative group">
               <BsCurrencyExchange size={30} color="#da251d" />
               <ul className="absolute hidden cursor-pointer group-hover:block">

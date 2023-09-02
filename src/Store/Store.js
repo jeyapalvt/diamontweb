@@ -5,6 +5,12 @@ import {
   authSlice,
   tourSlice,
   cartinfoSlice,
+  allAgencySlice,
+  customQuerySlice,
+  mainQuerySlice,
+  modelStateReducers,
+  updateMainQuery,
+  destinationSlice,
 } from "../Reducers";
 import { reducer as reduxFormReducer } from "redux-form";
 const reducer = combineReducers({
@@ -13,6 +19,12 @@ const reducer = combineReducers({
   authentication: authSlice,
   allTours: tourSlice,
   cartList: cartinfoSlice,
+  allAgents: allAgencySlice,
+  allCustomQuerySlice: customQuerySlice,
+  mainQuery: mainQuerySlice,
+  allModelState: modelStateReducers,
+  updateMQuery: updateMainQuery,
+  destinationQuery: destinationSlice,
 });
 const store = configureStore({
   reducer,

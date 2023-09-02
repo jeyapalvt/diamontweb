@@ -26,6 +26,7 @@ import {
   Transfer,
   Meals,
   TicketPdf,
+  CPackQuotationList,
 } from "./Pages";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { userData } from "./Store/userData";
@@ -133,6 +134,12 @@ function App() {
             path="/qutationdetailview/:id"
             element={
               <RoleRoute component={QuatationDetailView} roles={roles.admin} />
+            }
+          />
+          <Route
+            path="/customepack-quotation"
+            element={
+              <RoleRoute component={CPackQuotationList} roles={roles.admin} />
             }
           />
           <Route

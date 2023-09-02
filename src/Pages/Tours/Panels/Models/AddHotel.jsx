@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { reduxForm, Field } from "redux-form";
 import {
   DateField,
@@ -7,7 +7,7 @@ import {
 } from "../../../../Components/ReduxField";
 import { Button } from "../../../../Components";
 const AddHotel = (props) => {
-  const { qutationId, onCloseModal } = props;
+  const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
   const destinations = [
     { value: "dubai", label: "Dubai" },
     { value: "adbudahabi", label: "Abu Dhabi" },
@@ -32,6 +32,37 @@ const AddHotel = (props) => {
     { value: "AP", label: "AP" },
     { value: "Break Fast", label: "Break Fast" },
   ];
+
+  const getDatesBetweenRange = (startDate, endDate) => {
+    const dates = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  };
+  const dateRange1 = dateRange;
+
+  const from = dateRange1[0].fromDate;
+  const nthRow = dateRange1.length - 1; // Replace with the desired row index
+  let to = "";
+  if (dateRange1[nthRow]) {
+    to = dateRange1[nthRow].toDate;
+  } else {
+    to = dateRange1[0].toDate;
+  }
+
+  const datesBetween = getDatesBetweenRange(from, to);
+
+  useEffect(() => {
+    props.initialize({
+      checkInDate: datesBetween[0],
+      checkOutDate: datesBetween[datesBetween.length - 2],
+    });
+  }, []);
   return (
     <div>
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
@@ -88,14 +119,21 @@ const AddHotel = (props) => {
                   </div>
                   <div>
                     <Field
-                      name="cOut"
-                      label="Check Out"
+                      name="checkInDate"
+                      label="Check In"
+                      datesBetween={datesBetween}
                       component={DateField}
                     />
                   </div>
                   <div>
-                    <Field name="cIn" label="Check In" component={DateField} />
+                    <Field
+                      name="checkOutDate"
+                      label="Check Out"
+                      datesBetween={datesBetween}
+                      component={DateField}
+                    />
                   </div>
+
                   <div>
                     <Field name="hotel" label="Hotel" component={TextField} />
                   </div>

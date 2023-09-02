@@ -1,20 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllQueryList } from "../../Reducers/customQuerySlice";
+import { MdDateRange, MdLuggage, MdEmail } from "react-icons/md";
+import { GiDuration } from "react-icons/gi";
+import { FaChild, FaMapMarkerAlt } from "react-icons/fa";
+import { FaFilter, FaMobileAlt } from "react-icons/fa";
+import { IoIosContact } from "react-icons/io";
+import { fetchAllAgency } from "../../Reducers/allAgencySlice";
+import { AiTwotoneMail } from "react-icons/ai";
+import { TbDeviceLandlinePhone } from "react-icons/tb";
 const BookingTable = ({ dataList }) => {
+  const dispatch = useDispatch();
+
+  const queryList = useSelector((state) => state.allCustomQuerySlice.data);
+  const isLoading = useSelector((state) => state.allCustomQuerySlice.isLoading);
+  const allAgents = useSelector((state) => state.allAgents.data);
+  useEffect(() => {
+    dispatch(fetchAllQueryList({ tourQueryId: 1 }));
+    dispatch(
+      fetchAllAgency({
+        agenctId: 1,
+        secretKey: "uZFEucIHAbqvgT7p87qC4Ms4tjqG34su",
+      })
+    );
+  }, [dispatch]);
   const TABLE_HEAD = [
     "Id",
     "Title",
-    "Type",
-    "Company",
-    "Contact Info",
     "Destination",
+    "Agent/Client",
     "Query Date",
-    "Travel Date",
     "Status",
     "Operation",
     "Sales",
-    "action",
   ];
 
   const TABLE_ROWS = [
@@ -34,6 +54,74 @@ const BookingTable = ({ dataList }) => {
     },
   ];
 
+  const servicetype = [
+    { value: "1", label: "Complete Package" },
+    { value: "2", label: "Extra Service" },
+    { value: "3", label: "Flight Only" },
+    { value: "4", label: "Hotel Service" },
+    { value: "5", label: "Land Part" },
+    { value: "6", label: "Transfer only" },
+  ];
+
+  const getServiceType = (serviceId) => {
+    const singleserviceType = servicetype.find(
+      (item) => item.value == serviceId
+    );
+    return singleserviceType?.label;
+  };
+
+  const loadSource = [
+    { value: "1", label: "FaceBook" },
+    { value: "2", label: "Reference" },
+    { value: "3", label: "Meating" },
+    { value: "4", label: "Others" },
+  ];
+  const operationPersion = [
+    { value: "Vinod", label: "Vinod" },
+    { value: "Vivek", label: "Vivek" },
+    { value: "Raman", label: "Raman" },
+  ];
+  const contactPersion = [
+    { value: "Vinod", label: "Vinod" },
+    { value: "Raman", label: "Raman" },
+  ];
+  const companyName = [
+    { value: "diamont", label: "diamont" },
+    { value: "usetours", label: "usetours" },
+  ];
+  const getloadSource = (serviceId) => {
+    const loadSourcename = loadSource.find((item) => item.value == serviceId);
+    return loadSourcename?.label;
+  };
+
+  const getAgentName = (serviceId) => {
+    const agnets = allAgents?.find((item) => item.agencyId == serviceId);
+    return agnets?.agencyName;
+  };
+
+  const getCompanyName = (serviceId) => {
+    const company = companyName?.find((item) => item.value == serviceId);
+    return company?.label;
+  };
+  const getOperationPersion = (serviceId) => {
+    const optPersion = operationPersion?.find(
+      (item) => item.value == serviceId
+    );
+    return optPersion?.label;
+  };
+  const getContactPersion = (serviceId) => {
+    const ctPersion = contactPersion?.find((item) => item.value == serviceId);
+    return ctPersion?.label;
+  };
+  const getStatus = (id) => {
+    if (id == "1") {
+      return "Pending";
+    } else if (id == 2) {
+      return "Confirm";
+    } else if (id == 3) {
+      return "Cancel";
+    }
+  };
   return (
     <div className="p-5">
       <Card className="w-full h-full overflow-scroll">
@@ -43,7 +131,7 @@ const BookingTable = ({ dataList }) => {
               {TABLE_HEAD.map((head) => (
                 <th
                   key={head}
-                  className="p-4 bg-[#577fa8]  border-b border-blue-gray-100 "
+                  className="p-4 border-b border-blue-gray-100 bg-gradient-to-r from-[#384775] to-[#192a59]"
                 >
                   <Typography
                     variant="small"
@@ -57,153 +145,178 @@ const BookingTable = ({ dataList }) => {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(
-              (
-                {
-                  id,
-                  title,
-                  type,
-                  company,
-                  contactInfo,
-                  destination,
-                  queryDate,
-                  travelDate,
-                  status,
-                  operation,
-                  sales,
-                  action,
-                },
-                index
-              ) => {
-                const isLast = index === TABLE_ROWS.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
-
+            {queryList.map(
+              ({
+                tourQueryId,
+                queryTitle,
+                serviceType,
+                arrivalDestination,
+                nofAdult,
+                nofChild,
+                nofInfant,
+                mobileNumber,
+                companyName,
+                landlineNumber,
+                contactPersonName,
+                contactPersonEmail,
+                operationPerson,
+                leadSource,
+                guestName,
+                status,
+              }) => {
                 return (
-                  <tr key={name}>
-                    <td className={classes}>
+                  <tr
+                    key={tourQueryId}
+                    className={`font-semibold   text-sm ${
+                      status == "1"
+                        ? "bg-teal-100"
+                        : status == "2"
+                        ? "bg-blue-100"
+                        : status == "3"
+                        ? "bg-gray-100"
+                        : "bg-green-100"
+                    }`}
+                  >
+                    <td className="p-4 font-semibold ">
                       <Typography
                         as={Link}
-                        to={`/querydetails/${id}`}
+                        to={`/querydetails/${tourQueryId}`}
                         variant="small"
                         color="blue"
-                        className="font-normal"
+                        className="font-semibold"
                       >
-                        {id}
+                        {tourQueryId}
                       </Typography>
                     </td>
-                    <td className={classes}>
+                    <td className="p-4">
                       <Typography
                         as="a"
                         href="#"
                         variant="small"
-                        color="blue"
-                        className="font-normal"
+                        className="font-semibold text-blue-500"
                       >
-                        {title}
+                        {queryTitle}
                       </Typography>
+                      <div className="flex items-center">
+                        <div>
+                          <MdDateRange />
+                        </div>
+                        <div>Travel Date</div>
+                      </div>
+                      <div className="flex items-center">
+                        <div>
+                          <GiDuration />
+                        </div>
+                        <div>Duration</div>
+                      </div>
+
+                      <div className="flex items-center space-x-3">
+                        <div className="flex mr-2 space-x-1">
+                          <div>
+                            <FaChild />
+                          </div>
+                          <div> Adult</div>
+                          <div> {nofAdult} </div>
+                        </div>
+                        <div className="flex mr-2 space-x-1">
+                          <div>
+                            <FaChild />
+                          </div>
+                          <div> Child</div>
+                          <div> {nofChild} </div>
+                        </div>
+                        <div className="flex mr-2 space-x-1">
+                          <div>
+                            <FaChild />
+                          </div>
+                          <div> Infant</div>
+                          <div> {nofInfant} </div>
+                        </div>
+                      </div>
                     </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {type}
-                      </Typography>
+                    <td className="p-4">
+                      <div className="flex-col">
+                        <div className="flex items-center space-x-1 text-blue-500">
+                          <div>
+                            <FaMapMarkerAlt />
+                          </div>
+                          <div>{arrivalDestination}</div>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <div>
+                            <MdLuggage />
+                          </div>
+                          <div>{getServiceType(serviceType)}</div>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <div>
+                            <FaFilter />
+                          </div>
+                          <div>{getloadSource(leadSource)}</div>
+                        </div>
+                      </div>
                     </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
-                      >
-                        {company}
-                      </Typography>
+                    <td className="p-4">
+                      <div className="flex flex-col">
+                        <div className="text-blue-500">{companyName}</div>
+                        <div className="flex flex-row items-center space-x-1">
+                          <div>
+                            <IoIosContact />
+                          </div>
+                          <div className="font-normal">{contactPersonName}</div>
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <div>
+                            <AiTwotoneMail />
+                          </div>
+                          <div className="flex justify-center space-x-1">
+                            <div>E:Mail:</div>
+                            <div className="font-normal">
+                              {contactPersonEmail}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <div>
+                            <FaMobileAlt />
+                          </div>
+                          <div className="flex justify-center space-x-1">
+                            <div>Mobile:</div>
+                            <div className="font-normal">{mobileNumber}</div>
+                          </div>
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <div>
+                            <TbDeviceLandlinePhone />
+                          </div>
+                          <div className="flex justify-center space-x-1">
+                            <div>Landline No:</div>
+                            <div className="font-normal">{landlineNumber}</div>
+                          </div>
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <div>{/* <IoIosContact /> */}</div>
+                          <div className="flex justify-center space-x-1 text-red-500">
+                            <div>Guest Name:</div>
+                            <div className="font-normal">{guestName}</div>
+                          </div>
+                        </div>
+                      </div>
                     </td>
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
+                    <td className="p-4"></td>
+                    <td className="p-4">
+                      {" "}
+                      <span
+                        className={`text-white p-1 rounded-md  ${
+                          status == 0 ? "bg-green-500" : "bg-yellow-500"
+                        }`}
                       >
-                        {contactInfo}
-                      </Typography>
+                        {getStatus(status)}
+                      </span>
                     </td>
 
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
-                      >
-                        {destination}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
-                      >
-                        {queryDate}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
-                      >
-                        {travelDate}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
-                      >
-                        {status}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
-                      >
-                        {operation}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
-                      >
-                        {sales}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        href="#"
-                        variant="small"
-                        color="blue"
-                        className="font-medium"
-                      >
-                        {action}
-                      </Typography>
-                    </td>
+                    <td className="p-4">{operationPerson}</td>
+                    <td className="p-4"></td>
                   </tr>
                 );
               }
