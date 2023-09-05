@@ -9,6 +9,8 @@ import AddQutation from "../Models/AddQutation";
 import ConfirmationModel from "../Models/ConfirmationModel";
 import AddGuest from "../Models/AddGuest";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import { BaseUrl } from "../../../../Reducers/Api";
 const Quatation = ({ queryDetail }) => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -34,6 +36,22 @@ const Quatation = ({ queryDetail }) => {
     },
   ];
 
+  // const [queryDetail, setqueryDetail] = useState();
+  // useEffect(() => {
+  //   getQueryDetail();
+  // }, []);
+
+  // const getQueryDetail = async () => {
+  //   await axios
+  //     .post(BaseUrl + "getTourQueryDetails", { tourQueryId: id })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setqueryDetail(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log9error;
+  //     });
+  // };
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => {
     setShowModal(false);
