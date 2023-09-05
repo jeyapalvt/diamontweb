@@ -4,7 +4,7 @@ const TopSuppliers = () => {
   const chartData = {
     series: [
       {
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
+        data: [850, 700, 650, 550, 430, 350, 100, 75, 60, 50],
       },
     ],
     options: {
@@ -13,6 +13,13 @@ const TopSuppliers = () => {
         height: 350,
         toolbar: {
           show: false,
+        },
+      },
+      title: {
+        text: "TOP 10 SUPPLIERS",
+        align: "left",
+        style: {
+          fontSize: "18px",
         },
       },
       plotOptions: {

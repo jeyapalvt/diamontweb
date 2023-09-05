@@ -4,7 +4,7 @@ const TopAgens = () => {
   const chartData = {
     series: [
       {
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
+        data: [1200, 1150, 1050, 800, 700, 650, 550, 430, 350, 100],
       },
     ],
     options: {
@@ -13,6 +13,13 @@ const TopAgens = () => {
         height: 350,
         toolbar: {
           show: false,
+        },
+      },
+      title: {
+        text: "TOP 10 AGENTS",
+        align: "left",
+        style: {
+          fontSize: "18px",
         },
       },
       plotOptions: {
@@ -26,16 +33,16 @@ const TopAgens = () => {
       },
       xaxis: {
         categories: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
-          "Japan",
-          "United States",
-          "China",
-          "Germany",
+          "DHIREM DMC",
+          "DIAMOND TOURS",
+          "DELPHIC HOLIDAYS",
+          "VIVAN HOLIDAYS",
+          "PARMAR TOURS",
+          "WINDEX TOURS",
+          "SHAKTI VACATION OPC",
+          "RAVI SHINHA",
+          "PADMAVATI TRAVEL",
+          "RAYNA TOURS",
         ],
       },
     },
