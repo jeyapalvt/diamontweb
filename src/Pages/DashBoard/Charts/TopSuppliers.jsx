@@ -4,7 +4,11 @@ const TopSuppliers = () => {
   const chartData = {
     series: [
       {
+
         data: [850, 700, 650, 550, 430, 350, 100, 75, 60, 50],
+
+        color: "#FFA500",
+
       },
     ],
     options: {
