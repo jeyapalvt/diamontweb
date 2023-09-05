@@ -15,7 +15,7 @@ const Button = ({ name, onClick, color }) => {
       buttonClasses += " bg-indigo-800";
     }
 
-    // Add more color cases as needed
+    // Add more color cases as needed  675867464352
 
     return buttonClasses;
   };
