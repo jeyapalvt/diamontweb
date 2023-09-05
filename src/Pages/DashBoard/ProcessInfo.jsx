@@ -8,6 +8,7 @@ import QuerySource from "./Charts/QuerySource";
 import TopAgens from "./Charts/TopAgens";
 import TopSuppliers from "./Charts/TopSuppliers";
 import TourMasterSheet from "./TourMasterSheet";
+import SchedulePayment from "./SchedulePayment";
 
 const ProcessInfo = () => {
   return (
@@ -40,6 +41,14 @@ const ProcessInfo = () => {
       </div>
 
       <TourMasterSheet />
+
+      <div className="flex p-5 space-x-5">
+        <div className="w-1/3 p-5 bg-white rounded-md shadow-md"></div>
+        <div className="w-1/3 p-5 bg-white rounded-md shadow-md">
+          <SchedulePayment />
+        </div>
+        <div className="w-1/3 p-5 bg-white rounded-md shadow-md"></div>
+      </div>
     </div>
   );
 };
