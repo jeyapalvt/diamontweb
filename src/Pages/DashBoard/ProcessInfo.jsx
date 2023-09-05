@@ -9,6 +9,8 @@ import TopAgens from "./Charts/TopAgens";
 import TopSuppliers from "./Charts/TopSuppliers";
 import TourMasterSheet from "./TourMasterSheet";
 import SchedulePayment from "./SchedulePayment";
+import RecentTask from "./RecentTask";
+import LoginUsers from "./LoginUsers";
 
 const ProcessInfo = () => {
   return (
@@ -40,15 +42,19 @@ const ProcessInfo = () => {
         </div>
       </div>
 
-      <TourMasterSheet />
-
       <div className="flex p-5 space-x-5">
-        <div className="w-1/3 p-5 bg-white rounded-md shadow-md"></div>
+        <div className="w-1/3 p-5 bg-white rounded-md shadow-md">
+          <RecentTask />
+        </div>
         <div className="w-1/3 p-5 bg-white rounded-md shadow-md">
           <SchedulePayment />
         </div>
-        <div className="w-1/3 p-5 bg-white rounded-md shadow-md"></div>
+        <div className="w-1/3 p-5 bg-white rounded-md shadow-md">
+          <LoginUsers />
+        </div>
       </div>
+
+      <TourMasterSheet />
     </div>
   );
 };
