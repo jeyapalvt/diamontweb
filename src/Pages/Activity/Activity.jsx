@@ -36,6 +36,7 @@ const Activity = () => {
       .catch((error) => {
         console.log(error);
         console.log("This is a test commit   3476458769789047686");
+        console.log("This is a test commit 2 3457645787689786094");
       });
   };
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
