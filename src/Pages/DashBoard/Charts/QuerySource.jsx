@@ -7,7 +7,14 @@ const QuerySource = () => {
       chart: {
         type: "pie",
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      title: {
+        text: "QUERY SOURCE",
+        align: "left",
+        style: {
+          fontSize: "18px",
+        },
+      },
+      labels: ["E MAIL", "REFFERAL", "WHATSAPP", "TELEPHONE", "WEBSITE", "QUERY FORM"],
       responsive: [
         {
           breakpoint: 480,

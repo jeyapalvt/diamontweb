@@ -4,8 +4,11 @@ const TopSuppliers = () => {
   const chartData = {
     series: [
       {
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
+
+        data: [850, 700, 650, 550, 430, 350, 100, 75, 60, 50],
+
         color: "#FFA500",
+
       },
     ],
     options: {
@@ -14,6 +17,13 @@ const TopSuppliers = () => {
         height: 350,
         toolbar: {
           show: false,
+        },
+      },
+      title: {
+        text: "TOP 10 SUPPLIERS",
+        align: "left",
+        style: {
+          fontSize: "18px",
         },
       },
       plotOptions: {
@@ -27,16 +37,16 @@ const TopSuppliers = () => {
       },
       xaxis: {
         categories: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
-          "Japan",
-          "United States",
-          "China",
-          "Germany",
+          "THE TRAVANCORE HERITAGE",
+          "VIBE RESORT DUBAI",
+          "HOTEL GRAND HEIRDEY",
+          "THE MONIKER RESORT",
+          "TATSARAASA RESORT",
+          "HOTEL AIRLINK CASTEL",
+          "HOLIDAY VISTA LUXURY",
+          "TRIPLINK THAILAND",
+          "RESORT THE LOHIAS",
+          "THE FERN RESIDENCY",
         ],
       },
     },

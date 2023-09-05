@@ -23,6 +23,7 @@ const TopSellingDestinatioons = () => {
           show: false, // Remove the download option
         },
       },
+      
       plotOptions: {
         bar: {
           horizontal: true,

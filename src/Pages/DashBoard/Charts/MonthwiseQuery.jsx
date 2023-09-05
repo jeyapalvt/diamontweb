@@ -4,7 +4,7 @@ const MonthwiseQuery = () => {
   const chartData = {
     series: [
       {
-        data: [44, 55, 41, 67, 22, 43],
+        data: [44, 55, 41, 67, 22, 43, 55, 46],
       },
     ],
     options: {
