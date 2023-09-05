@@ -11,8 +11,10 @@ import {
   updateSightSeeingManual,
 } from "../../../../Reducers/mainQuerySlice";
 import { editSightSeeingManual } from "../../../../Reducers/updateMainQuery";
+import { useParams } from "react-router-dom";
 const AddManualSightSheeing = (props) => {
   const dispatch = useDispatch();
+  const { id } = useParams();
   const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
   const initialDate = useSelector((state) => state.allModelState.date);
 
@@ -96,7 +98,7 @@ const AddManualSightSheeing = (props) => {
             console.log(",,,ka0ixja9jxj", initialSightUpdateManual[i][j]);
             tempsubmitObject.push({
               sightSeeingId: "",
-              quotationId: qutationId,
+              quotationId: id,
               dayItenary: "",
               addedType: 1, // 1 - Manual, 2 - From list
               activityId: "",
@@ -127,7 +129,7 @@ const AddManualSightSheeing = (props) => {
 
       const tempObject = {
         sightSeeingId: "",
-        quotationId: qutationId,
+        quotationId: id,
         dayItenary: "",
         addedType: 1, // 1 - Manual, 2 - From list
         activityId: "",

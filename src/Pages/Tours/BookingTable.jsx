@@ -5,14 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllQueryList } from "../../Reducers/customQuerySlice";
 import { MdDateRange, MdLuggage, MdEmail } from "react-icons/md";
 import { GiDuration } from "react-icons/gi";
-import { FaChild, FaMapMarkerAlt } from "react-icons/fa";
+import { FaChild, FaMapMarkerAlt, FaUserAlt } from "react-icons/fa";
 import { FaFilter, FaMobileAlt } from "react-icons/fa";
 import { IoIosContact } from "react-icons/io";
 import { fetchAllAgency } from "../../Reducers/allAgencySlice";
-import { AiTwotoneMail } from "react-icons/ai";
+import { AiTwotoneMail, AiOutlineFieldTime } from "react-icons/ai";
 import { TbDeviceLandlinePhone } from "react-icons/tb";
+import { BiPencil } from "react-icons/bi";
+import { BsFillCalendarWeekFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 const BookingTable = ({ dataList }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const queryList = useSelector((state) => state.allCustomQuerySlice.data);
   const isLoading = useSelector((state) => state.allCustomQuerySlice.isLoading);
@@ -35,6 +39,7 @@ const BookingTable = ({ dataList }) => {
     "Status",
     "Operation",
     "Sales",
+    "",
   ];
 
   const TABLE_ROWS = [
@@ -122,6 +127,85 @@ const BookingTable = ({ dataList }) => {
       return "Cancel";
     }
   };
+
+  const formatDateWithAMPM = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: true, // Use 12-hour clock format
+    };
+    return new Date(dateString).toLocaleDateString("en-US", options);
+  };
+
+  // Function to format date and time separately with AM/PM
+  const formatDateAndTimeWithAMPM = (dateString) => {
+    const optionsDate = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    };
+
+    const optionsTime = {
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: true, // Use 12-hour clock format
+    };
+
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString("en-US", optionsDate);
+    const formattedTime = date.toLocaleTimeString("en-US", optionsTime);
+
+    return {
+      date: formattedDate,
+      time: formattedTime,
+    };
+  };
+
+  const getDatesBetweenRange = (dateRange) => {
+    const from = dateRange[0].fromDate;
+    const nthRow = dateRange.length - 1; // Replace with the desired row index
+    let to = "";
+    if (dateRange[nthRow]) {
+      to = dateRange[nthRow].toDate;
+    } else {
+      to = dateRange[0].toDate;
+    }
+
+    return {
+      fromDate: new Date(from).toLocaleDateString(),
+      toDate: new Date(to).toLocaleDateString(),
+    };
+    // const dates = [];
+    // const currentDate = new Date(from);
+
+    // while (currentDate <= new Date(to)) {
+    //   dates.push(new Date(currentDate));
+    //   currentDate.setDate(currentDate.getDate() + 1);
+    // }
+
+    // return dates;
+  };
+
+  const getTotalNights = (fromDateStr, toDateStr) => {
+    // Date strings
+
+    // Parse date strings and create Date objects
+    const fromDate = new Date(fromDateStr);
+    const toDate = new Date(toDateStr);
+
+    // Calculate the time difference in milliseconds
+    const timeDifference = toDate - fromDate;
+
+    // Calculate the number of nights by dividing the time difference by the number of milliseconds in a day
+    const numberOfNights = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    return numberOfNights;
+  };
   return (
     <div className="p-5">
       <Card className="w-full h-full overflow-scroll">
@@ -163,7 +247,13 @@ const BookingTable = ({ dataList }) => {
                 leadSource,
                 guestName,
                 status,
+                queryDate,
+                destList,
+                lastUpdated,
               }) => {
+                const { date, time } = formatDateAndTimeWithAMPM(queryDate);
+
+                const { fromDate, toDate } = getDatesBetweenRange(destList);
                 return (
                   <tr
                     key={tourQueryId}
@@ -201,13 +291,15 @@ const BookingTable = ({ dataList }) => {
                         <div>
                           <MdDateRange />
                         </div>
-                        <div>Travel Date</div>
+                        <div>Travel Date:</div>
+                        <div>{fromDate}</div> - <div>{toDate}</div>
                       </div>
                       <div className="flex items-center">
                         <div>
                           <GiDuration />
                         </div>
-                        <div>Duration</div>
+                        <div>Duration: </div>
+                        <div>{getTotalNights(fromDate, toDate)} Days</div>
                       </div>
 
                       <div className="flex items-center space-x-3">
@@ -294,21 +386,66 @@ const BookingTable = ({ dataList }) => {
                             <div className="font-normal">{landlineNumber}</div>
                           </div>
                         </div>
+                        {status === 2 && (
+                          <div className="flex flex-row items-center">
+                            <div>{/* <IoIosContact /> */}</div>
+                            <div className="flex justify-center space-x-1 text-red-500">
+                              <div>Guest Name:</div>
+                              <div className="font-normal">{guestName}</div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <div className="flex flex-col">
+                        <div className="flex flex-row items-center space-x-1">
+                          <div>
+                            <BsFillCalendarWeekFill />
+                          </div>
+                          <div>Date:</div>
+                          <div className="font-normal">{date}</div>
+                        </div>
                         <div className="flex flex-row items-center">
-                          <div>{/* <IoIosContact /> */}</div>
-                          <div className="flex justify-center space-x-1 text-red-500">
-                            <div>Guest Name:</div>
-                            <div className="font-normal">{guestName}</div>
+                          <div>
+                            <AiOutlineFieldTime />
+                          </div>
+                          <div className="flex justify-center space-x-1">
+                            <div>Time:</div>
+                            <div className="font-normal">{time}</div>
+                          </div>
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <div>
+                            <FaUserAlt />
+                          </div>
+                          <div className="flex justify-center space-x-1">
+                            <div>Added By:</div>
+                            <div className="font-normal">Raman</div>
+                          </div>
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <div>
+                            <AiOutlineFieldTime />
+                          </div>
+                          <div className="flex justify-center space-x-1">
+                            <div>Last Update:</div>
+                            <div className="font-normal">
+                              {formatDateWithAMPM(lastUpdated)}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="p-4"></td>
                     <td className="p-4">
                       {" "}
                       <span
                         className={`text-white p-1 rounded-md  ${
-                          status == 0 ? "bg-green-500" : "bg-yellow-500"
+                          status == 1
+                            ? "bg-yellow-500"
+                            : status == 2
+                            ? "bg-green-500"
+                            : "bg-gray-900"
                         }`}
                       >
                         {getStatus(status)}
@@ -317,6 +454,13 @@ const BookingTable = ({ dataList }) => {
 
                     <td className="p-4">{operationPerson}</td>
                     <td className="p-4"></td>
+                    <td className="p-4">
+                      <BiPencil
+                        className="cursor-pointer"
+                        size={20}
+                        onClick={() => navigate(`/toursmaster/${tourQueryId}`)}
+                      />
+                    </td>
                   </tr>
                 );
               }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Typography } from "@material-tailwind/react";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { ImUpload3 } from "react-icons/im";
@@ -8,7 +8,9 @@ import { useNavigate } from "react-router-dom";
 import AddQutation from "../Models/AddQutation";
 import ConfirmationModel from "../Models/ConfirmationModel";
 import AddGuest from "../Models/AddGuest";
+import { useParams } from "react-router-dom";
 const Quatation = ({ queryDetail }) => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const TABLE_HEAD = [
     "",

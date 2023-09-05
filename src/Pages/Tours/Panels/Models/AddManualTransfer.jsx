@@ -11,8 +11,10 @@ import {
 } from "../../../../Reducers/mainQuerySlice";
 import { editTransferManual } from "../../../../Reducers/updateMainQuery";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 const AddManualTransfer = (props) => {
   const dispatch = useDispatch();
+  const { id } = useParams();
   const { handleSubmit, qutationId, onCloseModal, datesBetween } = props;
   const initialDate = useSelector((state) => state.allModelState.date);
   const initialTransferlManual = useSelector(
@@ -80,7 +82,7 @@ const AddManualTransfer = (props) => {
             console.log(",,,ka0ixja9jxj", initialTransUpdateManual[i][j]);
             tempsubmitObject.push({
               quoteTransferId: "",
-              quotationId: "",
+              quotationId: id,
               dayItenary: "",
               addedType: "1", // 1 - Manual,  2 - From LIst
               transferListId: "",
@@ -110,7 +112,7 @@ const AddManualTransfer = (props) => {
 
       const tempObject = {
         quoteTransferId: "",
-        quotationId: "",
+        quotationId: id,
         dayItenary: "",
         addedType: "1", // 1 - Manual,  2 - From LIst
         transferListId: "",

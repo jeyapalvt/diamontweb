@@ -9,7 +9,9 @@ export const fetchAllQueryList = createAsyncThunk(
       const response = await axios.post(BaseUrl + "listTourQuery", postData);
       const resData = response.data;
       let tempData = [];
-      console.log(`${JSON.stringify(resData, null, 2)}`);
+      console.log(
+        `  asaosaoisahshaiuhaixah ${JSON.stringify(resData, null, 2)}`
+      );
       return resData;
     } catch (error) {
       console.log(error);

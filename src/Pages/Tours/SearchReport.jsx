@@ -9,7 +9,10 @@ const SearchReport = () => {
       <div className="flex flex-col items-center p-2 mt-5 bg-white sm:flex-row sm:justify-end">
         <div className="flex flex-wrap space-x-2 text-black ">
           <div className="mt-6">
-            <Button name="Add Query" onClick={() => navigate("/toursmaster")} />
+            <Button
+              name="Add Query"
+              onClick={() => navigate("/toursmaster/null")}
+            />
           </div>
           <InputComp type="date" label="Start Date" id="sdate" />
           <InputComp type="date" label="End Date" id="edate" />

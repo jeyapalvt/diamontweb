@@ -1,6 +1,6 @@
 import Home from "./Home/Home";
 import SignIn from "./SignIn/SignIn";
-import DashBoard from "./DashBoard/DashBoard";
+
 import Activity from "./Activity/Activity";
 import CartItems from "./CartItems/CartItems";
 import CratInfoDetail from "./CartItems/CratInfoDetail";
@@ -29,10 +29,12 @@ import {
   BalanceSheet,
   WalletRecharge,
 } from "./MyBookings";
+import { ProcessInfo, DashBoard } from "./DashBoard";
 export {
   Home,
   SignIn,
   DashBoard,
+  ProcessInfo,
   Activity,
   CartItems,
   CratInfoDetail,

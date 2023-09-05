@@ -8,10 +8,15 @@ import {
 import { Button } from "../../../../Components";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchActivityList } from "../../../../Reducers/activitySlice";
-import { addSightSeeingManual } from "../../../../Reducers/mainQuerySlice";
-
+import {
+  addSightSeeingManual,
+  updateSightSeeingManual,
+} from "../../../../Reducers/mainQuerySlice";
+import { editSightSeeingManual } from "../../../../Reducers/updateMainQuery";
+import { useParams } from "react-router-dom";
 const AddSightSheeing = (props) => {
   const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
+  const { id } = useParams();
   const dispatch = useDispatch();
   const activityList = useSelector((state) => state.allactivity.data);
   const isLoading = useSelector((state) => state.allactivity.isLoading);
@@ -99,9 +104,9 @@ const AddSightSheeing = (props) => {
             console.log(",,,ka0ixja9jxj", initialSightUpdateManual[i][j]);
             tempsubmitObject.push({
               sightSeeingId: "",
-              quotationId: qutationId,
+              quotationId: id,
               dayItenary: "",
-              addedType: 1, // 1 - Manual, 2 - From list
+              addedType: 2, // 1 - Manual, 2 - From list
               activityId: "",
               sightSeeingName: values.sightSeeingName,
               currencyCode: values.currencyCode,
@@ -130,9 +135,9 @@ const AddSightSheeing = (props) => {
 
       const tempObject = {
         sightSeeingId: "",
-        quotationId: qutationId,
+        quotationId: id,
         dayItenary: "",
-        addedType: 1, // 1 - Manual, 2 - From list
+        addedType: 2, // 1 - Manual, 2 - From list
         activityId: "",
         sightSeeingName: values.sightSeeingName,
         currencyCode: values.currencyCode,

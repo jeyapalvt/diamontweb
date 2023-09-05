@@ -6,8 +6,25 @@ import {
   TextField,
 } from "../../../../Components/ReduxField";
 import { Button } from "../../../../Components";
+import {
+  addHotelManual,
+  updateManualHotelRecord,
+} from "../../../../Reducers/mainQuerySlice";
+import { editHotelManual } from "../../../../Reducers/updateMainQuery";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 const AddHotel = (props) => {
   const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
+  const { id } = useParams();
+  const hoteleditManual = useSelector(
+    (state) => state.updateMQuery.hoteleditManual
+  );
+
+  const initialHotelManual = useSelector(
+    (state) => state.mainQuery.hotelManual
+  );
+
+  const dispatch = useDispatch();
   const destinations = [
     { value: "dubai", label: "Dubai" },
     { value: "adbudahabi", label: "Abu Dhabi" },
@@ -63,6 +80,97 @@ const AddHotel = (props) => {
       checkOutDate: datesBetween[datesBetween.length - 2],
     });
   }, []);
+
+  const sumbitForm = (values) => {
+    const submitObjects = [];
+    const newsubmitObjects = [];
+    const tempsubmitObject = [];
+    const checkInDate = new Date(values.checkInDate);
+    const checkOutDate = new Date(values.checkOutDate);
+    const currentDate = new Date(checkInDate);
+    if (hoteleditManual) {
+      for (let i = 0; i < initialHotelManual.length; i++) {
+        if (hoteleditManual.id == i) {
+          for (let j = 0; j < initialHotelManual[i].length; j++) {
+            if (
+              values.checkInDate.toISOString().slice(0, 10) ==
+              initialHotelManual[i][j].checkInDate
+            ) {
+              if (hoteleditManual.editOrDelete == 1) {
+                tempsubmitObject.push({
+                  quotationId: id,
+                  hotelName: values.hotelName,
+                  destination: values.destination,
+                  supplierId: values.supplierId,
+                  addedWay: 1,
+                  checkInDate: new Date(values.checkInDate)
+                    .toISOString()
+                    .slice(0, 10),
+                  checkOutDate: values.checkOutDate,
+                  category: values.category,
+                  roomType: values.roomType,
+                  mealPlan: values.mealPlan,
+                  dblCost: values.dblCost,
+                  trplCost: values.trplCost,
+                  quadCost: values.quadCost,
+                  cwbCost: values.cwbCost,
+                  cnbCostBelow05: values.cnbCostBelow05,
+                  cnbCostAbove05: values.cnbCostAbove05,
+                  infCost: values.infCost,
+                  sglCost: values.sglCost,
+                  currencyCode: values.currencyCode,
+                });
+              }
+            } else {
+              tempsubmitObject.push(initialHotelManual[i][j]);
+            }
+          }
+
+          console.log("tempsubmitObject------>", tempsubmitObject);
+          newsubmitObjects.push(tempsubmitObject);
+        } else {
+          newsubmitObjects.push(initialHotelManual[i]);
+        }
+        // newsubmitObjects.push()
+      }
+
+      console.log(newsubmitObjects);
+      dispatch(updateManualHotelRecord(newsubmitObjects));
+      dispatch(editHotelManual(null));
+    } else {
+      while (currentDate <= checkOutDate) {
+        submitObjects.push({
+          quotationId: id,
+          hotelName: values.hotelName,
+          destination: values.destination,
+          supplierId: values.supplierId,
+          addedWay: 1,
+          checkInDate: currentDate.toISOString().slice(0, 10),
+          checkOutDate: values.checkOutDate,
+          category: values.category,
+          roomType: values.roomType,
+          mealPlan: values.mealPlan,
+          dblCost: values.dblCost,
+          trplCost: values.trplCost,
+          quadCost: values.quadCost,
+          cwbCost: values.cwbCost,
+          cnbCostBelow05: values.cnbCostBelow05,
+          cnbCostAbove05: values.cnbCostAbove05,
+          infCost: values.infCost,
+          sglCost: values.sglCost,
+          currencyCode: values.currencyCode,
+          // Format date as "YYYY-MM-DD"
+          // Add other properties as needed
+        });
+
+        currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+      }
+      dispatch(addHotelManual(submitObjects));
+      console.log(submitObjects);
+    }
+
+    onCloseModal();
+  };
   return (
     <div>
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
@@ -237,7 +345,11 @@ const AddHotel = (props) => {
               <button
                 className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                 type="button"
-                onClick={onCloseModal}
+                onClick={handleSubmit((values) =>
+                  sumbitForm({
+                    ...values,
+                  })
+                )}
               >
                 Save
               </button>

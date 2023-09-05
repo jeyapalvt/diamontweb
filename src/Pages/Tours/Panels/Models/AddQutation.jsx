@@ -7,6 +7,9 @@ import {
 } from "../../../../Components/ReduxField";
 import axios from "axios";
 import { BaseUrl } from "../../../../Reducers/Api";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addQutationState } from "../../../../Reducers/addQutationSlice";
 const AddQutation = (props) => {
   const {
     queryDetail,
@@ -16,6 +19,9 @@ const AddQutation = (props) => {
     reset,
     handleSubmit,
   } = props;
+
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const servicetype = [
     { value: "1", label: "Complete Package" },
     { value: "2", label: "Extra Service" },
@@ -33,17 +39,18 @@ const AddQutation = (props) => {
   const sumbitForm = async (values) => {
     const submitObj = {
       ...values,
-      queryQuotationId: queryDetail?.queryQuotationId,
+      queryQuotationId: id,
     };
-    await axios
-      .post(BaseUrl + "setTemplateQuotation", submitObj)
-      .then((res) => {
-        console.log(res.data);
-        onCloseModal();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(addQutationState(submitObj));
+    // await axios
+    //   .post(BaseUrl + "setTemplateQuotation", submitObj)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     onCloseModal();
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
   return (
     <div>

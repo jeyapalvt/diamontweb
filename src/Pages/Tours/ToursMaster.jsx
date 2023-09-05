@@ -8,8 +8,7 @@ import {
   CheckBox,
   FNoteEditor,
 } from "../../Components/ReduxField";
-
-import { reduxForm, Field, FieldArray, change } from "redux-form";
+import { reduxForm, Field, FieldArray, change, initialize } from "redux-form";
 import NewAgentOrClient from "./NewAgentOrClient";
 import AgeFieldArr from "./FieldArray/AgeFieldArr";
 import DestinationFieldArr from "./FieldArray/DestinationFieldArr";
@@ -23,8 +22,14 @@ import {
   addDestination,
   updatedestination,
 } from "../../Reducers/destinationSlice";
+import { useParams } from "react-router-dom";
 const ToursMaster = (props) => {
+  // setTourQuery
+  // getTourQueryDetails
+  // editTourQuery
+  // listTourQuery
   let navigate = useNavigate();
+  const { id } = useParams();
   const { handleSubmit, pristine, submitting, reset } = props;
   const dispatch = useDispatch();
   const allAgents = useSelector((state) => state.allAgents.data);
@@ -39,17 +44,19 @@ const ToursMaster = (props) => {
   });
   useEffect(() => {
     fetchList();
-  }, [dispatch]);
+    if (id !== "null") {
+      console.log(id);
+      getQueryDetails();
+    }
+  }, []);
 
   const fetchList = async () => {
-    dispatch(
+    await dispatch(
       fetchAllAgency({
         agenctId: 1,
         secretKey: "uZFEucIHAbqvgT7p87qC4Ms4tjqG34su",
       })
     );
-
-    console.log(`${JSON.stringify(allAgents, null, 2)}`);
 
     let tempVal = [];
     for (let i = 0; i < allAgents.length; i++) {
@@ -62,13 +69,105 @@ const ToursMaster = (props) => {
     setagentList(tempVal);
   };
 
+  const getQueryDetails = async () => {
+    await axios
+      .post(BaseUrl + "getTourQueryDetails", { tourQueryId: id })
+      .then((res) => {
+        console.log(`${JSON.stringify(res.data, null, 2)}`);
+        if (res.data) {
+          initializeData(res.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const initializeData = (tempData) => {
+    props.initialize({
+      ageList: getChildAge(tempData.childAgeList),
+      ageListInfant: getInfantAge(tempData.childAgeList),
+      tourQueryId: tempData.tourQueryId,
+      status: tempData.status,
+      customerType: tempData.customerType,
+      agencyId: tempData.agencyId.toString(),
+      queryDate: tempData.queryDate,
+      lastUpdated: tempData.lastUpdated,
+      addedBy: tempData.addedBy,
+      addedById: tempData.addedById,
+      contactPersonName: tempData.contactPersonName,
+      contactPersonEmail: tempData.contactPersonEmail,
+      landlineNumber: tempData.landlineNumber,
+      mobileNumber: tempData.mobileNumber,
+      guestName: tempData.guestName,
+      serviceType: tempData.serviceType,
+      queryTitle: tempData.queryTitle,
+      addCCMails: tempData.addCCMails,
+      sendAckMail: tempData.sendAckMail,
+      nofAdult: tempData.nofAdult,
+      nofChild: tempData.nofChild,
+      nofInfant: tempData.nofInfant,
+      leadSource: tempData.leadSource,
+      operationPerson: tempData.operationPerson,
+      salesPerson: tempData.salesPerson,
+      companyName: tempData.companyName,
+      departureDestination: tempData.departureDestination,
+      arrivalDestination: tempData.arrivalDestination,
+      otherInformation: tempData.otherInformation,
+    });
+
+    // dispatch(
+    //   initialize("ToursMaster", {
+    //     ageList: getChildAge(tempData.childAgeList),
+    //     ageListInfant: getInfantAge(tempData.childAgeList),
+    //   })
+    // );
+    //ageList  ageListInfant
+
+    const length = tempData.destList.length;
+    for (let i = 0; i < length; i++) {
+      dispatch(addDestination(tempData.destList[i]));
+    }
+  };
+
+  const getChildAge = (tempList) => {
+    if (tempList) {
+      const age = [];
+      for (let i = 0; i < tempList.length; i++) {
+        if (tempList[i].childOrInfant === 1) {
+          age.push({
+            age: tempList[i].age,
+          });
+        }
+      }
+
+      setnoOfChild(age.length);
+      return age;
+    }
+  };
+  const getInfantAge = (tempList) => {
+    if (tempList) {
+      const age = [];
+      for (let i = 0; i < tempList.length; i++) {
+        if (tempList[i].childOrInfant === 2) {
+          age.push({
+            age: tempList[i].age,
+          });
+        }
+      }
+
+      setnoOfInfant(age.length);
+      return age;
+    }
+  };
+
   const agentOrb2c = [
-    { value: "1", label: "Agent" },
-    { value: "2", label: "B2C" },
+    { value: 1, label: "Agent" },
+    { value: 2, label: "B2C" },
   ];
   const agents = [
-    { value: "1", label: "Shyam" },
-    { value: "2", label: "Aashik" },
+    { value: 1, label: "Shyam" },
+    { value: 2, label: "Aashik" },
   ];
   const operationPersion = [
     { value: "Vinod", label: "Vinod" },
@@ -80,19 +179,19 @@ const ToursMaster = (props) => {
     { value: "Raman", label: "Raman" },
   ];
   const servicetype = [
-    { value: "1", label: "Complete Package" },
-    { value: "2", label: "Extra Service" },
-    { value: "3", label: "Flight Only" },
-    { value: "4", label: "Hotel Service" },
-    { value: "5", label: "Land Part" },
-    { value: "6", label: "Transfer only" },
+    { value: 1, label: "Complete Package" },
+    { value: 2, label: "Extra Service" },
+    { value: 3, label: "Flight Only" },
+    { value: 4, label: "Hotel Service" },
+    { value: 5, label: "Land Part" },
+    { value: 6, label: "Transfer only" },
   ];
 
   const loadSource = [
-    { value: "1", label: "FaceBook" },
-    { value: "2", label: "Reference" },
-    { value: "3", label: "Meating" },
-    { value: "4", label: "Others" },
+    { value: 1, label: "FaceBook" },
+    { value: 2, label: "Reference" },
+    { value: 3, label: "Meating" },
+    { value: 4, label: "Others" },
   ];
 
   const companyName = [
@@ -160,6 +259,9 @@ const ToursMaster = (props) => {
         toDate: values.toDate,
       };
       dispatch(addDestination(tempObject));
+      props.change("destination", null);
+      props.change("fromDate", null);
+      props.change("toDate", null);
     }
   };
 
@@ -199,6 +301,7 @@ const ToursMaster = (props) => {
   };
 
   const sumbitForm = (values) => {
+    console.log(`${JSON.stringify(values, null, 2)}`);
     // const ageListChild = values.ageList?.map((ageData) => ({
     //   age: ageData.age,
     //   childOrInfant: 1, // Assuming ageList represents child ages
@@ -237,7 +340,11 @@ const ToursMaster = (props) => {
       ...values,
       childAgeList: combinedAgeList,
       destList: destinationQuery,
+      status: 1,
+      addedBy: 2, // 1 - Back Office, 2 - Agent
+      addedById: 1,
     };
+    delete updatedValues.ageList;
     delete updatedValues.ageListInfant;
     delete updatedValues.fromDate;
     delete updatedValues.toDate;
@@ -246,18 +353,19 @@ const ToursMaster = (props) => {
     console.log(`${JSON.stringify(updatedValues, null, 2)}`);
 
     //setTourQuery
-    axios
-      .post(BaseUrl + "setTourQuery", updatedValues)
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.errCode == "200") {
-          Swal.fire("Thank You", "Your query has been submited", "success");
-          navigate("/tourslist");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios
+    //   .post(BaseUrl + "setTourQuery", updatedValues)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     if (res.data.errCode == "200") {
+    //       dispatch(addDestination());
+    //       Swal.fire("Thank You", "Your query has been submited", "success");
+    //       navigate("/tourslist");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
   return (
     <div className="p-5 mt-2 bg-white">
@@ -455,7 +563,13 @@ const ToursMaster = (props) => {
                   name="fromDate"
                   label="Start Date"
                   starIcon="*"
-                  minDate={new Date()}
+                  minDate={
+                    destinationQuery?.length > 0
+                      ? new Date(
+                          destinationQuery[destinationQuery?.length - 1].toDate
+                        )
+                      : new Date()
+                  }
                   component={DateField}
                   onChange={(selectedDate) =>
                     handleFromDateChange(selectedDate)
@@ -624,4 +738,8 @@ const ToursMaster = (props) => {
 
 export default reduxForm({
   form: "ToursMaster",
+  initialValues: {
+    ageList: [], // Initialize as an empty array
+    ageListInfant: [], // Initialize as an empty array
+  },
 })(ToursMaster);

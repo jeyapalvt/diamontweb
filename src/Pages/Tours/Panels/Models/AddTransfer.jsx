@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { reduxForm, Field } from "redux-form";
 import {
   TextField,
@@ -6,8 +6,25 @@ import {
   DateField,
 } from "../../../../Components/ReduxField";
 import { Button } from "../../../../Components";
+import { useDispatch, useSelector } from "react-redux";
+import { editTransferManual } from "../../../../Reducers/updateMainQuery";
+import {
+  addtransferManual,
+  updatetransferManual,
+} from "../../../../Reducers/mainQuerySlice";
+import { useParams } from "react-router-dom";
 const AddTransfer = (props) => {
-  const { qutationId, onCloseModal } = props;
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const { handleSubmit, qutationId, onCloseModal, datesBetween } = props;
+  const initialDate = useSelector((state) => state.allModelState.date);
+  const initialTransferlManual = useSelector(
+    (state) => state.updateMQuery.transferManual
+  );
+
+  const initialTransUpdateManual = useSelector(
+    (state) => state.mainQuery.transferManul
+  );
   const destinations = [
     { value: "dubai", label: "Dubai" },
     { value: "adbudahabi", label: "Abu Dhabi" },
@@ -19,6 +36,73 @@ const AddTransfer = (props) => {
 
     { value: "tktonly", label: "Ticket Only" },
   ];
+
+  useEffect(() => {
+    props.initialize({
+      checkInDate: new Date(initialDate),
+    });
+  }, []);
+  const sumbitForm = (values) => {
+    const submitObjects = [];
+    const newsubmitObjects = [];
+    const tempsubmitObject = [];
+    if (initialTransferlManual) {
+      for (let i = 0; i < initialTransUpdateManual.length; i++) {
+        if (initialTransferlManual.id == i) {
+          for (let j = 0; j < initialTransUpdateManual[i].length; j++) {
+            tempsubmitObject.push({
+              quoteTransferId: "",
+              quotationId: id,
+              dayItenary: "",
+              addedType: 2, // 1 - Manual,  2 - From LIst
+              transferListId: "",
+              transferName: values.transferName,
+              currencyCode: values.currencyCode,
+              destination: values.destination,
+              supplierId: values.supplierId,
+              supplierName: "",
+              checkInDate: values.checkInDate,
+              type: values.type,
+              adultCost: values.adultCost,
+              childCost: values.childCost,
+              infantCost: values.infantCost,
+            });
+          }
+          newsubmitObjects.push(tempsubmitObject);
+        } else {
+          newsubmitObjects.push(initialTransUpdateManual[i]);
+        }
+      }
+
+      console.log("final obect", newsubmitObjects);
+      dispatch(editTransferManual(null));
+      dispatch(updatetransferManual(newsubmitObjects));
+    } else {
+      // submitObjects.push(values);
+
+      const tempObject = {
+        quoteTransferId: "",
+        quotationId: id,
+        dayItenary: "",
+        addedType: 2, // 1 - Manual,  2 - From LIst
+        transferListId: "",
+        transferName: values.transferName,
+        currencyCode: values.currencyCode,
+        destination: values.destination,
+        supplierId: values.supplierId,
+        supplierName: "",
+        checkInDate: values.checkInDate,
+        type: values.type,
+        adultCost: values.adultCost,
+        childCost: values.childCost,
+        infantCost: values.infantCost,
+      };
+      submitObjects.push(tempObject);
+      dispatch(addtransferManual(submitObjects));
+    }
+
+    onCloseModal();
+  };
   return (
     <div>
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
@@ -52,7 +136,11 @@ const AddTransfer = (props) => {
                     />
                   </div>
                   <div>
-                    <Field name="date" label="Date" component={DateField} />
+                    <Field
+                      name="checkInDate"
+                      label="Date"
+                      component={DateField}
+                    />
                   </div>{" "}
                   <div>
                     <Field
@@ -107,7 +195,11 @@ const AddTransfer = (props) => {
               <button
                 className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                 type="button"
-                onClick={onCloseModal}
+                onClick={handleSubmit((values) =>
+                  sumbitForm({
+                    ...values,
+                  })
+                )}
               >
                 Save
               </button>

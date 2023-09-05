@@ -75,6 +75,22 @@ const QueryInfo = (props) => {
   };
 
   const childAgeList = queryDetail?.childAgeList || [];
+
+  const getTotalNights = (fromDateStr, toDateStr) => {
+    // Date strings
+
+    // Parse date strings and create Date objects
+    const fromDate = new Date(fromDateStr);
+    const toDate = new Date(toDateStr);
+
+    // Calculate the time difference in milliseconds
+    const timeDifference = toDate - fromDate;
+
+    // Calculate the number of nights by dividing the time difference by the number of milliseconds in a day
+    const numberOfNights = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    return numberOfNights;
+  };
   return (
     <div className="p-3">
       <div className="flex flex-col mb-5">
@@ -172,6 +188,24 @@ const QueryInfo = (props) => {
             </tbody>
           </table>
         </Card>
+      </div>
+      <div className="flex flex-col py-2 ">
+        {queryDetail.destList?.length > 0 &&
+          queryDetail.destList.map((item, index) => (
+            <div
+              className="flex px-2 py-1 text-sm bg-gray-300 rounded-md"
+              key={index}
+            >
+              <div className="font-bold">{`${item.destination}->`}</div>
+              <div>{`${item.fromDate}`} </div>
+              <div>&nbsp;To&nbsp; </div>
+              <div>{item.toDate}</div>
+              <div>{`${getTotalNights(
+                item.fromDate,
+                item.toDate
+              )} -> Nights`}</div>
+            </div>
+          ))}
       </div>
       <div className="flex flex-col p-5 text-gray-500">
         <div className="flex items-center mb-5">

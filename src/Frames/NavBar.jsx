@@ -110,6 +110,13 @@ const NavBar = () => {
 
               <ul className="absolute hidden  border border-[#da251d]  mt-2 duration-100 rounded-md w-52 group-hover:block bg-[#ffffff] -ml-2">
                 <li>
+                  <Link to="/tourslist">
+                    <div className="p-1 hover:bg-[#da251d] hover:text-white">
+                      Query
+                    </div>
+                  </Link>
+                </li>
+                <li>
                   <Link to="/customepack-quotation">
                     <div className="p-1 hover:bg-[#da251d] hover:text-white">
                       Quotation
@@ -163,6 +170,14 @@ const NavBar = () => {
               }`}
             >
               <Link to="/bookings">My Bookings</Link>
+            </li>
+
+            <li
+              className={`text-black p-2 cursor-pointer rounded-lg hover:bg-[#da251d] hover:text-white ${
+                pathName === "dashboard" ? "bg-[#da251d] text-white" : ""
+              }`}
+            >
+              <Link to="/dashboard">DashBoard</Link>
             </li>
 
             <li className=" p-2 text-black border border-[#da251d] rounded-lg cursor-pointer group border-spacing-3">

@@ -6,8 +6,13 @@ import { HiPencil } from "react-icons/hi";
 
 import {
   addHotelManualModel,
+  addHotelModel,
   addmanualSightSheeingModel,
+  addsightSheeingModel,
   addmanualTransferModel,
+  addtransferModel,
+  addmealModel,
+  addflightModel,
 } from "../../../../../Reducers/modelStateReducers";
 import {
   editHotelManual,
@@ -36,7 +41,7 @@ const QueryForAllDates = ({ dateRange }) => {
   useEffect(() => {
     // Fetch or update initialHotelManual here
   }, [initialHotelManual]);
-  const updateManualHotelRec = (date, key, editOrDelete) => {
+  const updateManualHotelRec = (date, key, editOrDelete, addedWay) => {
     if (editOrDelete == 1) {
       const singleRec = initialHotelManual[key]?.find(
         (item) => new Date(item.checkInDate).toDateString() == date
@@ -49,7 +54,22 @@ const QueryForAllDates = ({ dateRange }) => {
         };
 
         dispatch(editHotelManual(withIdObject));
-        dispatch(addHotelManualModel({ addHotelManualState: true, date: "" }));
+
+        if (addedWay === "1") {
+          dispatch(
+            addHotelManualModel({
+              addHotelManualState: true,
+              date: "",
+            })
+          );
+        } else {
+          dispatch(
+            addHotelModel({
+              addHotelstate: true,
+              date: "",
+            })
+          );
+        }
       }
     } else {
       const newsubmitObjects = [];
@@ -85,6 +105,7 @@ const QueryForAllDates = ({ dateRange }) => {
           (item) => new Date(item.checkInDate).toDateString() == date
         );
 
+        console.log("singleRec", singleRec);
         if (singleRec) {
           records.push(
             <div className="px-5" key={key}>
@@ -170,7 +191,9 @@ const QueryForAllDates = ({ dateRange }) => {
                 <div className="flex p-1 space-x-2">
                   <div
                     className="cursor-pointer"
-                    onClick={() => updateManualHotelRec(date, key, 1)}
+                    onClick={() =>
+                      updateManualHotelRec(date, key, 1, singleRec?.addedWay)
+                    }
                   >
                     <HiPencil size={18} color="blue" />
                   </div>
@@ -192,7 +215,7 @@ const QueryForAllDates = ({ dateRange }) => {
     }
   };
 
-  const updateManulSightSheeingRec = (date, key, editOrDelete) => {
+  const updateManulSightSheeingRec = (date, key, editOrDelete, addedType) => {
     if (editOrDelete == 1) {
       const singleRec = initialSightSheeingManul[key]?.find(
         (item) => new Date(item.visitDate).toDateString() == date
@@ -204,13 +227,25 @@ const QueryForAllDates = ({ dateRange }) => {
           editOrDelete: editOrDelete,
         };
 
+        console.log("singleRec", singleRec);
+
         dispatch(editSightSeeingManual(withIdObject));
-        dispatch(
-          addmanualSightSheeingModel({
-            addmanualSightSheeingState: true,
-            date: "",
-          })
-        );
+
+        if (addedType === "1") {
+          dispatch(
+            addmanualSightSheeingModel({
+              addmanualSightSheeingState: true,
+              date: "",
+            })
+          );
+        } else {
+          dispatch(
+            addsightSheeingModel({
+              addsightSheeingState: true,
+              date: "",
+            })
+          );
+        }
       }
     } else {
       //delete here
@@ -291,7 +326,14 @@ const QueryForAllDates = ({ dateRange }) => {
                 <div className="flex p-1 space-x-2">
                   <div
                     className="cursor-pointer"
-                    onClick={() => updateManulSightSheeingRec(date, key, 1)}
+                    onClick={() =>
+                      updateManulSightSheeingRec(
+                        date,
+                        key,
+                        1,
+                        singleRec?.addedType
+                      )
+                    }
                   >
                     <HiPencil size={18} color="blue" />
                   </div>
@@ -313,7 +355,7 @@ const QueryForAllDates = ({ dateRange }) => {
 
     return records;
   };
-  const updateManulTransfer = (date, key, editOrDelete) => {
+  const updateManulTransfer = (date, key, editOrDelete, addedType) => {
     if (editOrDelete == 1) {
       const singleRec = initialTransferManul[key]?.find(
         (item) => new Date(item.checkInDate).toDateString() == date
@@ -326,12 +368,16 @@ const QueryForAllDates = ({ dateRange }) => {
         };
 
         dispatch(editTransferManual(withIdObject));
-        dispatch(
-          addmanualTransferModel({
-            addmanualTransferState: true,
-            date: "",
-          })
-        );
+        if (addedType === "1") {
+          dispatch(
+            addmanualTransferModel({
+              addmanualTransferState: true,
+              date: "",
+            })
+          );
+        } else {
+          dispatch(addtransferModel({ addtransferState: true, date: "" }));
+        }
       }
     } else {
       //delete here
@@ -417,7 +463,9 @@ const QueryForAllDates = ({ dateRange }) => {
                 <div className="flex p-1 space-x-2">
                   <div
                     className="cursor-pointer"
-                    onClick={() => updateManulTransfer(date, key, 1)}
+                    onClick={() =>
+                      updateManulTransfer(date, key, 1, singleRec?.addedType)
+                    }
                   >
                     <HiPencil size={18} color="blue" />
                   </div>

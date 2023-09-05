@@ -20,6 +20,7 @@ import {
 } from "../../../../../Reducers/modelStateReducers";
 const AddAllPackage = (props) => {
   const { date, index, dateRange, setHotelManual } = props;
+
   //const [hotelManual, sethotelManual] = useState(false);
   const [hotel, sethotel] = useState(false);
   //const [manualSightSheeing, setmanualSightSheeing] = useState(false);
@@ -30,7 +31,7 @@ const AddAllPackage = (props) => {
   // const [flight, setflight] = useState(false);
 
   const dispatch = useDispatch();
-
+  const manualOrlist = useSelector((state) => state.allModelState.manualOrlist);
   const hotelManual = useSelector(
     (state) => state.allModelState.addHotelManualState
   );
@@ -58,7 +59,9 @@ const AddAllPackage = (props) => {
     );
   };
   const handleHotel = () => {
-    dispatch(addHotelModel({ addHotelstate: false, date: "" }));
+    dispatch(
+      addHotelModel({ addHotelstate: false, date: "", manualOrlist: "" })
+    );
     // sethotel(false);
   };
   const handlemanualSightSheeing = () => {
@@ -71,7 +74,12 @@ const AddAllPackage = (props) => {
     );
   };
   const handleAddSightSheeing = () => {
-    dispatch(addsightSheeingModel({ addsightSheeingState: false, date: "" }));
+    dispatch(
+      addsightSheeingModel({
+        addsightSheeingState: false,
+        date: "",
+      })
+    );
   };
   const handleAddManualTransfer = () => {
     dispatch(
@@ -159,7 +167,12 @@ const AddAllPackage = (props) => {
           <div
             className="flex items-center p-1 space-x-1 text-sm text-gray-800 bg-white rounded-sm shadow-lg cursor-pointer"
             onClick={() =>
-              dispatch(addHotelModel({ addHotelstate: true, date: date }))
+              dispatch(
+                addHotelModel({
+                  addHotelstate: true,
+                  date: date,
+                })
+              )
             }
           >
             <div>
@@ -187,7 +200,10 @@ const AddAllPackage = (props) => {
             className="flex items-center p-1 space-x-1 text-sm text-gray-800 bg-white rounded-sm shadow-lg cursor-pointer"
             onClick={() =>
               dispatch(
-                addsightSheeingModel({ addsightSheeingState: true, date: date })
+                addsightSheeingModel({
+                  addsightSheeingState: true,
+                  date: date,
+                })
               )
             }
           >

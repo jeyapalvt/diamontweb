@@ -11,9 +11,10 @@ import {
   updateManualHotelRecord,
 } from "../../../../Reducers/mainQuerySlice";
 import { editHotelManual } from "../../../../Reducers/updateMainQuery";
-
+import { useParams } from "react-router-dom";
 const AddManualHotel = (props) => {
   const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
+  const { id } = useParams();
   const hoteleditManual = useSelector(
     (state) => state.updateMQuery.hoteleditManual
   );
@@ -79,9 +80,11 @@ const AddManualHotel = (props) => {
     console.log("dateRange", dateRange);
     if (hoteleditManual) {
       props.initialize({
+        quotationId: hoteleditManual.quotationId,
         hotelName: hoteleditManual.hotelName,
         destination: hoteleditManual.destination,
         supplierId: hoteleditManual.supplierId,
+        addedWay: hoteleditManual.addedWay,
         checkInDate: new Date(hoteleditManual?.checkInDate),
         checkOutDate: new Date(hoteleditManual?.checkInDate),
         category: hoteleditManual.category,
@@ -122,9 +125,11 @@ const AddManualHotel = (props) => {
             ) {
               if (hoteleditManual.editOrDelete == 1) {
                 tempsubmitObject.push({
+                  quotationId: id,
                   hotelName: values.hotelName,
                   destination: values.destination,
                   supplierId: values.supplierId,
+                  addedWay: 1,
                   checkInDate: new Date(values.checkInDate)
                     .toISOString()
                     .slice(0, 10),
@@ -162,9 +167,11 @@ const AddManualHotel = (props) => {
     } else {
       while (currentDate <= checkOutDate) {
         submitObjects.push({
+          quotationId: id,
           hotelName: values.hotelName,
           destination: values.destination,
           supplierId: values.supplierId,
+          addedWay: 1,
           checkInDate: currentDate.toISOString().slice(0, 10),
           checkOutDate: values.checkOutDate,
           category: values.category,
@@ -188,25 +195,6 @@ const AddManualHotel = (props) => {
       dispatch(addHotelManual(submitObjects));
       console.log(submitObjects);
     }
-
-    // const submitObject = {
-    //   hotelName: values.hotelName,
-    //   destination: values.destination,
-    //   supplierId: values.supplierId,
-    //   checkInDate: values.checkInDate,
-    //   checkOutDate: values.checkOutDate,
-    //   category: values.category,
-    //   roomType: values.roomType,
-    //   mealPlan: values.mealPlan,
-    //   dblCost: values.dblCost,
-    //   trplCost: values.trplCost,
-    //   quadCost: values.quadCost,
-    //   cwbCost: values.cwbCost,
-    //   cnbCostBelow05: values.value.cnbCostBelow05,
-    //   cnbCostAbove05: values.cnbCostAbove05,
-    //   infCost: values.infCost,
-    //   currencyCode: values.currencyCode,
-    // };
 
     onCloseModal();
   };

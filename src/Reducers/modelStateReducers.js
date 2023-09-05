@@ -10,6 +10,7 @@ const initialState = {
   addmealState: false,
   addflightState: false,
   date: "",
+  manualOrlist: "",
 };
 
 const modelStateReducers = createSlice({
@@ -23,6 +24,7 @@ const modelStateReducers = createSlice({
         state.date = nextDay.toISOString().slice(0, 10);
       }
       state.addHotelManualState = action.payload.addHotelManualState;
+      state.manualOrlist = action.payload.manualOrlist;
     },
     addHotelModel: (state, action) => {
       if (action.payload.date !== "") {
@@ -31,6 +33,7 @@ const modelStateReducers = createSlice({
         state.date = nextDay.toISOString().slice(0, 10);
       }
       state.addHotelstate = action.payload.addHotelstate;
+      state.manualOrlist = action.payload.manualOrlist;
     },
 
     addmanualSightSheeingModel: (state, action) => {
@@ -42,6 +45,7 @@ const modelStateReducers = createSlice({
 
       state.addmanualSightSheeingState =
         action.payload.addmanualSightSheeingState;
+      state.manualOrlist = action.payload.manualOrlist;
     },
     addsightSheeingModel: (state, action) => {
       if (action.payload.date !== "") {
@@ -50,6 +54,7 @@ const modelStateReducers = createSlice({
         state.date = nextDay.toISOString().slice(0, 10);
       }
       state.addsightSheeingState = action.payload.addsightSheeingState;
+      state.manualOrlist = action.payload.manualOrlist;
     },
     addmanualTransferModel: (state, action) => {
       if (action.payload.date !== "") {
@@ -58,6 +63,7 @@ const modelStateReducers = createSlice({
         state.date = nextDay.toISOString().slice(0, 10);
       }
       state.addmanualTransferState = action.payload.addmanualTransferState;
+      state.manualOrlist = action.payload.manualOrlist;
     },
     addtransferModel: (state, action) => {
       if (action.payload.date !== "") {
@@ -66,6 +72,7 @@ const modelStateReducers = createSlice({
         state.date = nextDay.toISOString().slice(0, 10);
       }
       state.addtransferState = action.payload.addtransferState;
+      state.manualOrlist = action.payload.manualOrlist;
     },
     addmealModel: (state, action) => {
       if (action.payload.date !== "") {
@@ -74,6 +81,7 @@ const modelStateReducers = createSlice({
         state.date = nextDay.toISOString().slice(0, 10);
       }
       state.addmealState = action.payload.addmealState;
+      state.manualOrlist = action.payload.manualOrlist;
     },
     addflightModel: (state, action) => {
       if (action.payload.date !== "") {
@@ -82,6 +90,7 @@ const modelStateReducers = createSlice({
         state.date = nextDay.toISOString().slice(0, 10);
       }
       state.addflightState = action.payload.addflightState;
+      state.manualOrlist = action.payload.manualOrlist;
     },
   },
 });

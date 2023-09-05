@@ -63,7 +63,7 @@ const OtherDetails = () => {
 
   const submitFinalObject = () => {
     const submitObject = {
-      queryQuotationId: "",
+      queryQuotationId: id,
       quoteTitle: "",
       nofAdult: "",
       nofChild: "",
@@ -82,7 +82,21 @@ const OtherDetails = () => {
       queryTransferList: queryTransferList,
     };
 
+    //     setQueryQuotation
+    // getQueryQuotationDetails
+    // editQueryQuotation
+    // listQueryQuotation
+
     console.log(`${JSON.stringify(submitObject, null, 2)}`);
+
+    axios
+      .post(BaseUrl + "editQueryQuotation", submitObject)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <>

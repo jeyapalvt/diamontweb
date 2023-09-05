@@ -27,6 +27,7 @@ import {
   Meals,
   TicketPdf,
   CPackQuotationList,
+  ProcessInfo,
 } from "./Pages";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { userData } from "./Store/userData";
@@ -105,10 +106,6 @@ function App() {
             element={<RoleRoute component={SignIn} roles={roles.admin} />}
           />
           <Route
-            path="/dashboard"
-            element={<RoleRoute component={DashBoard} roles={roles.admin} />}
-          />
-          <Route
             path="/activitylist"
             element={<RoleRoute component={Activity} roles={roles.admin} />}
           />
@@ -123,7 +120,7 @@ function App() {
             element={<RoleRoute component={SearchReport} roles={roles.admin} />}
           />
           <Route
-            path="/toursmaster"
+            path="/toursmaster/:id"
             element={<RoleRoute component={ToursMaster} roles={roles.admin} />}
           />
           <Route
@@ -150,6 +147,17 @@ function App() {
             path="/visalist"
             element={<RoleRoute component={Visa} roles={roles.admin} />}
           />
+          <Route
+            path="/dashboard"
+            element={<RoleRoute component={DashBoard} roles={roles.admin} />}
+          >
+            <Route
+              path="/dashboard"
+              element={
+                <RoleRoute component={ProcessInfo} roles={roles.admin} />
+              }
+            />
+          </Route>
           <Route
             path="/bookings"
             element={<RoleRoute component={MyBookings} roles={roles.admin} />}
