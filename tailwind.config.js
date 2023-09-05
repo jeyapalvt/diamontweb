@@ -8,7 +8,7 @@ export default {
   theme: {
     fontSize: {
       esm: "0.500rem",
-
+      msm: "0.630rem",
       sm: "0.750rem", // Existing sizes
       md: "0.900rem",
       xls: "1.3rem",

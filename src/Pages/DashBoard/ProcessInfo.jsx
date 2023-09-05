@@ -7,6 +7,7 @@ import QueryWiseStatus from "./Charts/QueryWiseStatus";
 import QuerySource from "./Charts/QuerySource";
 import TopAgens from "./Charts/TopAgens";
 import TopSuppliers from "./Charts/TopSuppliers";
+import TourMasterSheet from "./TourMasterSheet";
 
 const ProcessInfo = () => {
   return (
@@ -37,6 +38,8 @@ const ProcessInfo = () => {
           <TopSuppliers />
         </div>
       </div>
+
+      <TourMasterSheet />
     </div>
   );
 };
