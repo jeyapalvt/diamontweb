@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { reduxForm, Field } from "redux-form";
 import {
   TextField,
@@ -8,8 +8,9 @@ import {
 import axios from "axios";
 import { BaseUrl } from "../../../../Reducers/Api";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addQutationState } from "../../../../Reducers/addQutationSlice";
+import { addDestination } from "../../../../Reducers/destinationSlice";
 const AddQutation = (props) => {
   const {
     queryDetail,
@@ -22,6 +23,9 @@ const AddQutation = (props) => {
 
   const dispatch = useDispatch();
   const { id } = useParams();
+  const destinationQuery = useSelector(
+    (state) => state.destinationQuery.destinationList
+  );
   const servicetype = [
     { value: "1", label: "Complete Package" },
     { value: "2", label: "Extra Service" },
@@ -51,13 +55,60 @@ const AddQutation = (props) => {
 
     return numberOfNights;
   };
+  const [formData, setFormData] = useState({
+    fromDate: "",
+    toDate: "",
+  });
+  const [selectedRadio, setSelectedRadio] = useState("1");
+  const [minToDate, setMinToDate] = useState(new Date());
+  const handleFromDateChange = (selectedDate) => {
+    // Update the formData
+    setFormData((prevData) => ({
+      ...prevData,
+      fromDate: selectedDate,
+    }));
+    // Update the minToDate
+    setMinToDate(selectedDate);
+  };
 
+  const handleToDateChange = (selectedDate) => {
+    // Update the formData
+    setFormData((prevData) => ({
+      ...prevData,
+      toDate: selectedDate,
+    }));
+  };
+
+  const calculateNights = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const timeDifference = end - start;
+    const nights = Math.floor(timeDifference / (1000 * 3600 * 24));
+    return nights;
+  };
+
+  const handledestinationAdd = (values) => {
+    console.log(values);
+
+    if (values.destination && values.fromDate && values.toDate) {
+      const tempObject = {
+        destination: values.destination,
+        fromDate: values.fromDate,
+        toDate: values.toDate,
+      };
+      dispatch(addDestination(tempObject));
+      props.change("destination", null);
+      props.change("fromDate", null);
+      props.change("toDate", null);
+    }
+  };
   const sumbitForm = async (values) => {
     const submitObj = {
       ...values,
       queryQuotationId: id,
     };
-    dispatch(addQutationState(submitObj));
+    onCloseModal();
+    //dispatch(addQutationState(submitObj));
     // await axios
     //   .post(BaseUrl + "setTemplateQuotation", submitObj)
     //   .then((res) => {
@@ -127,25 +178,184 @@ const AddQutation = (props) => {
                     component={DestinationListArr}
                   />
                 </div> */}
+              <div className="flex items-center">
+                <div className="w-1/12">
+                  <Field
+                    type="radio"
+                    component="input"
+                    name="radioGroup"
+                    value="1"
+                    onChange={() => setSelectedRadio("1")}
+                    checked={selectedRadio === "1"}
+                  />{" "}
+                </div>
 
-              <div className="flex flex-col py-2 ">
-                {queryDetail.destList?.length > 0 &&
-                  queryDetail.destList.map((item, index) => (
-                    <div
-                      className="flex px-2 py-1 text-sm bg-gray-300 rounded-md"
-                      key={index}
-                    >
-                      <div className="font-bold">{`${item.destination}->`}</div>
-                      <div>{`${item.fromDate}`} </div>
-                      <div>&nbsp;To&nbsp; </div>
-                      <div>{item.toDate}</div>
-                      <div>{`${getTotalNights(
-                        item.fromDate,
-                        item.toDate
-                      )} -> Nights`}</div>
-                    </div>
-                  ))}
+                <div className="flex flex-col w-11/12 py-2">
+                  {queryDetail.destList?.length > 0 &&
+                    queryDetail.destList.map((item, index) => (
+                      <div
+                        className="flex px-2 py-1 text-sm bg-gray-300 rounded-md"
+                        key={index}
+                      >
+                        <div className="font-bold">{`${item.destination}->`}</div>
+                        <div>{`${item.fromDate}`} </div>
+                        <div>&nbsp;To&nbsp; </div>
+                        <div>{item.toDate}</div>
+                        <div>{`${getTotalNights(
+                          item.fromDate,
+                          item.toDate
+                        )} -> Nights`}</div>
+                      </div>
+                    ))}
+                </div>
               </div>
+
+              <div className="flex items-center">
+                <div className="w-1/12">
+                  <Field
+                    type="radio"
+                    component="input"
+                    name="radioGroup"
+                    value="2"
+                    onChange={() => setSelectedRadio("2")}
+                    checked={selectedRadio === "2"}
+                  />{" "}
+                </div>
+
+                <div className="flex flex-col w-11/12 py-2 text-sm text-white bg-green-700 rounded-md">
+                  <div className="px-2">Custome Qutation</div>
+                </div>
+              </div>
+
+              {selectedRadio === "2" && (
+                <div className="mt-2">
+                  <div>
+                    {console.log("destinatioon", destinationQuery?.length)}
+                    {destinationQuery !== null &&
+                      destinationQuery.length > 0 && (
+                        <table className="w-full border border-collapse table-auto">
+                          <thead className="text-sm font-bold text-gray-800 bg-slate-300">
+                            <tr>
+                              <th className="w-2/6 p-2 border">Destination</th>
+                              <th className="w-1/6 p-2 border">From Date</th>
+                              <th className="w-1/6 p-2 border">To Date</th>
+                              <th className="w-1/6 p-2 border">Nights</th>
+                              <th className="w-1/6 p-2 border">action</th>
+                            </tr>
+                          </thead>
+                          <tbody className="text-sm text-left text-gray-700 font-extralight">
+                            {destinationQuery.map((item, index) => (
+                              <tr key={index}>
+                                <th className="px-2 ">{item?.destination} </th>
+                                <th className="px-2">
+                                  {new Date(
+                                    item?.fromDate
+                                  ).toLocaleDateString()}{" "}
+                                </th>
+                                <th className="px-2">
+                                  {" "}
+                                  {new Date(
+                                    item?.toDate
+                                  ).toLocaleDateString()}{" "}
+                                </th>
+                                <th className="px-2">
+                                  {calculateNights(
+                                    item?.fromDate,
+                                    item?.toDate
+                                  )}{" "}
+                                </th>{" "}
+                                <th className="px-2">
+                                  {/* Render "Delete" button for all items except the last one */}
+                                  {index !== destinationQuery.length - 1 ? (
+                                    <span className="flex items-center p-1 space-x-1 text-sm text-white bg-black cursor-pointer ">
+                                      Locked
+                                    </span>
+                                  ) : (
+                                    <span
+                                      className="flex items-center p-1 space-x-1 text-sm text-white bg-red-500 cursor-pointer "
+                                      onClick={() =>
+                                        handleDeleteDestination(index)
+                                      }
+                                    >
+                                      Delete
+                                    </span>
+                                  )}
+                                </th>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )}
+                  </div>
+                  <div className="flex justify-between">
+                    <div>
+                      {" "}
+                      <Field
+                        // name={`${item}.destination`}
+                        name="destination"
+                        label="Destination"
+                        starIcon="*"
+                        options={destinations}
+                        isSearchable={true}
+                        component={SelectField}
+                      />{" "}
+                    </div>
+                    <div>
+                      {" "}
+                      <Field
+                        name="fromDate"
+                        label="Start Date"
+                        starIcon="*"
+                        minDate={
+                          destinationQuery?.length > 0
+                            ? new Date(
+                                destinationQuery[
+                                  destinationQuery?.length - 1
+                                ].toDate
+                              )
+                            : new Date()
+                        }
+                        component={DateField}
+                        onChange={(selectedDate) =>
+                          handleFromDateChange(selectedDate)
+                        }
+                      />{" "}
+                    </div>{" "}
+                    <div>
+                      {" "}
+                      <Field
+                        // name={`${item}.toDate`}
+                        name="toDate"
+                        label="End Date"
+                        starIcon="*"
+                        minDate={minToDate}
+                        component={DateField}
+                        onChange={(selectedDate) =>
+                          handleToDateChange(selectedDate)
+                        }
+                        // onChange={(selectedDate) =>
+                        //   handleFromDateChange(selectedDate)
+                        // }
+                      />
+                    </div>
+                    <div>
+                      <button
+                        className="px-2 py-1 mt-10 mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                        type="button"
+                        onClick={handleSubmit((values) =>
+                          handledestinationAdd({
+                            ...values,
+                          })
+                        )}
+                      >
+                        Add More
+                      </button>
+                    </div>
+                  </div>
+                  {/* <FieldArray name="destList" component={DestinationFieldArr} /> */}
+                </div>
+              )}
+
               <div className="flex space-x-5 justify-stretch">
                 <div className="w-full">
                   <Field

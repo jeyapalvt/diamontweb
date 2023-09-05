@@ -12,11 +12,12 @@ const MonthwiseQuery = () => {
         type: "bar",
         height: 350,
         stacked: true,
-        toolbar: {
-          show: false,
-        },
+
         zoom: {
           enabled: true,
+        },
+        toolbar: {
+          show: false, // Remove the download option
         },
       },
       responsive: [
@@ -62,11 +63,6 @@ const MonthwiseQuery = () => {
         ],
       },
 
-      chart: {
-        toolbar: {
-          show: false, // Remove the download option
-        },
-      },
       legend: {
         position: "right",
         offsetY: 40,
