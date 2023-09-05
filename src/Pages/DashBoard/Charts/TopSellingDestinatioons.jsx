@@ -1,5 +1,5 @@
 import React from "react";
-import Chart from "react-apexcharts";
+import ReactApexChart from "react-apexcharts";
 const TopSellingDestinatioons = () => {
   const chartData = {
     series: [
@@ -19,6 +19,9 @@ const TopSellingDestinatioons = () => {
         type: "bar",
         height: 350,
         stacked: true,
+        toolbar: {
+          show: false, // Remove the download option
+        },
       },
       plotOptions: {
         bar: {
@@ -80,7 +83,7 @@ const TopSellingDestinatioons = () => {
   };
   return (
     <div>
-      <Chart
+      <ReactApexChart
         options={chartData.options}
         series={chartData.series}
         type="bar"

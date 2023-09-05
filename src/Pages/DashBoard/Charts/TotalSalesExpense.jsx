@@ -1,5 +1,5 @@
 import React from "react";
-import Chart from "react-apexcharts";
+import ReactApexChart from "react-apexcharts";
 const TotalSalesExpense = () => {
   const chartData = {
     series: [
@@ -20,6 +20,9 @@ const TotalSalesExpense = () => {
         type: "line",
         zoom: {
           enabled: false,
+        },
+        toolbar: {
+          show: false, // Remove the download option
         },
       },
       dataLabels: {
@@ -59,17 +62,12 @@ const TotalSalesExpense = () => {
           "Sep",
         ],
       },
-      chart: {
-        toolbar: {
-          show: false, // Remove the download option
-        },
-      },
     },
   };
 
   return (
     <div>
-      <Chart
+      <ReactApexChart
         options={chartData.options}
         series={chartData.series}
         type="line"

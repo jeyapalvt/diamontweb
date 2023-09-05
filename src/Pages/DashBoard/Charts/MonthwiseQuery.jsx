@@ -1,5 +1,5 @@
 import React from "react";
-import Chart from "react-apexcharts";
+import ReactApexChart from "react-apexcharts";
 const MonthwiseQuery = () => {
   const chartData = {
     series: [
@@ -13,7 +13,7 @@ const MonthwiseQuery = () => {
         height: 350,
         stacked: true,
         toolbar: {
-          show: true,
+          show: false,
         },
         zoom: {
           enabled: true,
@@ -86,7 +86,7 @@ const MonthwiseQuery = () => {
 
   return (
     <div>
-      <Chart
+      <ReactApexChart
         options={chartData.options}
         series={chartData.series}
         type="bar"
