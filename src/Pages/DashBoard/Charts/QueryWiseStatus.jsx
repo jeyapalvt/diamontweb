@@ -6,7 +6,7 @@ const QueryWiseStatus = () => {
     series: [
       {
         name: "Funnel Series",
-        data: [1380, 1100, 990, 600, 250],
+        data: [1380, 1100, 990, 600, 350],
       },
     ],
     options: {

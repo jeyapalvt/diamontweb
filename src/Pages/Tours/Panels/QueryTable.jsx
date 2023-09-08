@@ -11,23 +11,23 @@ import Quatation from "./CenterPanel/Quatation";
 import SupplierCommunication from "./CenterPanel/SupplierCommunication";
 import QueryLog from "./CenterPanel/QueryLog";
 const QueryTable = ({ queryDetail }) => {
-  const [activeTab, setActiveTab] = useState("clientCommunication");
+  const [activeTab, setActiveTab] = useState("quotation");
   const data = [
-    {
-      label: "Client Communication",
-      value: "clientCommunication",
-      desc: <ClientCommunication queryDetail={queryDetail} />,
-    },
+    // {
+    //   label: "Client Communication",
+    //   value: "clientCommunication",
+    //   desc: <ClientCommunication queryDetail={queryDetail} />,
+    // },
     {
       label: "Quotation",
       value: "quotation",
       desc: <Quatation queryDetail={queryDetail} />,
     },
-    {
-      label: "Supplier Communication",
-      value: "supplierCommunication",
-      desc: <SupplierCommunication queryDetail={queryDetail} />,
-    },
+    // {
+    //   label: "Supplier Communication",
+    //   value: "supplierCommunication",
+    //   desc: <SupplierCommunication queryDetail={queryDetail} />,
+    // },
     {
       label: "Query Log",
       value: "queryLog",

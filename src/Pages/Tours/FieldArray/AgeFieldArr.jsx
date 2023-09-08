@@ -11,6 +11,7 @@ const AgeFieldArr = (props) => {
           <div key={index}>
             <Field
               label={`${label} ${index + 1}`}
+              type="number"
               name={`${fields.name}.${index}.${fieldName}`} // Update the name to include index and fieldName
               component={TextField}
               // onChange={(e) => handleChange(index, e)}

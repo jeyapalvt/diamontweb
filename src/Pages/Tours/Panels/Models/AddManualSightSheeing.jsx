@@ -38,7 +38,7 @@ const AddManualSightSheeing = (props) => {
   const bookType = [
     { value: "SIC", label: "SIC" },
     { value: "PVT", label: "PVT" },
-    { value: "tktonly", label: "Tickt Only" },
+    { value: "TICKET ONLY", label: "TICKET ONLY" },
   ];
   const currency = [
     { value: "AED", label: "AED" },
@@ -46,6 +46,7 @@ const AddManualSightSheeing = (props) => {
     { value: "EUR", label: "EUR" },
   ];
   const [slectedBookType, setslectedBookType] = useState(bookType[0].value);
+
   const getDatesBetweenRange = (startDate, endDate) => {
     const dates = [];
     const currentDate = new Date(startDate);
@@ -58,8 +59,9 @@ const AddManualSightSheeing = (props) => {
     return dates;
   };
   const dateRange1 = dateRange;
+
   const from = dateRange1[0].fromDate;
-  const nthRow = dateRange1.length; // Replace with the desired row index
+  const nthRow = dateRange1.length - 1; // Replace with the desired row index
   let to = "";
   if (dateRange1[nthRow]) {
     to = dateRange1[nthRow].toDate;

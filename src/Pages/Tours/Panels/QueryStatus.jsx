@@ -27,12 +27,12 @@ const QueryStatus = () => {
             <div>Manage Guest</div>{" "}
           </div>
           <hr />
-          <div className="flex items-center py-3 space-x-2 cursor-pointer">
+          {/* <div className="flex items-center py-3 space-x-2 cursor-pointer">
             <div>
               <AiFillCloseCircle color="red" size={20} />
             </div>
             <div>Guest Doc</div>
-          </div>
+          </div> */}
           <hr />
           <div className="flex items-center py-3 space-x-2 cursor-pointer">
             <div>

@@ -13,6 +13,8 @@ import {
   addtransferModel,
   addmealModel,
   addflightModel,
+  updateSightSheeingModel,
+  updateTransferStateModel,
 } from "../../../../../Reducers/modelStateReducers";
 import {
   editHotelManual,
@@ -42,6 +44,7 @@ const QueryForAllDates = ({ dateRange }) => {
     // Fetch or update initialHotelManual here
   }, [initialHotelManual]);
   const updateManualHotelRec = (date, key, editOrDelete, addedWay) => {
+    console.log("aaded way addedWayaddedWay", date);
     if (editOrDelete == 1) {
       const singleRec = initialHotelManual[key]?.find(
         (item) => new Date(item.checkInDate).toDateString() == date
@@ -55,7 +58,7 @@ const QueryForAllDates = ({ dateRange }) => {
 
         dispatch(editHotelManual(withIdObject));
 
-        if (addedWay === "1") {
+        if (addedWay == "1") {
           dispatch(
             addHotelManualModel({
               addHotelManualState: true,
@@ -63,9 +66,15 @@ const QueryForAllDates = ({ dateRange }) => {
             })
           );
         } else {
+          // dispatch(
+          //   addHotelModel({
+          //     addHotelstate: true,
+          //     date: "",
+          //   })
+          // );
           dispatch(
-            addHotelModel({
-              addHotelstate: true,
+            addHotelManualModel({
+              addHotelManualState: true,
               date: "",
             })
           );
@@ -110,8 +119,14 @@ const QueryForAllDates = ({ dateRange }) => {
           records.push(
             <div className="px-5" key={key}>
               <div className="flex justify-between text-sm font-bold border divide-x hover:bg-yellow-100">
-                <div className="p-1 ">Hotel{key + 1}</div>
-                <div>({singleRec?.category})</div>
+                <div className="p-1 ">
+                  <div>
+                    <div>Hotel {Number(key)}</div>
+                  </div>
+                </div>
+                <div>
+                  {singleRec?.hotelName}( {singleRec?.category})
+                </div>
                 <div className="p-1">
                   <div>Room:{singleRec?.roomType}</div>
                   <div>Meal:{singleRec?.mealPlan}</div>
@@ -216,6 +231,7 @@ const QueryForAllDates = ({ dateRange }) => {
   };
 
   const updateManulSightSheeingRec = (date, key, editOrDelete, addedType) => {
+    console.log("avsauvsuavuxvauvxa", date);
     if (editOrDelete == 1) {
       const singleRec = initialSightSheeingManul[key]?.find(
         (item) => new Date(item.visitDate).toDateString() == date
@@ -231,20 +247,32 @@ const QueryForAllDates = ({ dateRange }) => {
 
         dispatch(editSightSeeingManual(withIdObject));
 
-        if (addedType === "1") {
+        if (addedType == "1") {
           dispatch(
-            addmanualSightSheeingModel({
-              addmanualSightSheeingState: true,
-              date: "",
+            updateSightSheeingModel({
+              updateSightSheeingState: true,
+              date: date,
             })
           );
+          // dispatch(
+          //   addmanualSightSheeingModel({
+          //     addmanualSightSheeingState: true,
+          //     date: date,
+          //   })
+          // );
         } else {
           dispatch(
-            addsightSheeingModel({
-              addsightSheeingState: true,
-              date: "",
+            updateSightSheeingModel({
+              updateSightSheeingState: true,
+              date: date,
             })
           );
+          // dispatch(
+          //   addsightSheeingModel({
+          //     addsightSheeingState: true,
+          //     date: date,
+          //   })
+          // );
         }
       }
     } else {
@@ -368,15 +396,27 @@ const QueryForAllDates = ({ dateRange }) => {
         };
 
         dispatch(editTransferManual(withIdObject));
-        if (addedType === "1") {
+        if (addedType == "1") {
           dispatch(
-            addmanualTransferModel({
-              addmanualTransferState: true,
-              date: "",
+            updateTransferStateModel({
+              updateTransferState: true,
+              date: date,
             })
           );
+          // dispatch(
+          //   addmanualTransferModel({
+          //     addmanualTransferState: true,
+          //     date: date,
+          //   })
+          // );
         } else {
-          dispatch(addtransferModel({ addtransferState: true, date: "" }));
+          dispatch(
+            updateTransferStateModel({
+              updateTransferState: true,
+              date: date,
+            })
+          );
+          // dispatch(addtransferModel({ addtransferState: true, date: date }));
         }
       }
     } else {

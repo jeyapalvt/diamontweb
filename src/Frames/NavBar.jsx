@@ -54,7 +54,7 @@ const NavBar = () => {
       <img src={b2b} alt="logo" className="w-40" />
       <div className="flex items-center 5">
         {isLoggedIn ? (
-          <ul className="z-20 flex items-center align-middle space-x-7">
+          <ul className="z-10 flex items-center align-middle bg-white space-x-7">
             <li className="relative p-2 text-black border border-[#da251d] rounded-lg cursor-pointer group border-spacing-3">
               <div className="flex items-center space-x-1">
                 Explore Services{" "}
@@ -116,13 +116,13 @@ const NavBar = () => {
                     </div>
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/customepack-quotation">
                     <div className="p-1 hover:bg-[#da251d] hover:text-white">
                       Quotation
                     </div>
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </li>
 

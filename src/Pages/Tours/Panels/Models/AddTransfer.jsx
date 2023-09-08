@@ -16,7 +16,7 @@ import { useParams } from "react-router-dom";
 const AddTransfer = (props) => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { handleSubmit, qutationId, onCloseModal, datesBetween } = props;
+  const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
   const initialDate = useSelector((state) => state.allModelState.date);
   const initialTransferlManual = useSelector(
     (state) => state.updateMQuery.transferManual
@@ -42,6 +42,30 @@ const AddTransfer = (props) => {
       checkInDate: new Date(initialDate),
     });
   }, []);
+
+  const getDatesBetweenRange = (startDate, endDate) => {
+    const dates = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  };
+  const dateRange1 = dateRange;
+
+  const from = dateRange1[0].fromDate;
+  const nthRow = dateRange1.length - 1; // Replace with the desired row index
+  let to = "";
+  if (dateRange1[nthRow]) {
+    to = dateRange1[nthRow].toDate;
+  } else {
+    to = dateRange1[0].toDate;
+  }
+
+  const datesBetween = getDatesBetweenRange(from, to);
   const sumbitForm = (values) => {
     const submitObjects = [];
     const newsubmitObjects = [];
@@ -92,7 +116,7 @@ const AddTransfer = (props) => {
         supplierId: values.supplierId,
         supplierName: "",
         checkInDate: values.checkInDate,
-        type: values.type,
+        type: "SIC",
         adultCost: values.adultCost,
         childCost: values.childCost,
         infantCost: values.infantCost,
@@ -139,6 +163,8 @@ const AddTransfer = (props) => {
                     <Field
                       name="checkInDate"
                       label="Date"
+                      selected={new Date(initialDate)}
+                      datesBetween={datesBetween}
                       component={DateField}
                     />
                   </div>{" "}

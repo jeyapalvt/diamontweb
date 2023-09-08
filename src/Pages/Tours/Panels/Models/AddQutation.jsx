@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { reduxForm, Field } from "redux-form";
 import {
   TextField,
@@ -11,6 +11,8 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addQutationState } from "../../../../Reducers/addQutationSlice";
 import { addDestination } from "../../../../Reducers/destinationSlice";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const AddQutation = (props) => {
   const {
     queryDetail,
@@ -23,9 +25,16 @@ const AddQutation = (props) => {
 
   const dispatch = useDispatch();
   const { id } = useParams();
+
+  const navigate = useNavigate();
   const destinationQuery = useSelector(
     (state) => state.destinationQuery.destinationList
   );
+
+  const addQutationdata = useSelector((state) => state.addQutationdata.data);
+
+  useEffect(() => {}, [dispatch]);
+
   const servicetype = [
     { value: "1", label: "Complete Package" },
     { value: "2", label: "Extra Service" },
@@ -102,32 +111,75 @@ const AddQutation = (props) => {
       props.change("toDate", null);
     }
   };
+  const handleDeleteDestination = (index) => {
+    console.log("Deleting destination at index:", index);
+
+    // Check if the index is within the valid range
+    if (index >= 0 && index < destinationQuery.length) {
+      // Create a new array without the item at the specified index
+      const updatedDestinationQuery = destinationQuery.filter(
+        (_, i) => i !== index
+      );
+
+      // Now updatedDestinationQuery does not contain the deleted destination
+      console.log("Updated destinationQuery:", updatedDestinationQuery);
+      dispatch(updatedestination(updatedDestinationQuery));
+      // Dispatch an action to update the destinationQuery in your Redux store
+      // dispatch(updateDestinationQuery(updatedDestinationQuery)); // Replace this with the actual action
+    } else {
+      console.error("Invalid index:", index);
+    }
+  };
   const sumbitForm = async (values) => {
     const submitObj = {
       ...values,
-      queryQuotationId: id,
+      destList: selectedRadio === "1" ? queryDetail.destList : destinationQuery,
+      queryId: id,
     };
-    onCloseModal();
+    console.log(`${JSON.stringify(submitObj, null, 2)}`);
+    // onCloseModal();
     //dispatch(addQutationState(submitObj));
-    // await axios
-    //   .post(BaseUrl + "setTemplateQuotation", submitObj)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     onCloseModal();
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   }); 987654321
+    await axios
+      .post(BaseUrl + "setQueryQuotation", submitObj)
+      .then((res) => {
+        console.log(res.data);
+
+        if (res.data.errCode === 200) {
+          // Swal.fire("Thank You", "Your query has been submited", "success");
+          onCloseModal();
+          getQuatationDetail();
+          navigate(`/qutationdetailview/${id}/${res.data.queryQuotationId}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
+  const getQuatationDetail = async () => {
+    await axios
+      .post(BaseUrl + "listQueryQuotation", { queryId: id })
+      .then((res) => {
+        if (res.data.errCode === 0) {
+          dispatch(addQutationState(res.data));
+        }
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
+      {console.log("addQutationdata", queryDetail)}
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
         <div className="relative w-2/3 max-w-3xl mx-auto my-6">
           {/*content*/}
           <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-slate-200">
-              <h3 className="text-3xl font-semibold">Edit Qutation</h3>
+              <h3 className="text-3xl font-semibold">Edit Quotation</h3>
               <button
                 className="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-5 focus:outline-none"
                 onClick={onCloseModal}

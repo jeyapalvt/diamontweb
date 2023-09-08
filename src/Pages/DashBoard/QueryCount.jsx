@@ -26,18 +26,18 @@ const QueryCount = () => {
           </div>
         </div>
         <div className="w-1/6 bg-[#4682B4] h-auto rounded-md shadow-md p-2 justify-center flex flex-col">
-          <div className="">0</div>
-          <div className="mt-2 text-sm font-bold">Sep Month Queries</div>
+          <div className="">47</div>
+          <div className="mt-2 text-sm font-bold">Aug Month Queries</div>
           <div className="mt-2 text-sm">
             <div className="flex items-center justify-center text-center">
               <AiOutlineArrowDown size={18} />
-              0% Last Month
+              100% Last Month
             </div>
           </div>
         </div>
         <div className="w-1/6 bg-[#808000] h-auto rounded-md shadow-md p-2 justify-center flex flex-col">
-          <div className="">0</div>
-          <div className="mt-2 text-sm font-bold">Sep Confirm Queries</div>
+          <div className="">48</div>
+          <div className="mt-2 text-sm font-bold">Aug Confirm Queries</div>
           <div className="mt-2 text-sm">
             <div className="flex items-center justify-center text-center">
               <AiOutlineArrowDown size={18} />
@@ -46,22 +46,22 @@ const QueryCount = () => {
           </div>
         </div>
         <div className="w-1/6 bg-[#483D8B] h-auto rounded-md shadow-md p-2 justify-center flex flex-col">
-          <div className="">0</div>
-          <div className="mt-2 text-sm font-bold">Sep Invoice</div>
+          <div className="">52</div>
+          <div className="mt-2 text-sm font-bold">Aug Invoice</div>
           <div className="mt-2 text-sm">
             <div className="flex items-center justify-center text-center">
               <AiOutlineArrowDown size={18} />
-              0% Last Month
+              100% Last Month
             </div>
           </div>
         </div>
         <div className="w-1/6 bg-[#D2691E] h-auto rounded-md shadow-md p-2 justify-center flex flex-col">
-          <div className="">0</div>
-          <div className="mt-2 text-sm font-bold">Sep Voucher</div>
+          <div className="">40</div>
+          <div className="mt-2 text-sm font-bold">Aug Voucher</div>
           <div className="mt-2 text-sm">
             <div className="flex items-center justify-center text-center">
               <AiOutlineArrowDown size={18} />
-              0% Last Month
+              100% Last Month
             </div>
           </div>
         </div>

@@ -275,13 +275,13 @@ const BookingTable = ({ dataList }) => {
                         color="blue"
                         className="font-semibold"
                       >
-                        {tourQueryId}
+                        {`#00000${tourQueryId}`}
                       </Typography>
                     </td>
                     <td className="p-4">
                       <Typography
-                        as="a"
-                        href="#"
+                        as={Link}
+                        to={`/querydetails/${tourQueryId}`}
                         variant="small"
                         className="font-semibold text-blue-500"
                       >

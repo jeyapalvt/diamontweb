@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { reduxForm, Field } from "redux-form";
 import {
   DateField,
@@ -13,6 +13,8 @@ import {
 import { editHotelManual } from "../../../../Reducers/updateMainQuery";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import { BaseUrl } from "../../../../Reducers/Api";
 const AddHotel = (props) => {
   const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
   const { id } = useParams();
@@ -73,15 +75,30 @@ const AddHotel = (props) => {
   }
 
   const datesBetween = getDatesBetweenRange(from, to);
-
+  const [hotelList, sethotelList] = useState([]);
   useEffect(() => {
+    getHotelList();
     props.initialize({
       checkInDate: datesBetween[0],
       checkOutDate: datesBetween[datesBetween.length - 2],
     });
   }, []);
 
+  const getHotelList = async () => {
+    //getHotelList
+    await axios
+      .get(BaseUrl + "getHotelList")
+      .then((res) => {
+        console.log(res.data);
+        sethotelList(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const sumbitForm = (values) => {
+    console.log(values);
     const submitObjects = [];
     const newsubmitObjects = [];
     const tempsubmitObject = [];
@@ -99,10 +116,10 @@ const AddHotel = (props) => {
               if (hoteleditManual.editOrDelete == 1) {
                 tempsubmitObject.push({
                   quotationId: id,
-                  hotelName: values.hotelName,
+                  hotelName: values.item.hotelName,
                   destination: values.destination,
                   supplierId: values.supplierId,
-                  addedWay: 1,
+                  addedWay: 2,
                   checkInDate: new Date(values.checkInDate)
                     .toISOString()
                     .slice(0, 10),
@@ -141,10 +158,10 @@ const AddHotel = (props) => {
       while (currentDate <= checkOutDate) {
         submitObjects.push({
           quotationId: id,
-          hotelName: values.hotelName,
+          hotelName: values.item.hotelName,
           destination: values.destination,
           supplierId: values.supplierId,
-          addedWay: 1,
+          addedWay: 2,
           checkInDate: currentDate.toISOString().slice(0, 10),
           checkOutDate: values.checkOutDate,
           category: values.category,
@@ -169,7 +186,7 @@ const AddHotel = (props) => {
       console.log(submitObjects);
     }
 
-    onCloseModal();
+    // onCloseModal();
   };
   return (
     <div>
@@ -249,7 +266,7 @@ const AddHotel = (props) => {
                     <Button name="Search" />
                   </div>
                 </div>
-                <div class="grid grid-cols-8 gap-4">
+                {/* <div class="grid grid-cols-8 gap-4">
                   <div>
                     <Field
                       name="sglroom"
@@ -300,37 +317,71 @@ const AddHotel = (props) => {
                     />
                   </div>
                   <div className="mt-6"></div>
-                </div>
-                <div className="mt-5">
-                  <table className="w-full border border-collapse table-auto">
-                    <thead className="text-sm font-bold text-gray-800 bg-slate-300">
-                      <tr>
-                        <th className="w-1/12 p-2 border">Hotel</th>
-                        <th className="w-1/12 p-2 border">Location</th>
-                        <th className="w-2/12 p-2 border">Room Type</th>
-                        <th className="w-1/12 p-2 border">Meal Type</th>
-                        <th className="w-0.5/12 p-2 border">CUR</th>
-                        <th className="w-0.5/12 p-2 border">SGL</th>
-                        <th className="w-0.5/12 p-2 border">DBL</th>
-                        <th className="w-0.5/12 p-2 border">TRPL</th>
-                        <th className="w-0.5/12 p-2 border">CWB</th>
-                        <th className="w-2/12 p-2 border">
-                          CNB<span className="text-esm">(AB 05 yr)</span>
-                        </th>
-                        <th className="w-2/12 p-2 border">
-                          CNB<span className="text-esm">(BL 05 yr)</span>
-                        </th>
-                        <th className="w-2/12 p-2 border">
-                          INFANT<span className="text-esm">(BL 03 yr)</span>
-                        </th>
-                        <th className="w-2/12 p-2 border"></th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-md">
-                      <tr></tr>
-                    </tbody>
-                  </table>
-                </div>
+                </div> */}
+                {hotelList.length > 0 && (
+                  <div className="mt-5">
+                    <table className="w-full border border-collapse table-auto">
+                      <thead className="text-sm font-bold text-gray-800 bg-slate-300">
+                        <tr>
+                          <th className="w-4/12 p-2 border">Hotel</th>
+
+                          <th className="w-2/12 p-2 border">Room Type</th>
+                          <th className="w-1/12 p-2 border">Meal Type</th>
+                          <th className="w-0.5/12 p-2 border">CUR</th>
+                          <th className="w-0.5/12 p-2 border">SGL</th>
+                          <th className="w-0.5/12 p-2 border">DBL</th>
+                          <th className="w-0.5/12 p-2 border">TRPL</th>
+                          <th className="w-0.5/12 p-2 border">QUAD</th>
+                          <th className="w-0.5/12 p-2 border">CWB</th>
+                          <th className="w-2/12 p-2 border">
+                            CNB<span className="text-esm">(AB 05 yr)</span>
+                          </th>
+                          <th className="w-1/12 p-2 border">
+                            CNB<span className="text-esm">(BL 05 yr)</span>
+                          </th>
+                          <th className="w-1/12 p-2 border">
+                            INFANT<span className="text-esm">(BL 03 yr)</span>
+                          </th>
+                          <th className="w-1/12 p-2 border"></th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-md">
+                        {hotelList.map((item, index) => (
+                          <tr key={index} className="">
+                            <th className="p-1 font-normal text-left border">
+                              {item.hotelName}
+                            </th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">-</th>
+                            <th className="p-1 font-normal border">
+                              <button
+                                className="px-1 py-1 mt-5 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-blue-500 rounded shadow outline-none active:bg-blue-600 hover:shadow-lg focus:outline-none"
+                                type="button"
+                                onClick={handleSubmit((values) =>
+                                  sumbitForm({
+                                    ...values,
+                                    item,
+                                  })
+                                )}
+                              >
+                                Select
+                              </button>
+                            </th>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             </div>
             {/*footer*/}
@@ -342,7 +393,7 @@ const AddHotel = (props) => {
               >
                 Close
               </button>
-              <button
+              {/* <button
                 className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                 type="button"
                 onClick={handleSubmit((values) =>
@@ -352,7 +403,7 @@ const AddHotel = (props) => {
                 )}
               >
                 Save
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

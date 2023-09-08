@@ -128,7 +128,7 @@ function App() {
             element={<RoleRoute component={QueryDetails} roles={roles.admin} />}
           />
           <Route
-            path="/qutationdetailview/:id"
+            path="/qutationdetailview/:id/:qid"
             element={
               <RoleRoute component={QuatationDetailView} roles={roles.admin} />
             }

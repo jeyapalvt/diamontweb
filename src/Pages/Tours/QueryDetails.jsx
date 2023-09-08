@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 const QueryDetails = () => {
   const { id } = useParams();
   useEffect(() => {
-    console.log(id);
     getQueryDetail();
   }, [id]);
   const [queryDetail, setqueryDetail] = useState({});
@@ -16,7 +15,6 @@ const QueryDetails = () => {
     await axios
       .post(BaseUrl + "getTourQueryDetails", { tourQueryId: id })
       .then((res) => {
-        console.log(res.data);
         setqueryDetail(res.data);
       })
       .catch((error) => {

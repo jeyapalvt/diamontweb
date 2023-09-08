@@ -32,33 +32,44 @@ const ToursMaster = (props) => {
   const { id } = useParams();
   const { handleSubmit, pristine, submitting, reset } = props;
   const dispatch = useDispatch();
-  const allAgents = useSelector((state) => state.allAgents.data);
+  // const allAgents = useSelector((state) => state.allAgents.data);
+  const [agentData, setagentData] = useState([]);
   const isLoading = useSelector((state) => state.allAgents.isLoading);
   const destinationQuery = useSelector(
     (state) => state.destinationQuery.destinationList
   );
   const [agentList, setagentList] = useState([]);
+  const [contactPersionList, setcontactPersionList] = useState([]);
   const [formData, setFormData] = useState({
     fromDate: "",
     toDate: "",
   });
   useEffect(() => {
-    fetchList();
+    fetchAgencyList();
     if (id !== "null") {
       console.log(id);
       getQueryDetails();
     }
   }, []);
 
-  const fetchList = async () => {
-    await dispatch(
-      fetchAllAgency({
+  const fetchAgencyList = async () => {
+    let allAgents = [];
+    await axios
+      .post(BaseUrl + "getagencylist", {
         agenctId: 1,
         secretKey: "uZFEucIHAbqvgT7p87qC4Ms4tjqG34su",
       })
-    );
+      .then((res) => {
+        console.log(res.data);
+        setagentData(res.data);
+        allAgents = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     let tempVal = [];
+    let tempAgentName = [];
     for (let i = 0; i < allAgents.length; i++) {
       tempVal.push({
         value: allAgents[i].agencyId,
@@ -67,6 +78,27 @@ const ToursMaster = (props) => {
     }
 
     setagentList(tempVal);
+  };
+
+  const [contactPersion, setcontactPersion] = useState([]);
+
+  const setAgentData = (value) => {
+    console.log("akbsiabsiabxa", value);
+
+    const filterData = agentData.find((item) => item.agencyId === value);
+    console.log(filterData);
+    //contactPersonName
+    let tempArr = [];
+    tempArr.push({
+      value: filterData.agencyName,
+      label: filterData.agencyName,
+    });
+    setcontactPersion(tempArr);
+    props.change("contactPersonName", filterData.agencyName);
+    props.change("contactPersonEmail", filterData.agencyEmail);
+    props.change("mobileNumber", filterData.agencyPhoneNumber);
+    // props.change("fromDate", null);
+    // props.change("toDate", null);
   };
 
   const getQueryDetails = async () => {
@@ -174,10 +206,7 @@ const ToursMaster = (props) => {
     { value: "Vivek", label: "Vivek" },
     { value: "Raman", label: "Raman" },
   ];
-  const contactPersion = [
-    { value: "Vinod", label: "Vinod" },
-    { value: "Raman", label: "Raman" },
-  ];
+
   const servicetype = [
     { value: 1, label: "Complete Package" },
     { value: 2, label: "Extra Service" },
@@ -195,8 +224,8 @@ const ToursMaster = (props) => {
   ];
 
   const companyName = [
-    { value: "diamont", label: "diamont" },
-    { value: "usetours", label: "usetours" },
+    { value: "diamond", label: "diamond" },
+    { value: "uaetours", label: "uaetours" },
   ];
   const locations = [
     { value: "Dubai", label: "Dubai" },
@@ -205,8 +234,8 @@ const ToursMaster = (props) => {
   ];
 
   const destinations = [
-    { value: "dubai", label: "Dubai" },
-    { value: "adbudahabi", label: "Abu Dhabi" },
+    { value: "Dubai", label: "Dubai" },
+    { value: "Abu Dhabi", label: "Abu Dhabi" },
     { value: "Sigapore", label: "Singapore" },
   ];
   const [agentOrUser, setAgentOrUser] = useState("Agent");
@@ -353,19 +382,19 @@ const ToursMaster = (props) => {
     console.log(`${JSON.stringify(updatedValues, null, 2)}`);
 
     //setTourQuery
-    // axios
-    //   .post(BaseUrl + "setTourQuery", updatedValues)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (res.data.errCode == "200") {
-    //       dispatch(addDestination());
-    //       Swal.fire("Thank You", "Your query has been submited", "success");
-    //       navigate("/tourslist");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    axios
+      .post(BaseUrl + "setTourQuery", updatedValues)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.errCode == "200") {
+          dispatch(addDestination());
+          Swal.fire("Thank You", "Your query has been submited", "success");
+          navigate("/tourslist");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div className="p-5 mt-2 bg-white">
@@ -407,6 +436,9 @@ const ToursMaster = (props) => {
                 options={agentList}
                 isSearchable={true}
                 component={SelectField}
+                onChange={(value) => {
+                  setAgentData(value);
+                }}
               />
             </div>
           </div>
@@ -432,6 +464,7 @@ const ToursMaster = (props) => {
           <div className="flex">
             <div className="w-1/2 mx-5">
               <Field
+                type="number"
                 name="landlineNumber"
                 label="Landline Number"
                 component={TextField}
@@ -439,6 +472,7 @@ const ToursMaster = (props) => {
             </div>
             <div className="w-1/2 mx-5">
               <Field
+                type="number"
                 name="mobileNumber"
                 label="Mobile Number"
                 component={TextField}
@@ -509,7 +543,7 @@ const ToursMaster = (props) => {
                       <th className="w-1/6 p-2 border">action</th>
                     </tr>
                   </thead>
-                  <tbody className="text-sm text-left text-gray-700 font-extralight">
+                  <tbody className="text-sm text-gray-700 font-extralight">
                     {destinationQuery.map((item, index) => (
                       <tr key={index}>
                         <th className="px-2 ">{item?.destination} </th>
@@ -567,6 +601,12 @@ const ToursMaster = (props) => {
                     destinationQuery?.length > 0
                       ? new Date(
                           destinationQuery[destinationQuery?.length - 1].toDate
+                        ).setDate(
+                          new Date(
+                            destinationQuery[
+                              destinationQuery?.length - 1
+                            ].toDate
+                          ).getDate() + 1
                         )
                       : new Date()
                   }
@@ -611,12 +651,18 @@ const ToursMaster = (props) => {
           <div className="flex">
             <div className="w-1/3 mx-5">
               {" "}
-              <Field name="nofAdult" label="Adult" component={TextField} />
+              <Field
+                name="nofAdult"
+                type="number"
+                label="Adult"
+                component={TextField}
+              />
             </div>
             <div className="w-1/3 mx-5">
               {" "}
               <Field
                 name="nofChild"
+                type="number"
                 label="Chils(Below 12 yrs)"
                 component={TextField}
                 onChange={(e) => setChildCountFieldValue(e)}
@@ -626,6 +672,7 @@ const ToursMaster = (props) => {
             <div className="w-1/3 mx-5">
               <Field
                 name="nofInfant"
+                type="number"
                 label="Infant(below 3.5 yrs)"
                 component={TextField}
                 onChange={(e) => setInfantCountFieldValue(e)}

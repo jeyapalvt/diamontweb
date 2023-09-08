@@ -19,8 +19,23 @@ import { BaseUrl } from "../../../../../Reducers/Api";
 import { useParams } from "react-router-dom";
 import QueryForAllDates from "./QueryForAllDates";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
+import {
+  addHotelManual,
+  updateManualHotelRecord,
+  addSightSeeingManual,
+  updateSightSeeingManual,
+  addsightSeeingFromList,
+  updatesightSeeingFromList,
+  addtransferManual,
+  updatetransferManual,
+} from "../../../../../Reducers/mainQuerySlice";
+
 const OtherDetails = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
   const [totalCostShow, settotalCostShow] = useState(false);
   const [paxMarkupShow, setpaxMarkupShow] = useState(false);
   const [queryDetail, setqueryDetail] = useState({});
@@ -34,7 +49,7 @@ const OtherDetails = () => {
   const queryTransferList = useSelector(
     (state) => state.mainQuery.transferManul
   );
-  const { id } = useParams();
+  const { id, qid } = useParams();
   const handleCloseTotalShow = () => {
     settotalCostShow(false);
     // Add additional logic or actions to handle closing the modal in the parent component
@@ -45,7 +60,11 @@ const OtherDetails = () => {
   };
 
   useEffect(() => {
+    dispatch(addSightSeeingManual());
+    dispatch(addHotelManual());
+    dispatch(addtransferManual());
     getQueryDetail();
+    getQutationDetail();
   }, []);
 
   const getQueryDetail = async () => {
@@ -60,23 +79,48 @@ const OtherDetails = () => {
         console.log(error);
       });
   };
+  const [qutationQueryDetail, setqutationQueryDetail] = useState();
+  const getQutationDetail = async () => {
+    //getQueryQuotationDetails
+
+    await axios
+      .post(BaseUrl + "getQueryQuotationDetails", { queryQuotationId: qid })
+      .then((res) => {
+        setqutationQueryDetail(res.data);
+        console.log("getQueryQuotationDetails", res.data);
+
+        for (let i = 0; i < res.data.querySightSeeingList.length; i++) {
+          dispatch(addSightSeeingManual(res.data.querySightSeeingList[i]));
+        }
+        for (let i = 0; i < res.data.queryHotelList.length; i++) {
+          dispatch(addHotelManual(res.data.queryHotelList[i]));
+        }
+        for (let i = 0; i < res.data.queryTransferList.length; i++) {
+          dispatch(addtransferManual(res.data.queryTransferList[i]));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const submitFinalObject = () => {
     const submitObject = {
-      queryQuotationId: id,
-      quoteTitle: "",
-      nofAdult: "",
-      nofChild: "",
-      nofInfant: "",
-      serviceType: "", // 1 - Complete package, 2 - Extra service, 3 - Flight Only, 4 - Hotel Only, 5 - Land Part, 6- Transfer Only, 7 - Visa Only
-      sglRoom: "",
-      dblRoom: "",
-      trplRoom: "",
-      quadRoom: "",
-      cwbRoom: "",
-      cnbRoomAbove05: "",
-      cnbRoomBelow05: "",
-      infRoom: "",
+      // queryQuotationId: qid,
+      // quoteTitle: "",
+      // nofAdult: "",
+      // nofChild: "",
+      // nofInfant: "",
+      // serviceType: "", // 1 - Complete package, 2 - Extra service, 3 - Flight Only, 4 - Hotel Only, 5 - Land Part, 6- Transfer Only, 7 - Visa Only
+      // sglRoom: "",
+      // dblRoom: "",
+      // trplRoom: "",
+      // quadRoom: "",
+      // cwbRoom: "",
+      // cnbRoomAbove05: "",
+      // cnbRoomBelow05: "",
+      // infRoom: "",
+      ...qutationQueryDetail,
       queryHotelList: queryHotelList,
       querySightSeeingList: querySightSeeingList,
       queryTransferList: queryTransferList,
@@ -93,6 +137,8 @@ const OtherDetails = () => {
       .post(BaseUrl + "editQueryQuotation", submitObject)
       .then((res) => {
         console.log(res.data);
+        Swal.fire("Success", "Saved Successfully", "success");
+        navigate(-1);
       })
       .catch((error) => {
         console.log(error);

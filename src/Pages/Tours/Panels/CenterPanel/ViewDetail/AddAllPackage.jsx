@@ -17,7 +17,16 @@ import {
   addtransferModel,
   addmealModel,
   addflightModel,
+  updateSightSheeingModel,
+  updateTransferStateModel,
 } from "../../../../../Reducers/modelStateReducers";
+import EditSightSheeing from "../../Models/EditSightSheeing";
+import EditTransfer from "../../Models/EditTransfer";
+import {
+  editHotelManual,
+  editSightSeeingManual,
+  editTransferManual,
+} from "../../../../../Reducers/updateMainQuery";
 const AddAllPackage = (props) => {
   const { date, index, dateRange, setHotelManual } = props;
 
@@ -48,7 +57,12 @@ const AddAllPackage = (props) => {
   const transfer = useSelector((state) => state.allModelState.addtransferState);
   const meal = useSelector((state) => state.allModelState.addmealState);
   const flight = useSelector((state) => state.allModelState.addflightState);
-
+  const updateSightSheeing = useSelector(
+    (state) => state.allModelState.updateSightSheeingState
+  );
+  const updateTransferState = useSelector(
+    (state) => state.allModelState.updateTransferState
+  );
   const handleManualHotel = () => {
     // sethotelManual(false);
     dispatch(
@@ -57,12 +71,14 @@ const AddAllPackage = (props) => {
         date: "", // Make sure 'date' is defined and accessible
       })
     );
+    dispatch(editHotelManual());
   };
   const handleHotel = () => {
     dispatch(
       addHotelModel({ addHotelstate: false, date: "", manualOrlist: "" })
     );
     // sethotel(false);
+    dispatch(editHotelManual());
   };
   const handlemanualSightSheeing = () => {
     // setmanualSightSheeing(false);
@@ -72,6 +88,7 @@ const AddAllPackage = (props) => {
         date: "",
       })
     );
+    dispatch(editSightSeeingManual());
   };
   const handleAddSightSheeing = () => {
     dispatch(
@@ -80,6 +97,7 @@ const AddAllPackage = (props) => {
         date: "",
       })
     );
+    dispatch(editSightSeeingManual());
   };
   const handleAddManualTransfer = () => {
     dispatch(
@@ -88,10 +106,12 @@ const AddAllPackage = (props) => {
         date: "",
       })
     );
+    dispatch(editTransferManual());
   };
   const handleAddTransfer = () => {
     //settransfer(false);
     dispatch(addtransferModel({ addtransferState: false, date: "" }));
+    dispatch(editTransferManual());
   };
   const handleAddMeal = () => {
     dispatch(addmealModel({ addmealState: false, date: "" }));
@@ -99,6 +119,18 @@ const AddAllPackage = (props) => {
   };
   const handleflight = () => {
     dispatch(addflightModel({ addflightState: false, date: "" }));
+  };
+  const handUpdateSightSheeing = () => {
+    dispatch(
+      updateSightSheeingModel({ updateSightSheeingState: false, date: "" })
+    );
+    dispatch(editSightSeeingManual());
+  };
+  const handupdateTransferState = () => {
+    dispatch(
+      updateTransferStateModel({ updateTransferState: false, date: "" })
+    );
+    dispatch(editTransferManual());
   };
   return (
     <div>
@@ -140,6 +172,19 @@ const AddAllPackage = (props) => {
           <AddFlight onCloseModal={handleflight} dateRange={dateRange} />
         )}
 
+        {updateSightSheeing === true && (
+          <EditSightSheeing
+            onCloseModal={handUpdateSightSheeing}
+            dateRange={dateRange}
+          />
+        )}
+
+        {updateTransferState === true && (
+          <EditTransfer
+            onCloseModal={handupdateTransferState}
+            dateRange={dateRange}
+          />
+        )}
         <div className="flex p-2 space-x-2 text-sm font-bold text-gray-800 bg-[#546f80]">
           <div>
             {" "}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { reduxForm, Field } from "redux-form";
 import { TextField, SelectField } from "../../Components/ReduxField";
+
 const NewAgentOrClient = ({ onCloseModal }) => {
   const agentOrb2c = [
     { value: "Agent", label: "Agent" },
@@ -39,7 +40,11 @@ const NewAgentOrClient = ({ onCloseModal }) => {
                 }}
               />
               {agentOrUser === "Agent" && (
-                <Field name="name" label="Company Name" component={TextField} />
+                <Field
+                  name="Cname"
+                  label="Company Name"
+                  component={TextField}
+                />
               )}
               <Field name="name" label="Name" component={TextField} />
               <Field name="email" label="Email" component={TextField} />

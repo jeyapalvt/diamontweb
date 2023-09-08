@@ -11,7 +11,7 @@ const ClientCommunication = ({ queryDetail }) => {
   const [comunocation, setcomunocation] = useState([]);
   useEffect(() => {
     if (queryDetail) {
-      console.log(queryDetail); //addCCMails
+      console.log("owhiuhdiuwhiudhwihhwidhiwu", queryDetail); //addCCMails
     }
     setcomunocation(queryDetail.addCCMails);
   }, []);
@@ -34,7 +34,7 @@ const ClientCommunication = ({ queryDetail }) => {
     <div className="p-3">
       <div className="flex ">
         <div className="flex w-11/12 space-x-2 font-medium text-gray-500">
-          {queryDetail?.addCCMails}
+          {queryDetail?.contactPersonEmail},{queryDetail?.addCCMails}
           {/* {clientContact.map((item) => (
             <li key={item.id}>{item.mail}</li>
           ))} */}

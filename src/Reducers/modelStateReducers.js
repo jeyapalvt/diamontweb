@@ -9,6 +9,8 @@ const initialState = {
   addtransferState: false,
   addmealState: false,
   addflightState: false,
+  updateSightSheeingState: false,
+  updateTransferState: false,
   date: "",
   manualOrlist: "",
 };
@@ -92,6 +94,24 @@ const modelStateReducers = createSlice({
       state.addflightState = action.payload.addflightState;
       state.manualOrlist = action.payload.manualOrlist;
     },
+    updateSightSheeingModel: (state, action) => {
+      if (action.payload.date !== "") {
+        const nextDay = new Date(action.payload.date);
+        nextDay.setDate(nextDay.getDate() + 1);
+        state.date = nextDay.toISOString().slice(0, 10);
+      }
+      state.updateSightSheeingState = action.payload.updateSightSheeingState;
+      state.manualOrlist = action.payload.manualOrlist;
+    },
+    updateTransferStateModel: (state, action) => {
+      if (action.payload.date !== "") {
+        const nextDay = new Date(action.payload.date);
+        nextDay.setDate(nextDay.getDate() + 1);
+        state.date = nextDay.toISOString().slice(0, 10);
+      }
+      state.updateTransferState = action.payload.updateTransferState;
+      state.manualOrlist = action.payload.manualOrlist;
+    },
   },
 });
 
@@ -104,6 +124,8 @@ export const {
   addtransferModel,
   addmealModel,
   addflightModel,
+  updateSightSheeingModel,
+  updateTransferStateModel,
 } = modelStateReducers.actions;
 export default modelStateReducers.reducer;
 //dispatch(updateHotelManual({ id: itemIdToUpdate, updatedData: newHotelData })); --> example update

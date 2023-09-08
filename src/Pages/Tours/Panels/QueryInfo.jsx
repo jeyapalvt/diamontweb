@@ -199,7 +199,7 @@ const QueryInfo = (props) => {
               <div className="font-bold">{`${item.destination}->`}</div>
               <div>{`${item.fromDate}`} </div>
               <div>&nbsp;To&nbsp; </div>
-              <div>{item.toDate}</div>
+              <div>{item.toDate}</div>&nbsp;&nbsp;
               <div>{`${getTotalNights(
                 item.fromDate,
                 item.toDate

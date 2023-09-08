@@ -66,8 +66,9 @@ const AddSightSheeing = (props) => {
     return dates;
   };
   const dateRange1 = dateRange;
+
   const from = dateRange1[0].fromDate;
-  const nthRow = dateRange1.length; // Replace with the desired row index
+  const nthRow = dateRange1.length - 1; // Replace with the desired row index
   let to = "";
   if (dateRange1[nthRow]) {
     to = dateRange1[nthRow].toDate;
@@ -92,71 +93,143 @@ const AddSightSheeing = (props) => {
       visitDate: new Date(initialDate),
     });
   }, []);
-  const sumbitForm = (values) => {
-    const submitObjects = [];
-    const newsubmitObjects = [];
-    const tempsubmitObject = [];
-    if (initialSightSheeinglManual) {
-      for (let i = 0; i < initialSightUpdateManual.length; i++) {
-        if (initialSightSheeinglManual.id == i) {
-          for (let j = 0; j < initialSightUpdateManual[i].length; j++) {
-            console.log("condition true");
-            console.log(",,,ka0ixja9jxj", initialSightUpdateManual[i][j]);
-            tempsubmitObject.push({
-              sightSeeingId: "",
-              quotationId: id,
-              dayItenary: "",
-              addedType: 2, // 1 - Manual, 2 - From list
-              activityId: "",
-              sightSeeingName: values.sightSeeingName,
-              currencyCode: values.currencyCode,
-              destination: values.destination,
-              supplier: values.supplier,
-              supplierName: "",
-              visitDate: values.visitDate,
-              type: values.type,
-              adultCost: values.adultCost,
-              childCost: values.childCost,
-              infantCost: values.infantCost,
-              timings: values.timings,
-            });
+
+  // Function to handle the "Select" button click
+  const handleSelectClick = (values) => {
+    const targetIndex = values.index;
+    if (values.hasOwnProperty(targetIndex.toString())) {
+      const foundItem = values[targetIndex.toString()];
+      console.log("Found item:", foundItem);
+      const submitObjects = [];
+      const newsubmitObjects = [];
+      const tempsubmitObject = [];
+      if (initialSightSheeinglManual) {
+        for (let i = 0; i < initialSightUpdateManual.length; i++) {
+          if (initialSightSheeinglManual.id == i) {
+            for (let j = 0; j < initialSightUpdateManual[i].length; j++) {
+              console.log("condition true");
+              console.log(",,,ka0ixja9jxj", initialSightUpdateManual[i][j]);
+              tempsubmitObject.push({
+                sightSeeingId: "",
+                quotationId: id,
+                dayItenary: "",
+                addedType: 2, // 1 - Manual, 2 - From list
+                activityId: "",
+                sightSeeingName: values.sightSeeingName,
+                currencyCode: values.currencyCode,
+                destination: values.destination,
+                supplier: values.supplier,
+                supplierName: "",
+                visitDate: values.visitDate,
+                type: values.type,
+                adultCost: foundItem.adultCost,
+                childCost: foundItem.childCost,
+                infantCost: foundItem.infantCost,
+                timings: values.timings,
+              });
+            }
+            newsubmitObjects.push(tempsubmitObject);
+          } else {
+            newsubmitObjects.push(initialSightUpdateManual[i]);
           }
-          newsubmitObjects.push(tempsubmitObject);
-        } else {
-          newsubmitObjects.push(initialSightUpdateManual[i]);
         }
+
+        console.log("final obect", newsubmitObjects);
+        dispatch(editSightSeeingManual(null));
+        dispatch(updateSightSeeingManual(newsubmitObjects));
+      } else {
+        console.log("values", values);
+
+        const tempObject = {
+          sightSeeingId: "",
+          quotationId: id,
+          dayItenary: "",
+          addedType: 2, // 1 - Manual, 2 - From list
+          activityId: "",
+          sightSeeingName: values.sightSeeingName,
+          currencyCode: values.currencyCode,
+          destination: values.destination,
+          supplier: values.supplier,
+          supplierName: "",
+          visitDate: values.visitDate,
+          type: "SIC",
+          adultCost: foundItem.adultCost,
+          childCost: foundItem.childCost,
+          infantCost: foundItem.infantCost,
+          timings: values.timings,
+        };
+        submitObjects.push(tempObject);
+        dispatch(addSightSeeingManual(submitObjects));
       }
-
-      console.log("final obect", newsubmitObjects);
-      dispatch(editSightSeeingManual(null));
-      dispatch(updateSightSeeingManual(newsubmitObjects));
     } else {
-      console.log("values", values);
+      console.log("Item not found");
+      const submitObjects = [];
+      const newsubmitObjects = [];
+      const tempsubmitObject = [];
+      if (initialSightSheeinglManual) {
+        for (let i = 0; i < initialSightUpdateManual.length; i++) {
+          if (initialSightSheeinglManual.id == i) {
+            for (let j = 0; j < initialSightUpdateManual[i].length; j++) {
+              console.log("condition true");
+              console.log(",,,ka0ixja9jxj", initialSightUpdateManual[i][j]);
+              tempsubmitObject.push({
+                sightSeeingId: "",
+                quotationId: id,
+                dayItenary: "",
+                addedType: 2, // 1 - Manual, 2 - From list
+                activityId: "",
+                sightSeeingName: values.sightSeeingName,
+                currencyCode: values.currencyCode,
+                destination: values.destination,
+                supplier: values.supplier,
+                supplierName: "",
+                visitDate: values.visitDate,
+                type: "SIC",
+                adultCost: "",
+                childCost: "",
+                infantCost: "",
+                timings: values.timings,
+              });
+            }
+            newsubmitObjects.push(tempsubmitObject);
+          } else {
+            newsubmitObjects.push(initialSightUpdateManual[i]);
+          }
+        }
 
-      const tempObject = {
-        sightSeeingId: "",
-        quotationId: id,
-        dayItenary: "",
-        addedType: 2, // 1 - Manual, 2 - From list
-        activityId: "",
-        sightSeeingName: values.sightSeeingName,
-        currencyCode: values.currencyCode,
-        destination: values.destination,
-        supplier: values.supplier,
-        supplierName: "",
-        visitDate: values.visitDate,
-        type: values.type,
-        adultCost: values.adultCost,
-        childCost: values.childCost,
-        infantCost: values.infantCost,
-        timings: values.timings,
-      };
-      submitObjects.push(tempObject);
-      dispatch(addSightSeeingManual(submitObjects));
+        dispatch(editSightSeeingManual(null));
+        dispatch(updateSightSeeingManual(newsubmitObjects));
+      } else {
+        console.log("values", values);
+
+        const tempObject = {
+          sightSeeingId: "",
+          quotationId: id,
+          dayItenary: "",
+          addedType: 2, // 1 - Manual, 2 - From list
+          activityId: "",
+          sightSeeingName: values.sightSeeingName,
+          currencyCode: values.currencyCode,
+          destination: values.destination,
+          supplier: values.supplier,
+          supplierName: "",
+          visitDate: values.visitDate,
+          type: "SIC",
+          adultCost: "",
+          childCost: "",
+          infantCost: "",
+          timings: values.timings,
+        };
+        submitObjects.push(tempObject);
+        dispatch(addSightSeeingManual(submitObjects));
+      }
     }
 
-    onCloseModal();
+    //const foundObject = findObjectByIndex(values, targetIndex);
+    // console.log("foundObject", foundObject);
+    // console.log(`${JSON.stringify(values, null, 2)}`);
   };
+
   return (
     <div>
       <div className="fixed inset-0 z-50 flex overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
@@ -192,6 +265,7 @@ const AddSightSheeing = (props) => {
                   <Field
                     name="visitDate"
                     selected={new Date(initialDate)}
+                    datesBetween={datesBetween}
                     label="Date"
                     component={DateField}
                   />
@@ -241,7 +315,7 @@ const AddSightSheeing = (props) => {
                           <th>
                             {item.adultPrice}
                             <Field
-                              name={`${index}adultCost`}
+                              name={`${index}.adultCost`}
                               component={TextField}
                               type="number"
                               initial={2}
@@ -249,18 +323,30 @@ const AddSightSheeing = (props) => {
                           </th>
                           <th>
                             {item.childPrice}
-                            <Field name="childCost" component={TextField} />
+                            <Field
+                              name={`${index}.childCost`}
+                              component={TextField}
+                            />
                           </th>
                           <th>
                             {" "}
                             0
-                            <Field name="infantCost" component={TextField} />
+                            <Field
+                              name={`${index}.infantCost`}
+                              component={TextField}
+                            />
                           </th>
                           <th>
                             <button
                               className="px-1 py-1 mt-5 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-blue-500 rounded shadow outline-none active:bg-blue-600 hover:shadow-lg focus:outline-none"
                               type="button"
-                              onClick={() => console.log(item)}
+                              //  onClick={() => handleSelectClick(item, index)}
+                              onClick={handleSubmit((values) =>
+                                handleSelectClick({
+                                  ...values,
+                                  index,
+                                })
+                              )}
                             >
                               Select
                             </button>
@@ -281,7 +367,7 @@ const AddSightSheeing = (props) => {
               >
                 Close
               </button>
-              <button
+              {/* <button
                 className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                 type="button"
                 onClick={handleSubmit((values) =>
@@ -291,7 +377,7 @@ const AddSightSheeing = (props) => {
                 )}
               >
                 Save
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

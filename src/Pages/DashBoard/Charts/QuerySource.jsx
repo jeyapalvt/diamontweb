@@ -7,16 +7,34 @@ const QuerySource = () => {
       chart: {
         type: "pie",
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+
+      legend: {
+        position: "bottom",
+        fontSize: "12px",
+        fontWeight: 400,
+      },
+      title: {
+        text: "QUERY SOURCE",
+        align: "left",
+        style: {
+          fontSize: "18px",
+        },
+      },
+      labels: [
+        "EMAIL",
+        "REFFERAL",
+        "WHATSAPP",
+        "TELEPHONE",
+        "WEBSITE",
+        "QUERY",
+      ],
+
       responsive: [
         {
           breakpoint: 480,
           options: {
             chart: {
-              width: 500,
-            },
-            legend: {
-              position: "bottom", // Set the legend position to "bottom"
+              width: 200,
             },
           },
         },
@@ -30,7 +48,7 @@ const QuerySource = () => {
         series={chartData.series}
         type="pie"
         width="100%"
-        height="300"
+        height="800"
       />
     </div>
   );

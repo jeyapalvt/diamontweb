@@ -4,7 +4,7 @@ const TopSuppliers = () => {
   const chartData = {
     series: [
       {
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
+        data: [900, 850, 777, 666, 550, 490, 320, 280, 200, 110],
         color: "#FFA500",
       },
     ],
@@ -27,16 +27,16 @@ const TopSuppliers = () => {
       },
       xaxis: {
         categories: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
-          "Japan",
-          "United States",
-          "China",
-          "Germany",
+          "THE TRADITIONAL HERITAGE",
+          "VIBE RESORT DUBAI",
+          "HOTEL GRAND HERIDEY",
+          "THE MONIKER RESORT",
+          "HOTEL AIRLINK",
+          "HOLIDAY VISTA",
+          "TRIPLINK THAILAND",
+          "RESORT THE LOHIAS",
+          "THE PERN RESIDENCY",
+          "HOTEL PARK VIEW",
         ],
       },
     },

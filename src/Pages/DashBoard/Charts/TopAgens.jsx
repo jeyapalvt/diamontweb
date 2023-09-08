@@ -4,7 +4,7 @@ const TopAgens = () => {
   const chartData = {
     series: [
       {
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
+        data: [1200, 1050, 1000, 800, 650, 450, 400, 350, 250, 150],
       },
     ],
     options: {
@@ -26,16 +26,16 @@ const TopAgens = () => {
       },
       xaxis: {
         categories: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
-          "Japan",
-          "United States",
-          "China",
-          "Germany",
+          "DHIREN DMC",
+          "DIAMOND TOURS",
+          "DELPHIC HOLIDAYS",
+          "VIVAN HOLIDAYS",
+          "PARMAR TOURS",
+          "WINDEX TOURS",
+          "SHAKTI VACATION",
+          "RAVI SHINHA",
+          "PADMAVATI TAVELS",
+          "ORANGE TOURS",
         ],
       },
     },

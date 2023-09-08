@@ -15,12 +15,12 @@ import { useParams } from "react-router-dom";
 const AddManualTransfer = (props) => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { handleSubmit, qutationId, onCloseModal, datesBetween } = props;
+  const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
   const initialDate = useSelector((state) => state.allModelState.date);
   const initialTransferlManual = useSelector(
     (state) => state.updateMQuery.transferManual
   );
-
+  console.log("initial date manual", initialDate);
   const initialTransUpdateManual = useSelector(
     (state) => state.mainQuery.transferManul
   );
@@ -43,6 +43,7 @@ const AddManualTransfer = (props) => {
     { value: "EUR", label: "EUR" },
   ];
   const [slectedBookType, setslectedBookType] = useState(bookType[0].value);
+
   useEffect(() => {
     if (initialTransferlManual) {
       props.initialize({
@@ -70,6 +71,30 @@ const AddManualTransfer = (props) => {
     }
   }, []);
 
+  const getDatesBetweenRange = (startDate, endDate) => {
+    const dates = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  };
+  const dateRange1 = dateRange;
+
+  const from = dateRange1[0].fromDate;
+  const nthRow = dateRange1.length - 1; // Replace with the desired row index
+  let to = "";
+  if (dateRange1[nthRow]) {
+    to = dateRange1[nthRow].toDate;
+  } else {
+    to = dateRange1[0].toDate;
+  }
+
+  const datesBetween = getDatesBetweenRange(from, to);
+
   const sumbitForm = (values) => {
     const submitObjects = [];
     const newsubmitObjects = [];
@@ -78,13 +103,11 @@ const AddManualTransfer = (props) => {
       for (let i = 0; i < initialTransUpdateManual.length; i++) {
         if (initialTransferlManual.id == i) {
           for (let j = 0; j < initialTransUpdateManual[i].length; j++) {
-            console.log("condition true");
-            console.log(",,,ka0ixja9jxj", initialTransUpdateManual[i][j]);
             tempsubmitObject.push({
               quoteTransferId: "",
               quotationId: id,
               dayItenary: "",
-              addedType: "1", // 1 - Manual,  2 - From LIst
+              addedType: 1, // 1 - Manual,  2 - From LIst
               transferListId: "",
               transferName: values.transferName,
               currencyCode: values.currencyCode,
@@ -114,7 +137,7 @@ const AddManualTransfer = (props) => {
         quoteTransferId: "",
         quotationId: id,
         dayItenary: "",
-        addedType: "1", // 1 - Manual,  2 - From LIst
+        addedType: 1, // 1 - Manual,  2 - From LIst
         transferListId: "",
         transferName: values.transferName,
         currencyCode: values.currencyCode,
@@ -128,6 +151,8 @@ const AddManualTransfer = (props) => {
         infantCost: values.infantCost,
       };
       submitObjects.push(tempObject);
+
+      console.log("==========================>", submitObjects);
       dispatch(addtransferManual(submitObjects));
     }
 
@@ -141,7 +166,9 @@ const AddManualTransfer = (props) => {
           <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-slate-200">
-              <h3 className="text-3xl font-semibold">Add Manual Transfer</h3>
+              <h3 className="text-3xl font-semibold">
+                Add axbiaxau Manual Transfer
+              </h3>
               <button
                 className="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-5 focus:outline-none"
                 onClick={onCloseModal}
