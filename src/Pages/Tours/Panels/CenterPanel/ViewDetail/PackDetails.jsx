@@ -7,6 +7,7 @@ const PackDetails = () => {
 
   const [queryData, setqueryData] = useState([]);
   const [destData, setdestData] = useState([]);
+  const [manualOrMaster, setManualOrMaster] = useState([]);
   useEffect(() => {
     getQutationDetail();
   }, []);
@@ -25,8 +26,6 @@ const PackDetails = () => {
       });
   };
 
-  const [manualOrMaster, setManualOrMaster] = useState([]);
-
   const handleManualOrMaster = (date) => {
     // Convert the date to "YYYY-MM-DD" format
     const formattedDate = date.toISOString().split("T")[0];
@@ -41,6 +40,8 @@ const PackDetails = () => {
         return [...prevManualOrMaster, formattedDate];
       }
     });
+
+    console.log("manualOrMaster", manualOrMaster);
   };
 
   const renderDates = () => {

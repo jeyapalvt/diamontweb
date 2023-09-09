@@ -14,7 +14,7 @@ import { editHotelManual } from "../../../../Reducers/updateMainQuery";
 import { useParams } from "react-router-dom";
 const AddManualHotel = (props) => {
   const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
-  const { id } = useParams();
+  const { id, qid } = useParams();
   const hoteleditManual = useSelector(
     (state) => state.updateMQuery.hoteleditManual
   );
@@ -125,7 +125,7 @@ const AddManualHotel = (props) => {
             ) {
               if (hoteleditManual.editOrDelete == 1) {
                 tempsubmitObject.push({
-                  quotationId: id,
+                  quotationId: qid,
                   hotelName: values.hotelName,
                   destination: values.destination,
                   supplierId: values.supplierId,
@@ -167,7 +167,7 @@ const AddManualHotel = (props) => {
     } else {
       while (currentDate <= checkOutDate) {
         submitObjects.push({
-          quotationId: id,
+          quotationId: qid,
           hotelName: values.hotelName,
           destination: values.destination,
           supplierId: values.supplierId,
@@ -206,7 +206,7 @@ const AddManualHotel = (props) => {
           <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-slate-200">
-              <h3 className="text-3xl font-semibold">Add Manual Hotel</h3>
+              <h3 className="text-3xl font-semibold">Add Manual Hotel {qid}</h3>
               <button
                 className="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-5 focus:outline-none"
                 onClick={onCloseModal}

@@ -15,7 +15,7 @@ import {
 import { useParams } from "react-router-dom";
 const AddTransfer = (props) => {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id, qid } = useParams();
   const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
   const initialDate = useSelector((state) => state.allModelState.date);
   const initialTransferlManual = useSelector(
@@ -76,7 +76,7 @@ const AddTransfer = (props) => {
           for (let j = 0; j < initialTransUpdateManual[i].length; j++) {
             tempsubmitObject.push({
               quoteTransferId: "",
-              quotationId: id,
+              quotationId: qid,
               dayItenary: "",
               addedType: 2, // 1 - Manual,  2 - From LIst
               transferListId: "",
@@ -106,7 +106,7 @@ const AddTransfer = (props) => {
 
       const tempObject = {
         quoteTransferId: "",
-        quotationId: id,
+        quotationId: qid,
         dayItenary: "",
         addedType: 2, // 1 - Manual,  2 - From LIst
         transferListId: "",

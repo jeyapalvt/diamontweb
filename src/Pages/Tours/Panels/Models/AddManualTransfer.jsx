@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 const AddManualTransfer = (props) => {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id, qid } = useParams();
   const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
   const initialDate = useSelector((state) => state.allModelState.date);
   const initialTransferlManual = useSelector(
@@ -105,7 +105,7 @@ const AddManualTransfer = (props) => {
           for (let j = 0; j < initialTransUpdateManual[i].length; j++) {
             tempsubmitObject.push({
               quoteTransferId: "",
-              quotationId: id,
+              quotationId: qid,
               dayItenary: "",
               addedType: 1, // 1 - Manual,  2 - From LIst
               transferListId: "",
@@ -135,7 +135,7 @@ const AddManualTransfer = (props) => {
 
       const tempObject = {
         quoteTransferId: "",
-        quotationId: id,
+        quotationId: qid,
         dayItenary: "",
         addedType: 1, // 1 - Manual,  2 - From LIst
         transferListId: "",

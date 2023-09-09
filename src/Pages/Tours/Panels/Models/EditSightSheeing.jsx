@@ -14,7 +14,7 @@ import { editSightSeeingManual } from "../../../../Reducers/updateMainQuery";
 import { useParams } from "react-router-dom";
 const EditSightSheeing = (props) => {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id, qid } = useParams();
   const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
   const initialDate = useSelector((state) => state.allModelState.date);
 
@@ -109,7 +109,7 @@ const EditSightSheeing = (props) => {
             console.log(",,,ka0ixja9jxj", initialSightUpdateManual[i][j]);
             tempsubmitObject.push({
               sightSeeingId: "",
-              quotationId: id,
+              quotationId: qid,
               dayItenary: "",
               addedType: initialSightSheeinglManual.addedType, // 1 - Manual, 2 - From list
               activityId: "",

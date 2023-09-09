@@ -39,6 +39,7 @@
     "react-slider": "^2.0.6",
     "react-tailwindcss-datepicker": "^1.6.3",
     "react-tailwindcss-select": "^1.8.5",
+    "react-to-pdf": "^1.0.1",
     "react-to-print": "^2.14.13",
     "redux-form": "^8.3.10",
     "rsuite": "^5.35.1",

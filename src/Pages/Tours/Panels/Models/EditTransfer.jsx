@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 const EditTransfer = (props) => {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id, qid } = useParams();
   const { handleSubmit, qutationId, onCloseModal, dateRange } = props;
   const initialDate = useSelector((state) => state.allModelState.date);
   const initialTransferlManual = useSelector(
@@ -108,7 +108,7 @@ const EditTransfer = (props) => {
             console.log(",,,ka0ixja9jxj", initialTransUpdateManual[i][j]);
             tempsubmitObject.push({
               quoteTransferId: "",
-              quotationId: id,
+              quotationId: qid,
               dayItenary: "",
               addedType: initialTransferlManual.addedType, // 1 - Manual,  2 - From LIst
               transferListId: "",
