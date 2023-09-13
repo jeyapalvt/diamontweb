@@ -59,7 +59,6 @@ const OtherDetails = () => {
     await axios
       .post(BaseUrl + "getTourQueryDetails", { tourQueryId: id })
       .then((res) => {
-        console.log("getTourQueryDetails", res.data.destList);
         setdestinationList(res.data.destList);
         setqueryDetails(res.data);
         setqueryDetail(res.data);
@@ -76,7 +75,6 @@ const OtherDetails = () => {
       .post(BaseUrl + "getQueryQuotationDetails", { queryQuotationId: qid })
       .then((res) => {
         setqutationQueryDetail(res.data);
-        console.log("getQueryQuotationDetails", res.data);
 
         for (let i = 0; i < res.data.querySightSeeingList.length; i++) {
           dispatch(addSightSeeingManual(res.data.querySightSeeingList[i]));
@@ -122,12 +120,9 @@ const OtherDetails = () => {
     // editQueryQuotation
     // listQueryQuotation
 
-    console.log(`${JSON.stringify(submitObject, null, 2)}`);
-
     axios
       .post(BaseUrl + "editQueryQuotation", submitObject)
       .then((res) => {
-        console.log(res.data);
         Swal.fire("Success", "Saved Successfully", "success");
         navigate(-1);
       })
@@ -228,6 +223,8 @@ const OtherDetails = () => {
             setb2bQuotation(false);
             setqueryForAllDates(true);
           }}
+          queryDetails={queryDetails}
+          qutationQueryDetail={qutationQueryDetail}
         />
       )}
     </>

@@ -20,7 +20,7 @@ const AddManualTransfer = (props) => {
   const initialTransferlManual = useSelector(
     (state) => state.updateMQuery.transferManual
   );
-  console.log("initial date manual", initialDate);
+
   const initialTransUpdateManual = useSelector(
     (state) => state.mainQuery.transferManul
   );
@@ -127,7 +127,6 @@ const AddManualTransfer = (props) => {
         }
       }
 
-      console.log("final obect", newsubmitObjects);
       dispatch(editTransferManual(null));
       dispatch(updatetransferManual(newsubmitObjects));
     } else {
@@ -152,7 +151,6 @@ const AddManualTransfer = (props) => {
       };
       submitObjects.push(tempObject);
 
-      console.log("==========================>", submitObjects);
       dispatch(addtransferManual(submitObjects));
     }
 

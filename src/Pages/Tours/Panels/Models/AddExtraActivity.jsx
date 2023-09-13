@@ -69,7 +69,6 @@ const AddExtraActivity = (props) => {
                       component={SelectField}
                       onChange={(value) => {
                         // Handle the onChange event here
-                        console.log("Selected value:", value);
                         // You can perform any necessary actions or update the Redux Form's field value
                       }}
                     />
@@ -84,11 +83,9 @@ const AddExtraActivity = (props) => {
                       // isSearchable={true}
                       // isMultiple={true}
                       component={SelectField}
-                      onChange={(value) => {
-                        // Handle the onChange event here
-                        console.log("Selected value:", value);
-                        // You can perform any necessary actions or update the Redux Form's field value
-                      }}
+                      // onChange={(value) => {
+                      //   console.log("Selected value:", value);
+                      // }}
                     />
                   </div>
                   <div>
@@ -99,11 +96,6 @@ const AddExtraActivity = (props) => {
                       //isSearchable={true}
                       // isMultiple={true}
                       component={SelectField}
-                      onChange={(value) => {
-                        // Handle the onChange event here
-                        console.log("Selected value:", value);
-                        // You can perform any necessary actions or update the Redux Form's field value
-                      }}
                     />
                   </div>
                 </div>

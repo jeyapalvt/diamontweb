@@ -49,8 +49,6 @@ const NoteEditor = (props) => {
         //   },
         // }}
       />
-
-      {/* {console.log("Note pad props", props)} */}
     </React.Fragment>
   );
 };

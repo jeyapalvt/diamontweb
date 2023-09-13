@@ -19,9 +19,7 @@ const NavBar = () => {
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
   const authentication = useSelector((state) => state.authentication.data);
   const user = userData();
-  useEffect(() => {
-    console.log("authentication", user);
-  }, [authentication, user]);
+  useEffect(() => {}, [authentication, user]);
 
   const location = useLocation();
   const [pathName, setPathName] = useState();
@@ -29,7 +27,7 @@ const NavBar = () => {
     const pathname = location.pathname;
     const parts = pathname.split("/");
     const desiredPart = parts[1];
-    console.log(desiredPart);
+
     setPathName(desiredPart);
 
     if (user && !desiredPart) {

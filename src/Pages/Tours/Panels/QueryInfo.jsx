@@ -31,8 +31,6 @@ const QueryInfo = (props) => {
       })
     );
 
-    console.log(`${JSON.stringify(allAgents, null, 2)}`);
-
     let tempVal = [];
     for (let i = 0; i < allAgents.length; i++) {
       tempVal.push({

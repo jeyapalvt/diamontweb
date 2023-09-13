@@ -4,9 +4,11 @@ import { FaSuitcaseRolling } from "react-icons/fa";
 import { CgClose } from "react-icons/cg";
 import { TbBellPlus } from "react-icons/tb";
 import AddGuest from "./Models/AddGuest";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 const QueryStatus = () => {
   const navigate = useNavigate();
+  const { id, qid } = useParams();
   const [showManageGuest, setshowManageGuest] = useState(false);
   const handleCloseGuest = () => {
     setshowManageGuest(false);
@@ -41,7 +43,10 @@ const QueryStatus = () => {
             <div>Confirm Quiry</div>
           </div>
           <hr />
-          <div className="flex items-center py-3 space-x-2 cursor-pointer">
+          <div
+            className="flex items-center py-3 space-x-2 cursor-pointer"
+            onClick={() => navigate(`/qutationcreateinvoice/${id}/${qid}`)}
+          >
             <div>
               <AiFillCloseCircle color="red" size={20} />
             </div>

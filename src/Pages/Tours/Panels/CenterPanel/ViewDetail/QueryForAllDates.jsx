@@ -44,7 +44,6 @@ const QueryForAllDates = ({ dateRange }) => {
     // Fetch or update initialHotelManual here
   }, [initialHotelManual]);
   const updateManualHotelRec = (date, key, editOrDelete, addedWay) => {
-    console.log("aaded way addedWayaddedWay", date);
     if (editOrDelete == 1) {
       const singleRec = initialHotelManual[key]?.find(
         (item) => new Date(item.checkInDate).toDateString() == date
@@ -114,7 +113,6 @@ const QueryForAllDates = ({ dateRange }) => {
           (item) => new Date(item.checkInDate).toDateString() == date
         );
 
-        console.log("singleRec", singleRec);
         if (singleRec) {
           records.push(
             <div className="px-5" key={key}>
@@ -231,7 +229,6 @@ const QueryForAllDates = ({ dateRange }) => {
   };
 
   const updateManulSightSheeingRec = (date, key, editOrDelete, addedType) => {
-    console.log("avsauvsuavuxvauvxa", date);
     if (editOrDelete == 1) {
       const singleRec = initialSightSheeingManul[key]?.find(
         (item) => new Date(item.visitDate).toDateString() == date
@@ -242,8 +239,6 @@ const QueryForAllDates = ({ dateRange }) => {
           id: key,
           editOrDelete: editOrDelete,
         };
-
-        console.log("singleRec", singleRec);
 
         dispatch(editSightSeeingManual(withIdObject));
 

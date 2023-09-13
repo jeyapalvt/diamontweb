@@ -5,8 +5,6 @@ import { BaseUrl } from "../../Reducers/Api";
 import Swal from "sweetalert2";
 const CartItemDetails = ({ cartList }) => {
   const deleteItemFromCart = (cartId) => {
-    console.log("cartId", cartId);
-
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -23,7 +21,6 @@ const CartItemDetails = ({ cartList }) => {
             secretKey: "uZFEucIHAbqvgT7p87qC4Ms4tjqG34su",
           })
           .then((res) => {
-            console.log(res.data);
             Swal.fire("Deleted!", "Your item has been deleted.", "success");
           })
           .catch((error) => {

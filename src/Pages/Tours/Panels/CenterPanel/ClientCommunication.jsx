@@ -11,7 +11,7 @@ const ClientCommunication = ({ queryDetail }) => {
   const [comunocation, setcomunocation] = useState([]);
   useEffect(() => {
     if (queryDetail) {
-      console.log("owhiuhdiuwhiudhwihhwidhiwu", queryDetail); //addCCMails
+      //addCCMails
     }
     setcomunocation(queryDetail.addCCMails);
   }, []);

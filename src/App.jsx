@@ -28,6 +28,7 @@ import {
   TicketPdf,
   CPackQuotationList,
   ProcessInfo,
+  CreateInvoice,
 } from "./Pages";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { userData } from "./Store/userData";
@@ -43,7 +44,7 @@ function App() {
     const userRole = "admin";
     const authToken = "admin";
     const user = userData();
-    console.log("ajbaibaixbax", user);
+
     const userType = "admin";
 
     if (!authToken) {
@@ -131,6 +132,12 @@ function App() {
             path="/qutationdetailview/:id/:qid"
             element={
               <RoleRoute component={QuatationDetailView} roles={roles.admin} />
+            }
+          />
+          <Route
+            path="/qutationcreateinvoice/:id/:qid"
+            element={
+              <RoleRoute component={CreateInvoice} roles={roles.admin} />
             }
           />
           <Route

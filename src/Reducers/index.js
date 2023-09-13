@@ -9,6 +9,8 @@ import modelStateReducers from "./modelStateReducers";
 import updateMainQuery from "./updateMainQuery";
 import destinationSlice from "./destinationSlice";
 import addQutationSlice from "./addQutationSlice";
+import queryQuotation from "./queryQuotation";
+import guestSlice from "./guestSlice";
 export {
   activitySlice,
   authSlice,
@@ -21,4 +23,6 @@ export {
   updateMainQuery,
   destinationSlice,
   addQutationSlice,
+  queryQuotation,
+  guestSlice,
 };

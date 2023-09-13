@@ -12,7 +12,6 @@ export const fetchActivityList = createAsyncThunk(
       );
       const activity = response.data;
 
-      console.log("activity", activity);
       return activity;
     } catch (error) {
       console.log(error);

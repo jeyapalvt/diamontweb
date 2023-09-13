@@ -30,9 +30,7 @@ const AddQuotationNew = (props) => {
   const sumbitForm = async (values) => {
     await axios
       .post(BaseUrl + "setTemplateQuotation", values)
-      .then((res) => {
-        console.log(res.data);
-      })
+      .then((res) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -92,9 +90,6 @@ const AddQuotationNew = (props) => {
                       options={servicetype}
                       isSearchable={true}
                       component={SelectField}
-                      onChange={(value) => {
-                        console.log("Selected value:", value);
-                      }}
                     />
                   </div>
                 </div>

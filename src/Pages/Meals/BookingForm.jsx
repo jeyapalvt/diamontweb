@@ -26,15 +26,12 @@ const BookingForm = (props) => {
   useEffect(() => {
     const calculateTktAmount = () => {
       if (sharedOrPrivate === 2) {
-        console.log("private");
         const totalCount = Number(formData.adult) + Number(formData.child);
 
-        console.log("totalCount", totalCount);
         const filteredTrans = transportCat.filter(
           (item) => item.nofPassengers >= totalCount
         );
 
-        console.log("filteredTrans", filteredTrans);
         if (filteredTrans.length) {
           seterror("");
           const total =

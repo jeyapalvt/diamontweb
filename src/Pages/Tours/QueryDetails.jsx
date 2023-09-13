@@ -18,7 +18,7 @@ const QueryDetails = () => {
         setqueryDetail(res.data);
       })
       .catch((error) => {
-        console.log9error;
+        console.log(error);
       });
   };
   return (

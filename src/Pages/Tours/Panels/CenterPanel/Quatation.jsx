@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GoPencil } from "react-icons/go";
 import { BsFillCalendarWeekFill } from "react-icons/bs";
 import { AiOutlineFieldTime } from "react-icons/ai";
+import EditQueryQuotatioon from "../Models/EditQueryQuotatioon";
 const Quatation = ({ queryDetail }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -36,7 +37,6 @@ const Quatation = ({ queryDetail }) => {
 
         tempVal.push(res.data);
         setdataList(tempVal);
-        console.log(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -59,8 +59,9 @@ const Quatation = ({ queryDetail }) => {
   //     });
   // };
   const [showModal, setShowModal] = useState(false);
+  const [showeditModel, setshoweditModel] = useState(false);
   const handleCloseModal = () => {
-    setShowModal(false);
+    setshoweditModel(false);
     // Add additional logic or actions to handle closing the modal in the parent component
   };
   const [showInserQuery, setshowInserQuery] = useState(false);
@@ -96,11 +97,31 @@ const Quatation = ({ queryDetail }) => {
 
     return numberOfNights;
   };
+  const [queryQuotationDetal, setqueryQuotationDetal] = useState();
+  const getQueryQutationDetail = async (id) => {
+    await axios
+      .post(BaseUrl + "getQueryQuotationDetails", { queryQuotationId: id })
+      .then((res) => {
+        setqueryQuotationDetal(res.data);
+        setshoweditModel(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
-      {console.log("addQutationdata", addQutationdata)}
-      {showModal && (
+      {/* {showModal && (
         <EditQutation onCloseModal={handleCloseModal} qutationId={"1234"} />
+      )} */}
+
+      {showeditModel === true && (
+        <EditQueryQuotatioon
+          onCloseModal={handleCloseModal}
+          queryQuotationDetal={queryQuotationDetal}
+          queryDetail={queryDetail}
+        />
       )}
       {showAddQuery === true && (
         <AddQutation onCloseModal={handleCloseAdd} queryDetail={queryDetail} />
@@ -147,8 +168,10 @@ const Quatation = ({ queryDetail }) => {
           <tbody className="text-sm font-thin text-gray-700">
             {addQutationdata.map((item, index) => (
               <tr key={index}>
-                <th className="w-1/12 h-auto p-2 text-left border">
-                  {/* {item.queryQuotationId} */}
+                <th
+                  className="w-1/12 h-auto p-2 text-left border"
+                  onClick={() => getQueryQutationDetail(item.queryQuotationId)}
+                >
                   <GoPencil size={20} />
                 </th>
                 <th className="w-8/12 h-auto p-2 text-left border">

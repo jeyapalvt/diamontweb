@@ -20,7 +20,7 @@ const EditTransfer = (props) => {
   const initialTransferlManual = useSelector(
     (state) => state.updateMQuery.transferManual
   );
-  console.log("initial date manual", initialDate);
+
   const initialTransUpdateManual = useSelector(
     (state) => state.mainQuery.transferManul
   );
@@ -104,8 +104,6 @@ const EditTransfer = (props) => {
       for (let i = 0; i < initialTransUpdateManual.length; i++) {
         if (initialTransferlManual.id == i) {
           for (let j = 0; j < initialTransUpdateManual[i].length; j++) {
-            console.log("condition true");
-            console.log(",,,ka0ixja9jxj", initialTransUpdateManual[i][j]);
             tempsubmitObject.push({
               quoteTransferId: "",
               quotationId: qid,
@@ -130,7 +128,6 @@ const EditTransfer = (props) => {
         }
       }
 
-      console.log("final obect", newsubmitObjects);
       // dispatch(editTransferManual(null));
       dispatch(updatetransferManual(newsubmitObjects));
     } else {

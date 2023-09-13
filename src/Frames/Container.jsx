@@ -8,9 +8,7 @@ const Container = () => {
   const authentication = useSelector(
     (state) => state.authentication.isLoggedIn
   );
-  useEffect(() => {
-    console.log("authentication", authentication);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <>
       <div className="bg-slate-100 ">

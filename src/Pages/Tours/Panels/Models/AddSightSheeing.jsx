@@ -79,7 +79,6 @@ const AddSightSheeing = (props) => {
   const datesBetween = getDatesBetweenRange(from, to);
 
   useEffect(() => {
-    console.log("initialSightSheeinglManual----->", initialSightSheeinglManual);
     // if (initialSightSheeinglManual) {
     //   props.initialize({
     //     type: initialSightSheeinglManual.slectedBookType,
@@ -99,7 +98,7 @@ const AddSightSheeing = (props) => {
     const targetIndex = values.index;
     if (values.hasOwnProperty(targetIndex.toString())) {
       const foundItem = values[targetIndex.toString()];
-      console.log("Found item:", foundItem);
+
       const submitObjects = [];
       const newsubmitObjects = [];
       const tempsubmitObject = [];
@@ -107,8 +106,6 @@ const AddSightSheeing = (props) => {
         for (let i = 0; i < initialSightUpdateManual.length; i++) {
           if (initialSightSheeinglManual.id == i) {
             for (let j = 0; j < initialSightUpdateManual[i].length; j++) {
-              console.log("condition true");
-              console.log(",,,ka0ixja9jxj", initialSightUpdateManual[i][j]);
               tempsubmitObject.push({
                 sightSeeingId: "",
                 quotationId: qid,
@@ -134,12 +131,9 @@ const AddSightSheeing = (props) => {
           }
         }
 
-        console.log("final obect", newsubmitObjects);
         dispatch(editSightSeeingManual(null));
         dispatch(updateSightSeeingManual(newsubmitObjects));
       } else {
-        console.log("values", values);
-
         const tempObject = {
           sightSeeingId: "",
           quotationId: qid,
@@ -162,7 +156,6 @@ const AddSightSheeing = (props) => {
         dispatch(addSightSeeingManual(submitObjects));
       }
     } else {
-      console.log("Item not found");
       const submitObjects = [];
       const newsubmitObjects = [];
       const tempsubmitObject = [];
@@ -170,8 +163,6 @@ const AddSightSheeing = (props) => {
         for (let i = 0; i < initialSightUpdateManual.length; i++) {
           if (initialSightSheeinglManual.id == i) {
             for (let j = 0; j < initialSightUpdateManual[i].length; j++) {
-              console.log("condition true");
-              console.log(",,,ka0ixja9jxj", initialSightUpdateManual[i][j]);
               tempsubmitObject.push({
                 sightSeeingId: "",
                 quotationId: qid,
@@ -200,8 +191,6 @@ const AddSightSheeing = (props) => {
         dispatch(editSightSeeingManual(null));
         dispatch(updateSightSeeingManual(newsubmitObjects));
       } else {
-        console.log("values", values);
-
         const tempObject = {
           sightSeeingId: "",
           quotationId: id,

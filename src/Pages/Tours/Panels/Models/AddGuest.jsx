@@ -5,9 +5,28 @@ import {
   SelectField,
   TextField,
 } from "../../../../Components/ReduxField";
+import { useSelector, useDispatch } from "react-redux";
 import { Button } from "../../../../Components";
+
 const AddGuest = (props) => {
-  const { qutationId, onCloseModal } = props;
+  const dispatch = useDispatch();
+  const { qutationId, onCloseModal, handleSubmit } = props;
+  const guestQuery = useSelector((state) => state.guestQuery.guestList);
+  const salutatonOpt = [
+    { value: "NA", label: "NA" },
+    { value: "Mr", label: "Mr" },
+    { value: "Mrs", label: "Mrs" },
+    { value: "Miss", label: "Miss" },
+  ];
+  const genderOpt = [
+    { value: "Male", label: "Male" },
+    { value: "Fmale", label: "Fmale" },
+    { value: "Others", label: "Others" },
+  ];
+  console.log("iabxiabixabxa", guestQuery);
+  const handledeGuestAdd = (values) => {
+    console.log(values);
+  };
   return (
     <div>
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
@@ -32,53 +51,76 @@ const AddGuest = (props) => {
                 <div class="flex space-x-1">
                   <div className="w-1/12">
                     <Field
-                      name="Salutation"
+                      name="salutation"
                       label="Salutation"
-                      component={TextField}
+                      options={salutatonOpt}
+                      component={SelectField}
                     />
                   </div>
                   <div>
                     <Field
-                      name="FirstName"
+                      name="firstName"
                       label="First Name"
                       component={TextField}
                     />
                   </div>
                   <div>
                     <Field
-                      name="LastName"
+                      name="lastName"
                       label="Last Name"
                       component={TextField}
                     />
                   </div>
                   <div>
-                    <Field name="Email" label=" Email" component={TextField} />
+                    <Field
+                      name="eMail"
+                      type="email"
+                      label=" Email"
+                      component={TextField}
+                    />
                   </div>
                   <div className="w-1/12">
-                    <Field name="Code" label="Code" component={TextField} />
-                  </div>
-                  <div>
-                    <Field name="Phone" label="Phone" component={TextField} />
-                  </div>
-                  <div className="w-1/12">
-                    <Field name="Gender" label="Gender" component={TextField} />
+                    <Field name="code" label="Code" component={TextField} />
                   </div>
                   <div>
                     <Field
-                      name="passpoetnumber"
+                      name="phone"
+                      type="number"
+                      label="Phone"
+                      component={TextField}
+                    />
+                  </div>
+                  <div className="w-1/12">
+                    <Field
+                      name="gender"
+                      label="Gender"
+                      options={genderOpt}
+                      component={SelectField}
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      name="passportNo"
                       label="Passport No"
                       component={TextField}
                     />
                   </div>
                   <div>
                     <Field
-                      name="nationality"
+                      name="natinality"
                       label="Nationality"
                       component={TextField}
                     />
                   </div>
                   <div className="mt-6">
-                    <Button name="Add" />
+                    <Button
+                      name="Add"
+                      onClick={handleSubmit((values) =>
+                        handledeGuestAdd({
+                          ...values,
+                        })
+                      )}
+                    />
                   </div>
                 </div>
               </div>

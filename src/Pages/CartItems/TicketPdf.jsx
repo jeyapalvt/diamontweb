@@ -20,7 +20,7 @@ const TicketPdf = () => {
   const tempObj = Object.fromEntries(searchParams.entries());
 
   const dataObject = JSON.parse(tempObj.data);
-  console.log("activityList", dataObject);
+
   return (
     <div>
       <div className="flex justify-end p-5">

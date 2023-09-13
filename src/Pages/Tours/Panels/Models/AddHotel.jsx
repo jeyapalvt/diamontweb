@@ -89,7 +89,6 @@ const AddHotel = (props) => {
     await axios
       .get(BaseUrl + "getHotelList")
       .then((res) => {
-        console.log(res.data);
         sethotelList(res.data);
       })
       .catch((error) => {
@@ -98,7 +97,6 @@ const AddHotel = (props) => {
   };
 
   const sumbitForm = (values) => {
-    console.log(values);
     const submitObjects = [];
     const newsubmitObjects = [];
     const tempsubmitObject = [];
@@ -143,7 +141,6 @@ const AddHotel = (props) => {
             }
           }
 
-          console.log("tempsubmitObject------>", tempsubmitObject);
           newsubmitObjects.push(tempsubmitObject);
         } else {
           newsubmitObjects.push(initialHotelManual[i]);
@@ -151,7 +148,6 @@ const AddHotel = (props) => {
         // newsubmitObjects.push()
       }
 
-      console.log(newsubmitObjects);
       dispatch(updateManualHotelRecord(newsubmitObjects));
       dispatch(editHotelManual(null));
     } else {

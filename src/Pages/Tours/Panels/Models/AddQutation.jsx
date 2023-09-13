@@ -97,8 +97,6 @@ const AddQutation = (props) => {
   };
 
   const handledestinationAdd = (values) => {
-    console.log(values);
-
     if (values.destination && values.fromDate && values.toDate) {
       const tempObject = {
         destination: values.destination,
@@ -112,8 +110,6 @@ const AddQutation = (props) => {
     }
   };
   const handleDeleteDestination = (index) => {
-    console.log("Deleting destination at index:", index);
-
     // Check if the index is within the valid range
     if (index >= 0 && index < destinationQuery.length) {
       // Create a new array without the item at the specified index
@@ -122,7 +118,7 @@ const AddQutation = (props) => {
       );
 
       // Now updatedDestinationQuery does not contain the deleted destination
-      console.log("Updated destinationQuery:", updatedDestinationQuery);
+
       dispatch(updatedestination(updatedDestinationQuery));
       // Dispatch an action to update the destinationQuery in your Redux store
       // dispatch(updateDestinationQuery(updatedDestinationQuery)); // Replace this with the actual action
@@ -136,14 +132,12 @@ const AddQutation = (props) => {
       destList: selectedRadio === "1" ? queryDetail.destList : destinationQuery,
       queryId: id,
     };
-    console.log(`${JSON.stringify(submitObj, null, 2)}`);
+
     // onCloseModal();
     //dispatch(addQutationState(submitObj));
     await axios
       .post(BaseUrl + "setQueryQuotation", submitObj)
       .then((res) => {
-        console.log(res.data);
-
         if (res.data.errCode === 200) {
           // Swal.fire("Thank You", "Your query has been submited", "success");
           onCloseModal();
@@ -163,7 +157,6 @@ const AddQutation = (props) => {
         if (res.data.errCode === 0) {
           dispatch(addQutationState(res.data));
         }
-        console.log(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -172,7 +165,6 @@ const AddQutation = (props) => {
 
   return (
     <div>
-      {console.log("addQutationdata", queryDetail)}
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
         <div className="relative w-2/3 max-w-3xl mx-auto my-6">
           {/*content*/}

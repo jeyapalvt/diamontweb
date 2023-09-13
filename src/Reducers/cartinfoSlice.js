@@ -5,7 +5,6 @@ import { BaseUrl } from "./Api";
 export const fetchCartInfoList = createAsyncThunk(
   "cartList/getCartInfoList",
   async (postObject) => {
-    console.log("postObject", postObject);
     try {
       const response = await axios.post(
         BaseUrl + "getCartInfoList",
@@ -13,7 +12,6 @@ export const fetchCartInfoList = createAsyncThunk(
       );
       const cartInfo = response.data;
 
-      console.log("cartInfo", cartInfo);
       return cartInfo;
     } catch (error) {
       console.log(error);

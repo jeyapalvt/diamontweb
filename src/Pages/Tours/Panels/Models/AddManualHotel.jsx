@@ -77,7 +77,6 @@ const AddManualHotel = (props) => {
   // console.log("Dates between:", datesBetween);
 
   useEffect(() => {
-    console.log("dateRange", dateRange);
     if (hoteleditManual) {
       props.initialize({
         quotationId: hoteleditManual.quotationId,
@@ -153,7 +152,6 @@ const AddManualHotel = (props) => {
             }
           }
 
-          console.log("tempsubmitObject------>", tempsubmitObject);
           newsubmitObjects.push(tempsubmitObject);
         } else {
           newsubmitObjects.push(initialHotelManual[i]);
@@ -161,7 +159,6 @@ const AddManualHotel = (props) => {
         // newsubmitObjects.push()
       }
 
-      console.log(newsubmitObjects);
       dispatch(updateManualHotelRecord(newsubmitObjects));
       dispatch(editHotelManual(null));
     } else {
@@ -193,7 +190,6 @@ const AddManualHotel = (props) => {
         currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
       }
       dispatch(addHotelManual(submitObjects));
-      console.log(submitObjects);
     }
 
     onCloseModal();
@@ -235,11 +231,6 @@ const AddManualHotel = (props) => {
                       isSearchable={true}
                       // isMultiple={true}
                       component={SelectField}
-                      onChange={(value) => {
-                        // Handle the onChange event here
-                        console.log("Selected value:", value);
-                        // You can perform any necessary actions or update the Redux Form's field value
-                      }}
                     />{" "}
                   </div>{" "}
                   <div>

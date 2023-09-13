@@ -41,9 +41,7 @@ const BookingForm = (props) => {
   });
 
   useEffect(() => {
-    console.log("attraction id", props.attractionId);
     const calculateTktAmount = () => {
-      console.log("1212121");
       if (sharedOrPrivate === 2) {
         const totalCount = Number(formData.adult) + Number(formData.child);
         const filteredTrans = transportCat.filter(
@@ -96,8 +94,6 @@ const BookingForm = (props) => {
   };
 
   const handleSubmit = () => {
-    console.log("values", formData);
-
     const popstObject = {
       ticketName: ticketName,
       attractionName: attractionName,
@@ -122,12 +118,10 @@ const BookingForm = (props) => {
       bookChildPrice: b2bChildPrice,
       bookInfantPrice: 0,
     };
-    console.log(`${JSON.stringify(popstObject, null, 2)}`);
 
     axios
       .post(BaseUrl + "setCartInfo", popstObject)
       .then((res) => {
-        console.log(res.data);
         Swal.fire("Added Success", "Ticket Added To Cart", "success");
         dispatch(
           fetchCartInfoList({

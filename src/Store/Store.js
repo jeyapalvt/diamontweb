@@ -12,6 +12,8 @@ import {
   updateMainQuery,
   destinationSlice,
   addQutationSlice,
+  queryQuotation,
+  guestSlice,
 } from "../Reducers";
 import { reducer as reduxFormReducer } from "redux-form";
 const reducer = combineReducers({
@@ -27,6 +29,8 @@ const reducer = combineReducers({
   updateMQuery: updateMainQuery,
   destinationQuery: destinationSlice,
   addQutationdata: addQutationSlice,
+  quotationfulldata: queryQuotation,
+  guestQuery: guestSlice,
 });
 const store = configureStore({
   reducer,

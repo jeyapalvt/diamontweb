@@ -5,7 +5,6 @@ import { BaseUrl } from "./Api";
 export const fetchTourSlice = createAsyncThunk(
   "allTours/gettourpackageall",
   async (postObject) => {
-    console.log("postObject", postObject);
     try {
       const response = await axios.post(
         BaseUrl + "gettourpackageall",
@@ -13,7 +12,6 @@ export const fetchTourSlice = createAsyncThunk(
       );
       const activity = response.data;
 
-      console.log("activity", activity);
       return activity;
     } catch (error) {
       console.log(error);

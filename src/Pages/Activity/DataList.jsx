@@ -27,13 +27,11 @@ const DataList = (props) => {
   const getDetail = async (id, info) => {
     setattId(id);
 
-    console.log("attId", id);
-
     const tempList = dataList.filter((item) => item.attractionsId === id);
     setattractionName(tempList[0].attName);
     setinfantAge(tempList[0].infantAgeStart + "-" + tempList[0].infantAgeEnd);
     setadultAge(tempList[0].childAgeStart + "-" + tempList[0].childAgeEnd);
-    console.log("templist", tempList);
+
     setinfoDetails(info);
     if (info === "tkt") {
       await axios
@@ -43,10 +41,7 @@ const DataList = (props) => {
         .then((res) => {
           // settktList(res.data);
 
-          console.log("res.data tickets", res.data);
-
           if (res.data !== "") {
-            console.log("qrdsqtrdstardsartd");
             getTransportDetails(id, res.data);
           }
         })
@@ -74,8 +69,6 @@ const DataList = (props) => {
               transport: getTransportData(res.data, data[i]),
             });
 
-            console.log(`${JSON.stringify(tempTicket, null, 2)}`);
-            /// console.log("finalTicket", tempTicket);
             settktList(tempTicket);
           }
         }
@@ -101,14 +94,11 @@ const DataList = (props) => {
       transportCat: "",
     });
 
-    console.log("transData", transData);
     if (transData.length) {
       const transportType = "2";
       let privateTrans = transData.filter((item) =>
         transportType.includes(item.sharedOrPrivate.toString())
       );
-
-      console.log("privateTrans", privateTrans);
 
       for (let j = 0; j < transData.length; j++) {
         if (transData[j].sharedOrPrivate === 1) {

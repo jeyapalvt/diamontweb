@@ -25,7 +25,7 @@ const EditSightSheeing = (props) => {
   const initialSightUpdateManual = useSelector(
     (state) => state.mainQuery.sightSeeingManual
   );
-  console.log("initialDate:", initialDate);
+
   const destinations = [
     { value: "dubai", label: "Dubai" },
     { value: "adbudahabi", label: "Abu Dhabi" },
@@ -72,7 +72,6 @@ const EditSightSheeing = (props) => {
   const datesBetween = getDatesBetweenRange(from, to);
 
   useEffect(() => {
-    console.log("initialSightSheeinglManual----->", initialSightSheeinglManual);
     // if (initialSightSheeinglManual) {
     //   props.initialize({
     //     type: initialSightSheeinglManual.slectedBookType,
@@ -105,8 +104,6 @@ const EditSightSheeing = (props) => {
       for (let i = 0; i < initialSightUpdateManual.length; i++) {
         if (initialSightSheeinglManual.id == i) {
           for (let j = 0; j < initialSightUpdateManual[i].length; j++) {
-            console.log("condition true");
-            console.log(",,,ka0ixja9jxj", initialSightUpdateManual[i][j]);
             tempsubmitObject.push({
               sightSeeingId: "",
               quotationId: qid,
@@ -132,7 +129,6 @@ const EditSightSheeing = (props) => {
         }
       }
 
-      console.log("final obect", newsubmitObjects);
       dispatch(editSightSeeingManual(null));
       dispatch(updateSightSeeingManual(newsubmitObjects));
     } else {

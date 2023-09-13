@@ -9,7 +9,7 @@ export const fetchAllAgency = createAsyncThunk(
       const response = await axios.post(BaseUrl + "getagencylist", postData);
       const resData = response.data;
       let tempData = [];
-      console.log("resData", resData);
+
       return resData;
     } catch (error) {
       console.log(error);

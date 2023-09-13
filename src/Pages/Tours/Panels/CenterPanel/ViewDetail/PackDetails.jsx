@@ -18,7 +18,6 @@ const PackDetails = () => {
         // console.log(`${JSON.stringify(res.data, null, 2)}`);
         setqueryData(res.data);
 
-        console.log(res.data.destList);
         setdestData(res.data.destList);
       })
       .catch((error) => {
@@ -40,8 +39,6 @@ const PackDetails = () => {
         return [...prevManualOrMaster, formattedDate];
       }
     });
-
-    console.log("manualOrMaster", manualOrMaster);
   };
 
   const renderDates = () => {

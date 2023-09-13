@@ -47,7 +47,6 @@ const ToursMaster = (props) => {
   useEffect(() => {
     fetchAgencyList();
     if (id !== "null") {
-      console.log(id);
       getQueryDetails();
     }
   }, []);
@@ -60,7 +59,6 @@ const ToursMaster = (props) => {
         secretKey: "uZFEucIHAbqvgT7p87qC4Ms4tjqG34su",
       })
       .then((res) => {
-        console.log(res.data);
         setagentData(res.data);
         allAgents = res.data;
       })
@@ -83,10 +81,8 @@ const ToursMaster = (props) => {
   const [contactPersion, setcontactPersion] = useState([]);
 
   const setAgentData = (value) => {
-    console.log("akbsiabsiabxa", value);
-
     const filterData = agentData.find((item) => item.agencyId === value);
-    console.log(filterData);
+
     //contactPersonName
     let tempArr = [];
     tempArr.push({
@@ -105,7 +101,6 @@ const ToursMaster = (props) => {
     await axios
       .post(BaseUrl + "getTourQueryDetails", { tourQueryId: id })
       .then((res) => {
-        console.log(`${JSON.stringify(res.data, null, 2)}`);
         if (res.data) {
           initializeData(res.data);
         }
@@ -279,8 +274,6 @@ const ToursMaster = (props) => {
   };
 
   const handledestinationAdd = (values) => {
-    console.log(values);
-
     if (values.destination && values.fromDate && values.toDate) {
       const tempObject = {
         destination: values.destination,
@@ -310,8 +303,6 @@ const ToursMaster = (props) => {
   );
 
   const handleDeleteDestination = (index) => {
-    console.log("Deleting destination at index:", index);
-
     // Check if the index is within the valid range
     if (index >= 0 && index < destinationQuery.length) {
       // Create a new array without the item at the specified index
@@ -320,7 +311,7 @@ const ToursMaster = (props) => {
       );
 
       // Now updatedDestinationQuery does not contain the deleted destination
-      console.log("Updated destinationQuery:", updatedDestinationQuery);
+
       dispatch(updatedestination(updatedDestinationQuery));
       // Dispatch an action to update the destinationQuery in your Redux store
       // dispatch(updateDestinationQuery(updatedDestinationQuery)); // Replace this with the actual action
@@ -330,7 +321,6 @@ const ToursMaster = (props) => {
   };
 
   const sumbitForm = (values) => {
-    console.log(`${JSON.stringify(values, null, 2)}`);
     // const ageListChild = values.ageList?.map((ageData) => ({
     //   age: ageData.age,
     //   childOrInfant: 1, // Assuming ageList represents child ages
@@ -379,13 +369,12 @@ const ToursMaster = (props) => {
     delete updatedValues.toDate;
     delete updatedValues.destination;
 
-    console.log(`${JSON.stringify(updatedValues, null, 2)}`);
+    // console.log(`${JSON.stringify(updatedValues, null, 2)}`);
 
     //setTourQuery
     axios
       .post(BaseUrl + "setTourQuery", updatedValues)
       .then((res) => {
-        console.log(res.data);
         if (res.data.errCode == "200") {
           dispatch(addDestination());
           Swal.fire("Thank You", "Your query has been submited", "success");
@@ -424,7 +413,6 @@ const ToursMaster = (props) => {
                 component={SelectField}
                 onChange={(value) => {
                   // Handle the onChange event here
-                  console.log("Selected value:", value);
                   // You can perform any necessary actions or update the Redux Form's field value
                 }}
               />
@@ -531,7 +519,6 @@ const ToursMaster = (props) => {
           <div className="mb-5 ml-5">Other Information</div>
           <div className="mx-5">
             <div>
-              {console.log("destinatioon", destinationQuery?.length)}
               {destinationQuery !== null && destinationQuery.length > 0 && (
                 <table className="w-full border border-collapse table-auto">
                   <thead className="text-sm font-bold text-gray-800 bg-slate-300">

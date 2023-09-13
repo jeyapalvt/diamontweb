@@ -86,7 +86,6 @@ const CratInfoDetail = () => {
     axios
       .post(BaseUrl + "createCartBooking", postObject, hConfig)
       .then((res) => {
-        console.log("res data", res.data);
         printTicket(res.data);
       })
       .catch((error) => {
@@ -97,7 +96,6 @@ const CratInfoDetail = () => {
   const printTicket = (tktData) => {
     let tktObject = [];
 
-    console.log("oansoainx", tktData.attractionList[0].bookAttractionId);
     for (let i = 0; i < tktData.attractionList.length; i++) {
       const filterData = activityList.filter(
         (item) => item.attractionsId === tktData.attractionList[i].attractionsId
@@ -105,7 +103,6 @@ const CratInfoDetail = () => {
 
       const ticket = {};
 
-      console.log("filterData", filterData);
       tktObject.push({
         ...tktData.attractionList[i],
         bannerImage: filterData[0].attThumbnailImage,
@@ -114,7 +111,6 @@ const CratInfoDetail = () => {
       });
     }
 
-    console.log("tktObject", tktObject);
     const tempObjString = JSON.stringify(tktObject);
     const queryString = new URLSearchParams({
       data: tempObjString,

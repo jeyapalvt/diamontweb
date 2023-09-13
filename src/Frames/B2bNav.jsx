@@ -8,7 +8,7 @@ const B2bNav = () => {
     const pathname = location.pathname;
     const parts = pathname.split("/");
     const desiredPart = parts[1]; // "allbookings"
-    console.log(desiredPart);
+
     setpathName(desiredPart);
   }, [location.pathname, pathName]);
 

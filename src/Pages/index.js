@@ -11,6 +11,7 @@ import {
   QueryDetails,
   QuatationDetailView,
   CPackQuotationList,
+  CreateInvoice,
 } from "./Tours";
 import MyBookings from "./MyBookings/MyBookings";
 import Hotel from "./Hotel/Hotel";
@@ -59,4 +60,5 @@ export {
   Meals,
   TicketPdf,
   CPackQuotationList,
+  CreateInvoice,
 };
