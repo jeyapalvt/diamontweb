@@ -7,7 +7,7 @@ import {
 } from "../../../../Components/ReduxField";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "../../../../Components";
-
+import { addguestList } from "../../../../Reducers/guestSlice";
 const AddGuest = (props) => {
   const dispatch = useDispatch();
   const { qutationId, onCloseModal, handleSubmit } = props;
@@ -26,6 +26,7 @@ const AddGuest = (props) => {
   console.log("iabxiabixabxa", guestQuery);
   const handledeGuestAdd = (values) => {
     console.log(values);
+    dispatch(addguestList(values));
   };
   return (
     <div>
@@ -137,7 +138,9 @@ const AddGuest = (props) => {
                     </tr>
                   </thead>
                   <tbody className="text-md">
-                    <tr></tr>
+                    {guestQuery?.map((item, index) => (
+                      <tr key={index}>{index}</tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
